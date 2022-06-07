@@ -8,19 +8,16 @@
 import SwiftUI
 
 struct DdayCountView: View {
+    @Binding var dDay: Dday
     var body: some View {
         VStack {
-            Text("With U")
+            Text(dDay.message)
                 .font(.system(size: 30, weight: .bold, design: .rounded))
-            Text("1800일")
+            Text(dDay.count)
                 .font(.system(size: 26, weight: .bold, design: .rounded))
         }
         .padding(.top, 30)
     }
 }
 
-struct DdayCountView_Previews: PreviewProvider {
-    static var previews: some View {
-        DdayCountView()
-    }
-}
+

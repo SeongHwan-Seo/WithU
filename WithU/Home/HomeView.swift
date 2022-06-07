@@ -19,7 +19,7 @@ struct HomeView: View {
                 VStack {
                     EmptyImageView()
                     CoupleImageView(user: $viewModel.user, partner: $viewModel.partner,isShowingChangeUserPopup: $isShowingChangeUserPopup, isShowingChangePartnerPopup: $isShowingChangePartnerPopup)
-                    DdayCountView()
+                    DdayCountView(dDay: $viewModel.dDay)
                     
                     Spacer()
                 }
