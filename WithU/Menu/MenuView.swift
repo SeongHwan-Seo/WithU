@@ -35,10 +35,9 @@ struct MenuView: View {
 @ViewBuilder
 func chooseDefinition(index: Int) -> some View {
     switch index {
-    case 0: ProfileView()
-    case 1: AnniversaryView()
-    case 2: StoryView()
-    case 3: SettingView()
+    case 0: AnniversaryView()
+    case 1: StoryView()
+    case 2: SettingView()
     
     default:ProfileView()
     }

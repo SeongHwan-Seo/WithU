@@ -10,8 +10,8 @@ import SwiftUI
 struct Partner: Identifiable {
     let id = UUID()
     
-    let image: Image
-    let nickName: String
+    var image: Image
+    var nickName: String
     
     static let shared =
     Partner(image: Image(systemName: "person"),

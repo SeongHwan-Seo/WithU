@@ -28,38 +28,28 @@ struct ProfileView: View {
                     ) {
                         ForEach(section.profileMenu, id: \.hashValue) {
                             raw in
-                           
-                            Text("\(raw)")
-                                .onTapGesture {
-                                    showingPopup.toggle()
-                                }
+                            NavigationLink(raw, destination: {
+                                
+                            })
+                            
+//                            Text("\(raw)")
+//                                .onTapGesture {
+//                                    showingPopup.toggle()
+//                                }
                         }
                     }
                 }
             }
             .listStyle(GroupedListStyle())
             
-            if self.showingPopup{
-            GeometryReader { geometry in
-                ChangeNicknameView(myNickName: $myNickName, showingPopup: $showingPopup)
-                    .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
-            }.background(
-                Color.black.opacity(0.65)
-                    .edgesIgnoringSafeArea(.all)
-            )
-            
-            
-            
-            
-            
-            
+           
             }
         }
         
         
         
         
-    }
+    
 }
 
 struct ProfileView_Previews: PreviewProvider {

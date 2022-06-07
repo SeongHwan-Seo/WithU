@@ -8,17 +8,27 @@
 import SwiftUI
 
 struct CoupleImageView: View {
+    @Binding var user: User
+    @Binding var partner: Partner
+    @Binding var isShowingChangeUserPopup: Bool
+    @Binding var isShowingChangePartnerPopup: Bool
     
     var body: some View {
         HStack {
-            UserView(user: User.shared)
+            UserView(user: user)
+                .onTapGesture{
+                    isShowingChangeUserPopup.toggle()
+                }
             
             
             LottieHeartView(filename: "heart")
                 .frame(width: 100, height: 100)
                 .offset(y: -30)
             
-            PartnerView(partner: Partner.shared)
+            PartnerView(partner: partner)
+                .onTapGesture{
+                    isShowingChangePartnerPopup.toggle()
+                }
             
         }
         .padding(.top, 10)
@@ -37,6 +47,7 @@ struct UserView: View {
                     Circle().stroke(Color.white, lineWidth: 4))
             
             Text(user.nickName)
+            
         }
     }
 }
@@ -57,8 +68,3 @@ struct PartnerView: View {
     }
 }
 
-struct CoupleImageView_Previews: PreviewProvider {
-    static var previews: some View {
-        CoupleImageView()
-    }
-}

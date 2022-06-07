@@ -7,22 +7,22 @@
 
 import SwiftUI
 
-struct ChangeNicknameView: View {
-    @Binding var myNickName: String
-    @Binding var showingPopup: Bool
+struct ChangeUserProfileView: View {
+    @Binding var nickName: String
+    @Binding var isShowingChangeUserPopup: Bool
     
     var body: some View {
         VStack(spacing: 15) {
             Text("애칭")
-            TextField("", text: $myNickName )
+            TextField("", text: $nickName )
                 .frame(width: 200)
             Divider()
                 .frame(width: 200, height: 1)
                 .background(Color.gray)
             Button(action: {
-                showingPopup.toggle()
+                isShowingChangeUserPopup.toggle()
             }, label: {
-                Text("저장")
+                Text("확인")
                     
                     .fontWeight(.bold)
                     .foregroundColor(.buttonForeground)
@@ -38,9 +38,4 @@ struct ChangeNicknameView: View {
     }
 }
 
-struct ChangeNicknameView_Previews: PreviewProvider {
-    static var previews: some View {
-        
-        ChangeNicknameView(myNickName: .constant(""), showingPopup: .constant(false))
-    }
-}
+
