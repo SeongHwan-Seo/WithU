@@ -7,4 +7,7 @@ target 'WithU' do
 
   # Pods for WithU
   pod 'ExytePopupView'
+  pod 'FirebaseFirestore'
+  pod 'FirebaseAnalytics'
+  pod 'FirebaseAuth'
 end

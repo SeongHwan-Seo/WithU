@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CoupleImageView: View {
     @Binding var user: User
-    @Binding var partner: Partner
     @Binding var isShowingChangeUserPopup: Bool
     @Binding var isShowingChangePartnerPopup: Bool
     
@@ -25,7 +24,7 @@ struct CoupleImageView: View {
                 .frame(width: 100, height: 100)
                 .offset(y: -30)
             
-            PartnerView(partner: partner)
+            PartnerView(user: user)
                 .onTapGesture{
                     isShowingChangePartnerPopup.toggle()
                 }
@@ -45,25 +44,29 @@ struct UserView: View {
                 .clipShape(Circle())
                 .overlay(
                     Circle().stroke(Color.white, lineWidth: 4))
+                .foregroundColor(.black)
             
             Text(user.nickName)
+                .foregroundColor(.black)
             
         }
     }
 }
 
 struct PartnerView: View {
-    let partner: Partner
+    let user: User
     var body: some View {
         VStack {
-            partner.image
+            user.image
                 .resizable()
                 .frame(width: 75, height: 75)
                 .clipShape(Circle())
                 .overlay(
                     Circle().stroke(Color.white, lineWidth: 4))
+                .foregroundColor(.black)
             
-            Text(partner.nickName)
+            Text(user.unickName)
+                .foregroundColor(.black)
         }
     }
 }

@@ -13,8 +13,10 @@ struct DdayCountView: View {
         VStack {
             Text(dDay.message)
                 .font(.system(size: 30, weight: .bold, design: .rounded))
+                .foregroundColor(.black)
             Text(dDay.count)
                 .font(.system(size: 26, weight: .bold, design: .rounded))
+                .foregroundColor(.black)
         }
         .padding(.top, 30)
     }

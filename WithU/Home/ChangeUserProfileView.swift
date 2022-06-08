@@ -8,18 +8,21 @@
 import SwiftUI
 
 struct ChangeUserProfileView: View {
-    @Binding var nickName: String
+    @Binding var user: User
     @Binding var isShowingChangeUserPopup: Bool
     
     var body: some View {
         VStack(spacing: 15) {
             Text("애칭")
-            TextField("", text: $nickName )
+                .foregroundColor(.black)
+            TextField("", text: $user.nickName )
                 .frame(width: 200)
+                .foregroundColor(.black)
             Divider()
                 .frame(width: 200, height: 1)
                 .background(Color.gray)
             Button(action: {
+                setUserInfo(user: user)
                 isShowingChangeUserPopup.toggle()
             }, label: {
                 Text("확인")

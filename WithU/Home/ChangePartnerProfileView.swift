@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct ChangePartnerProfileView: View {
-    @Binding var nickName: String
+    @Binding var user: User
     @Binding var isShowingChangePartnerPopup: Bool
     
     var body: some View {
         VStack(spacing: 15) {
             Text("애칭")
-            TextField("", text: $nickName )
+                .foregroundColor(.black)
+            TextField("", text: $user.unickName )
                 .frame(width: 200)
+                .foregroundColor(.black)
             Divider()
                 .frame(width: 200, height: 1)
                 .background(Color.gray)
