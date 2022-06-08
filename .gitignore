@@ -17,6 +17,7 @@ Pods/
 ## Build generated
 build/
 DerivedData/
+GoogleService-Info.plist
 
 ## Various settings
 *.pbxuser
@@ -108,7 +109,7 @@ iOSInjectionProject/
 ### Xcode Patch ###
 **/xcshareddata/WorkspaceSettings.xcsettings
 
-GoogleService-Info.plist
+
 
 # End of https://www.gitignore.io/api/xcode,swift,cocoapods
 
