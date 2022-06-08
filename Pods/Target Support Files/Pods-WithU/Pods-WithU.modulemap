@@ -1,6 +1,0 @@
-framework module Pods_WithU {
-  umbrella header "Pods-WithU-umbrella.h"
-
-  export *
-  module * { export * }
-}
