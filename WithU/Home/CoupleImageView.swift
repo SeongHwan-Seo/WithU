@@ -40,10 +40,12 @@ struct UserView: View {
         VStack {
             user.image
                 .resizable()
-                .frame(width: 75, height: 75)
+                .frame(width: 90, height: 90)
                 .clipShape(Circle())
                 .overlay(
-                    Circle().stroke(Color.white, lineWidth: 4))
+                    Circle().stroke(Color.white, lineWidth: 2)
+                )
+                .shadow(radius: 7)
                 .foregroundColor(.black)
             
             Text(user.nickName)
@@ -57,12 +59,14 @@ struct PartnerView: View {
     let user: User
     var body: some View {
         VStack {
-            user.image
+            user.uimage
                 .resizable()
-                .frame(width: 75, height: 75)
+                .frame(width: 90, height: 90)
                 .clipShape(Circle())
                 .overlay(
-                    Circle().stroke(Color.white, lineWidth: 4))
+                    Circle().stroke(Color.white, lineWidth: 2)
+                )
+                .shadow(radius: 7)
                 .foregroundColor(.black)
             
             Text(user.unickName)

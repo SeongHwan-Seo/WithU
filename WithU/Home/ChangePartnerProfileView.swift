@@ -22,6 +22,7 @@ struct ChangePartnerProfileView: View {
                 .frame(width: 200, height: 1)
                 .background(Color.gray)
             Button(action: {
+                setUserInfo(user: user)
                 isShowingChangePartnerPopup.toggle()
             }, label: {
                 Text("확인")
