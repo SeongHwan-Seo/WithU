@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import ExytePopupView
 
 struct ChangeUserProfileView: View {
     @Binding var user: User
@@ -59,7 +58,7 @@ struct ChangeUserProfileView: View {
         VStack {
             Spacer()
             
-            CustomActionSheet(isShowingPopupview: $isShowingPopupview).offset(y: self.isShowingPopupview ? 0 : UIScreen.main.bounds.height)
+            CustomActionSheetView(isShowingPopupview: $isShowingPopupview).offset(y: self.isShowingPopupview ? 0 : UIScreen.main.bounds.height)
         }.background(self.isShowingPopupview ? Color.black.opacity(0.3) : Color.clear)
             .edgesIgnoringSafeArea(.bottom)
         
@@ -69,49 +68,5 @@ struct ChangeUserProfileView: View {
     }
 }
 
-//커스텀 액션시트
-struct CustomActionSheet: View {
-    @Binding var isShowingPopupview: Bool
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 15) {
-            HStack {
-                Button(action: {} ) {
-                    Image(systemName: "person.crop.rectangle")
-                    Text("앨범에서 선택하기")
-                    
-                }
-                .foregroundColor(Color.black)
-                Spacer()
-            }
-            
-            HStack {
-                Button(action: {} ) {
-                    Image(systemName: "camera")
-                    Text("카메라로 찍기")
-                    
-                }
-                .foregroundColor(Color.black)
-                Spacer()
-            }
-            HStack {
-                Button(action: {
-                    isShowingPopupview.toggle()
-                }) {
-                    Image(systemName: "clear")
-                    Text("취소")
-                    
-                }
-                .foregroundColor(Color.black)
-                Spacer()
-            }
-        }.padding(.bottom, (UIApplication.shared.windows.last?.safeAreaInsets.bottom)! + 10)
-            .padding(.horizontal)
-            .padding(.top, 20)
-            .background(Color.white)
-            .cornerRadius(20)
-        
-    }
-}
 
 
