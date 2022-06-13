@@ -13,7 +13,8 @@ class HomeViewModel: ObservableObject {
                                      uimage: Image(systemName: "lessthan"), unickName: UserDefaults.standard.string(forKey: "unickName") ?? "애칭"
                                      , message: UserDefaults.standard.string(forKey: "message") ?? "With U", count: UserDefaults.standard.string(forKey: "count") ?? "1일")
     @Published var dDay: Dday = Dday(message: "With U", count: "1일")
-    
+    @Published var imagePickerPresented = false
+    @Published var selectedImage: UIImage?
     
 }
 

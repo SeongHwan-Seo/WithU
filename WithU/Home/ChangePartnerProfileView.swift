@@ -11,7 +11,8 @@ struct ChangePartnerProfileView: View {
     @Binding var user: User
     @Binding var isShowingChangePartnerPopup: Bool
     @State var isShowingPopupview = false
-    
+    @Binding var selectedImage: UIImage?
+    @Binding var imagePickerPresented: Bool
     var body: some View {
         ZStack {
             VStack( spacing: 15) {
@@ -58,7 +59,7 @@ struct ChangePartnerProfileView: View {
         VStack {
             Spacer()
             
-            CustomActionSheetView(isShowingPopupview: $isShowingPopupview).offset(y: self.isShowingPopupview ? 0 : UIScreen.main.bounds.height)
+            CustomActionSheetView(isShowingPopupview: $isShowingPopupview, selectedImage: $selectedImage).offset(y: self.isShowingPopupview ? 0 : UIScreen.main.bounds.height)
         }.background(self.isShowingPopupview ? Color.black.opacity(0.3) : Color.clear)
             .edgesIgnoringSafeArea(.bottom)
         

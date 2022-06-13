@@ -11,7 +11,8 @@ struct ChangeUserProfileView: View {
     @Binding var user: User
     @Binding var isShowingChangeUserPopup: Bool
     @State var isShowingPopupview = false
-    
+    @Binding var selectedImage: UIImage?
+    @Binding var imagePickerPresented: Bool
     var body: some View {
         ZStack {
             VStack( spacing: 15) {
@@ -19,11 +20,13 @@ struct ChangeUserProfileView: View {
                     Color.gray
                         .frame(width: 250, height: 250)
                         .opacity(0.2)
-                    Image(systemName: "plus")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .scaledToFit()
-                        .foregroundColor(.black)
+                    let image = selectedImage == nil ? Image(systemName: "plus.circle") : Image(uiImage: selectedImage ?? UIImage())
+                        image
+//                    Image(systemName: "plus")
+//                        .resizable()
+//                        .frame(width: 50, height: 50)
+//                        .scaledToFit()
+//                        .foregroundColor(.black)
                 }
                 .onTapGesture {
                     isShowingPopupview.toggle()
@@ -58,7 +61,7 @@ struct ChangeUserProfileView: View {
         VStack {
             Spacer()
             
-            CustomActionSheetView(isShowingPopupview: $isShowingPopupview).offset(y: self.isShowingPopupview ? 0 : UIScreen.main.bounds.height)
+            CustomActionSheetView(isShowingPopupview: $isShowingPopupview, selectedImage: $selectedImage).offset(y: self.isShowingPopupview ? 0 : UIScreen.main.bounds.height)
         }.background(self.isShowingPopupview ? Color.black.opacity(0.3) : Color.clear)
             .edgesIgnoringSafeArea(.bottom)
         
@@ -66,6 +69,7 @@ struct ChangeUserProfileView: View {
         
         
     }
+    
 }
 
 

@@ -9,16 +9,30 @@ import SwiftUI
 
 struct CustomActionSheetView: View {
     @Binding var isShowingPopupview: Bool
+    @Binding var selectedImage: UIImage?
+    @State var imagePickerPresented = false
+    @State private var profileImage: Image?
+    func loadImage() {
+        guard let selectedImage = selectedImage else { return }
+        profileImage = Image(uiImage: selectedImage)
+    }
+    
     
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
             HStack {
-                Button(action: {} ) {
+                Button(action: {
+                    imagePickerPresented.toggle()
+                } ) {
                     Image(systemName: "person.crop.rectangle")
                     Text("앨범에서 선택하기")
                     
                 }
+                .sheet(isPresented: $imagePickerPresented,
+                       onDismiss: loadImage,
+                       content: { ImagePicker(image: $selectedImage) })
                 .foregroundColor(Color.black)
+                
                 Spacer()
             }
             
@@ -51,8 +65,4 @@ struct CustomActionSheetView: View {
     }
 }
 
-struct CustomActionSheetView_Previews: PreviewProvider {
-    static var previews: some View {
-        CustomActionSheetView(isShowingPopupview: .constant(true))
-    }
-}
+
