@@ -10,4 +10,5 @@ target 'WithU' do
   pod 'FirebaseFirestore'
   pod 'FirebaseAnalytics'
   pod 'FirebaseAuth'
+  pod 'FirebaseStorage'
 end

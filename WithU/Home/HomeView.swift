@@ -28,8 +28,8 @@ struct HomeView: View {
             
             if self.isShowingChangeUserPopup{
                 GeometryReader { geometry in
-                    ChangeUserProfileView(user: $viewModel.user, isShowingChangeUserPopup: $isShowingChangeUserPopup,
-                                          selectedImage: $viewModel.selectedImage, imagePickerPresented: $viewModel.imagePickerPresented
+                    ChangeUserProfileView(viewModel: viewModel, user: $viewModel.user, isShowingChangeUserPopup: $isShowingChangeUserPopup,
+                                          selectedImage: $viewModel.selectedImage
                     )
                     .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
                 }.background(
@@ -41,7 +41,7 @@ struct HomeView: View {
             
             if self.isShowingChangePartnerPopup{
                 GeometryReader { geometry in
-                    ChangePartnerProfileView(user: $viewModel.user, isShowingChangePartnerPopup: $isShowingChangePartnerPopup,selectedImage: $viewModel.selectedImage, imagePickerPresented: $viewModel.imagePickerPresented)
+                    ChangePartnerProfileView(user: $viewModel.user, isShowingChangePartnerPopup: $isShowingChangePartnerPopup,selectedImage: $viewModel.selectedImage)
                         .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
                 }.background(
                     Color.black.opacity(0.65)

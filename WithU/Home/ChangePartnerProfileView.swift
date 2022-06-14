@@ -12,7 +12,6 @@ struct ChangePartnerProfileView: View {
     @Binding var isShowingChangePartnerPopup: Bool
     @State var isShowingPopupview = false
     @Binding var selectedImage: UIImage?
-    @Binding var imagePickerPresented: Bool
     var body: some View {
         ZStack {
             VStack( spacing: 15) {
@@ -37,7 +36,7 @@ struct ChangePartnerProfileView: View {
                         .frame(width: 250, height: 1)
                         .background(Color.gray)
                     Button(action: {
-                        setUserInfo(user: user)
+                        //setUserInfo(user: user)
                         isShowingChangePartnerPopup.toggle()
                     }, label: {
                         Text("확인")

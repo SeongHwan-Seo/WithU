@@ -23,6 +23,7 @@ struct CustomActionSheetView: View {
             HStack {
                 Button(action: {
                     imagePickerPresented.toggle()
+                    isShowingPopupview.toggle()
                 } ) {
                     Image(systemName: "person.crop.rectangle")
                     Text("앨범에서 선택하기")

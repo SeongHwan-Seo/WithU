@@ -8,26 +8,34 @@
 import SwiftUI
 
 struct ChangeUserProfileView: View {
+    @ObservedObject var viewModel = HomeViewModel()
     @Binding var user: User
     @Binding var isShowingChangeUserPopup: Bool
     @State var isShowingPopupview = false
     @Binding var selectedImage: UIImage?
-    @Binding var imagePickerPresented: Bool
     var body: some View {
         ZStack {
             VStack( spacing: 15) {
-                ZStack {
-                    Color.gray
-                        .frame(width: 250, height: 250)
-                        .opacity(0.2)
+//                ZStack {
+//                    Color.gray
+//                        .frame(width: 250, height: 250)
+//                        .opacity(0.2)
                     let image = selectedImage == nil ? Image(systemName: "plus.circle") : Image(uiImage: selectedImage ?? UIImage())
-                        image
-//                    Image(systemName: "plus")
-//                        .resizable()
-//                        .frame(width: 50, height: 50)
-//                        .scaledToFit()
-//                        .foregroundColor(.black)
-                }
+                    image
+                        .resizable()
+                        .frame(width: 90, height: 90)
+                        .clipShape(Circle())
+                        .overlay(
+                            Circle().stroke(Color.white, lineWidth: 2)
+                        )
+                        .shadow(radius: 7)
+                        .foregroundColor(.black)
+                    //                    Image(systemName: "plus")
+                    //                        .resizable()
+                    //                        .frame(width: 50, height: 50)
+                    //                        .scaledToFit()
+                    //                        .foregroundColor(.black)
+//                }
                 .onTapGesture {
                     isShowingPopupview.toggle()
                 }
@@ -39,7 +47,7 @@ struct ChangeUserProfileView: View {
                         .frame(width: 250, height: 1)
                         .background(Color.gray)
                     Button(action: {
-                        setUserInfo(user: user)
+                        viewModel.setUserInfo()
                         isShowingChangeUserPopup.toggle()
                     }, label: {
                         Text("확인")
