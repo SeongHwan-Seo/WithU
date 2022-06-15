@@ -16,29 +16,19 @@ struct ChangeUserProfileView: View {
     var body: some View {
         ZStack {
             VStack( spacing: 15) {
-//                ZStack {
-//                    Color.gray
-//                        .frame(width: 250, height: 250)
-//                        .opacity(0.2)
-                    let image = selectedImage == nil ? Image(systemName: "plus.circle") : Image(uiImage: selectedImage ?? UIImage())
-                    image
-                        .resizable()
-                        .frame(width: 90, height: 90)
-                        .clipShape(Circle())
-                        .overlay(
-                            Circle().stroke(Color.white, lineWidth: 2)
-                        )
-                        .shadow(radius: 7)
-                        .foregroundColor(.black)
-                    //                    Image(systemName: "plus")
-                    //                        .resizable()
-                    //                        .frame(width: 50, height: 50)
-                    //                        .scaledToFit()
-                    //                        .foregroundColor(.black)
-//                }
-                .onTapGesture {
-                    isShowingPopupview.toggle()
-                }
+                let image = selectedImage == nil ? user.image : Image(uiImage: selectedImage ?? UIImage())
+                image
+                    .resizable()
+                    .frame(width: 90, height: 90)
+                    .clipShape(Circle())
+                    .overlay(
+                        Circle().stroke(Color.white, lineWidth: 2)
+                    )
+                    .shadow(radius: 7)
+                    .foregroundColor(.black)
+                    .onTapGesture {
+                        isShowingPopupview.toggle()
+                    }
                 VStack {
                     TextField("애칭을 입력하세요.", text: $user.nickName )
                         .frame(width: 250)
