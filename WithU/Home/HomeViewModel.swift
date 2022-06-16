@@ -14,11 +14,10 @@ class HomeViewModel: ObservableObject {
         fetchUser()
     }
     
-    @Published var user: User = User(image: Image(systemName: "greaterthan"), nickName: UserDefaults.standard.string(forKey: "nickName") ?? "애칭",
-                                     uimage: Image(systemName: "lessthan"), unickName: UserDefaults.standard.string(forKey: "unickName") ?? "애칭"
-                                     , message: UserDefaults.standard.string(forKey: "message") ?? "With U", count: UserDefaults.standard.string(forKey: "count") ?? "")
+    @Published var user: User = User(image: Image(systemName: "greaterthan"), imageString: "", nickName: "", uimage: Image(systemName: "lessthan"), uimageString: "", unickName: "", message: "", count: "")
     @Published var dDay: Dday = Dday(message: "With U", count: "1일")
     @Published var selectedImage: UIImage?
+    @Published var isLoading: Bool = false
     let db = Firestore.firestore()
     let storage = Storage.storage()
     
@@ -36,14 +35,18 @@ class HomeViewModel: ObservableObject {
         UserDefaults.standard.set(user.message, forKey: "message")
         UserDefaults.standard.set(user.count, forKey: "count")
         
+        let imgName: String
         if selectedImage != nil {
             user.image = Image(uiImage: selectedImage!)
+            //유저사진 firestorage에 저장
+            imgName = user.id! + "/" + UUID().uuidString
+            uploadImage(img: selectedImage!, name: imgName)
+        } else {
+            imgName = ""
         }
         
         
-        //유저사진 firestorage에 저장
-        let imgName = user.id! + "/" + UUID().uuidString
-        uploadImage(img: selectedImage!, name: imgName)
+        
         
         // 유저정보 파이어스토어 저장
         db.collection("USERS").document(user.id ?? "").setData(["UUID" : user.id ?? "", "NICKNAME" : user.nickName, "UNICKNAME" : user.unickName
@@ -72,7 +75,7 @@ class HomeViewModel: ObservableObject {
     }
     
     //유저정보 가져오기 from firebase
-    func fetchUser() {
+    func fetchUser(){
         db.collection("USERS").document(UserDefaults.standard.string(forKey: "id")!).getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()
@@ -80,13 +83,32 @@ class HomeViewModel: ObservableObject {
                 let unickName = data?["UNICKNAME"]
                 let nickName = data?["NICKNAME"]
                 let image = data?["IMAGE"]
-                self.fetchImage(imageName: image! as! String)
+                if image != nil {
+                    self.fetchImage(imageName: image! as! String)
+                    self.user.imageString = image as! String
+                }
                 self.user.nickName = nickName! as! String
                 self.user.unickName = unickName! as! String
+                
+                
+                
+                self.user.nickName = nickName as! String
+                self.user.uimageString = ""
+                self.user.unickName = unickName as! String
+                self.user.message = "With U"
+                self.user.count = "1일"
+                if self.user.image != nil {
+                    self.isLoading.toggle()
+                }
+                
+                
+                
             } else {
                 print("Document does not exist")
+                self.isLoading.toggle()
                 return
             }
+            
         }
     }
     

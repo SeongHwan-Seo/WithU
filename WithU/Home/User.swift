@@ -13,16 +13,15 @@ struct User: Identifiable {
 
     // My profile image and nickName
     var image: Image
+    var imageString: String
     var nickName: String
     // Partner image and nickname
     var uimage: Image
+    var uimageString: String
     var unickName: String
     // User info message and D-day count
     var message: String
     var count: String
     
-    static let shared =
-    User(image: Image(systemName: "person"),
-         nickName: "나", uimage: Image(systemName: "person"), unickName: "파트너", message: "With U", count: "1일"
-    )
+    
 }

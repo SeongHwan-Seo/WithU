@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    //@ObservedObject var viewModel = HomeViewModel()
     @State private var isShowing = false
     @State private var isLoading = true
     
