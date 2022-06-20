@@ -14,7 +14,7 @@ class HomeViewModel: ObservableObject {
         fetchUser()
     }
     
-    @Published var user: User = User(image: Image(systemName: "greaterthan"), imageString: "", nickName: "", uimage: Image(systemName: "lessthan"), uimageString: "", unickName: "", message: "", count: "")
+    @Published var user: User = User()
     @Published var dDay: Dday = Dday(message: "With U", count: "1일")
     @Published var selectedImage: UIImage?
     @Published var isLoading: Bool = false
@@ -37,7 +37,7 @@ class HomeViewModel: ObservableObject {
         
         let imgName: String
         if selectedImage != nil {
-            user.image = Image(uiImage: selectedImage!)
+            //user.image = Image(uiImage: selectedImage!)
             //유저사진 firestorage에 저장
             imgName = user.id! + "/" + UUID().uuidString
             uploadImage(img: selectedImage!, name: imgName)
@@ -97,9 +97,6 @@ class HomeViewModel: ObservableObject {
                 self.user.unickName = unickName as! String
                 self.user.message = "With U"
                 self.user.count = "1일"
-                if self.user.image != nil {
-                    self.isLoading.toggle()
-                }
                 
                 
                 
@@ -122,7 +119,7 @@ class HomeViewModel: ObservableObject {
                 return
             } else {
                 let image = UIImage(data: data!)
-                self.user.image = Image(uiImage: image!)
+                //self.user.image = Image(uiImage: image!)
             }
         }
     }

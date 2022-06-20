@@ -11,4 +11,5 @@ target 'WithU' do
   pod 'FirebaseAnalytics'
   pod 'FirebaseAuth'
   pod 'FirebaseStorage'
+  pod 'FirebaseFirestoreSwift', '> 7.0-beta'
 end

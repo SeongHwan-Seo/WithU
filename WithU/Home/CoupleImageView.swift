@@ -17,6 +17,7 @@ struct CoupleImageView: View {
             UserView(user: user)
                 .onTapGesture{
                     isShowingChangeUserPopup.toggle()
+                    FirebaseService.setUser()
                 }
             
             
@@ -38,7 +39,7 @@ struct UserView: View {
     let user: User
     var body: some View {
         VStack {
-            user.image
+            Image(systemName: "greaterthan")
                 .resizable()
                 .frame(width: 90, height: 90)
                 .clipShape(Circle())
@@ -59,7 +60,7 @@ struct PartnerView: View {
     let user: User
     var body: some View {
         VStack {
-            user.uimage
+            Image(systemName: "lessthan")
                 .resizable()
                 .frame(width: 90, height: 90)
                 .clipShape(Circle())
