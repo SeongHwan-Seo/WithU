@@ -8,11 +8,14 @@
 import SwiftUI
 import FirebaseFirestore
 import FirebaseStorage
+import Combine
 
 class HomeViewModel: ObservableObject {
     init() {
-        fetchUser()
+        loadUser()
     }
+    
+    private var cancellables = Set<AnyCancellable>()
     
     @Published var user: User = User()
     @Published var dDay: Dday = Dday(message: "With U", count: "1일")
@@ -21,6 +24,22 @@ class HomeViewModel: ObservableObject {
     let db = Firestore.firestore()
     let storage = Storage.storage()
     
+    func loadUser() {
+        FirebaseService.fetchUser()
+            .sink{ (completion) in
+                switch completion {
+                case .failure(let error):
+                    print(error)
+                    return
+                case .finished:
+                    return
+                }
+            } receiveValue: { [weak self]user in
+                self?.user = user
+                self?.isLoading = true
+            }
+            .store(in: &cancellables)
+    }
     
     
     //유저정보 저장
@@ -53,6 +72,9 @@ class HomeViewModel: ObservableObject {
                                                                 , "IMAGE" : imgName])
     }
     
+
+
+
     //FireStorage image저장
     func uploadImage(img: UIImage, name: String) {
         let storageRef = storage.reference().child("images/\(name)")
@@ -74,40 +96,7 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    //유저정보 가져오기 from firebase
-    func fetchUser(){
-        db.collection("USERS").document(UserDefaults.standard.string(forKey: "id")!).getDocument { (document, error) in
-            if let document = document, document.exists {
-                let data = document.data()
-                print(data!)
-                let unickName = data?["UNICKNAME"]
-                let nickName = data?["NICKNAME"]
-                let image = data?["IMAGE"]
-                if image != nil {
-                    self.fetchImage(imageName: image! as! String)
-                    self.user.imageString = image as! String
-                }
-                self.user.nickName = nickName! as! String
-                self.user.unickName = unickName! as! String
-                
-                
-                
-                self.user.nickName = nickName as! String
-                self.user.uimageString = ""
-                self.user.unickName = unickName as! String
-                self.user.message = "With U"
-                self.user.count = "1일"
-                
-                
-                
-            } else {
-                print("Document does not exist")
-                self.isLoading.toggle()
-                return
-            }
-            
-        }
-    }
+  
     
     //FireStorage에서 이미지 가져오기
     func fetchImage(imageName: String) {

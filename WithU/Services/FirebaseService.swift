@@ -14,9 +14,8 @@ struct FirebaseService {
     static let db = Firestore.firestore()
     
     static func fetchUser() -> AnyPublisher<User, Error> {
-        
         Future<User, Error> { promise in
-            self.db.collection("USERS").document(UserDefaults.standard.string(forKey: "id")!)
+            self.db.collection("users").document(UserDefaults.standard.string(forKey: "id")!)
                 .getDocument { (snapshot, error) in
                     if let error = error {
                         promise(.failure(error))
@@ -26,23 +25,35 @@ struct FirebaseService {
                         promise(.failure(FirebaseError.badSnapshot))
                         return
                     }
-                    print(snapshot.data().map(String.init(describing:)) ?? "nil")
                     
-                    if let user = try? snapshot.data(as: User.self) {
-                        
+                    var user = User()
+                    if let data = try? snapshot.data(as: User.self) {
+                        user = data
                     }
+                    
+                    promise(.success(user))
                 }
         }
         .eraseToAnyPublisher()
     }
     
-    static func setUser() {
-        let user = User()
-        
-        do {
-            try db.collection("users").document(UserDefaults.standard.string(forKey: "id") ?? UUID().uuidString).setData(from: user)
-        } catch let error {
-            print("Error is : \(error)")
+    static func setInitUser() -> AnyPublisher<User, Error> {
+        Future<User,  Error> { promise in
+            var user = User()
+            //self.db.collection("users").document(user.id!).setData(from: user)
         }
+        .eraseToAnyPublisher()
     }
+    
+//    static func setUser() {
+//        let user = User()
+//
+//        do {
+//
+//            try db.collection("users").document(UserDefaults.standard.string(forKey: "id") ?? UUID().uuidString).setData(from: user)
+//
+//        } catch let error {
+//            print("Error is : \(error)")
+//        }
+//    }
 }

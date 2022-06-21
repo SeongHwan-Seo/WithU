@@ -17,7 +17,7 @@ struct CoupleImageView: View {
             UserView(user: user)
                 .onTapGesture{
                     isShowingChangeUserPopup.toggle()
-                    FirebaseService.setUser()
+                    FirebaseService.fetchUser()
                 }
             
             

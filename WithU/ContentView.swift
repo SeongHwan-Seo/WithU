@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    //@ObservedObject var viewModel = HomeViewModel()
+    @ObservedObject var viewModel = HomeViewModel()
     @State private var isShowing = false
-    @State private var isLoading = true
+    //@State private var isLoading = true
     
     var body: some View {
         ZStack {
@@ -37,24 +37,24 @@ struct ContentView: View {
                         .edgesIgnoringSafeArea(.all)
                 }
                 .onAppear {
-                    isShowing = false
+                    //isShowing = false
                     
                 }
                 
                 
             }
             
-            if isLoading {
+            if !viewModel.isLoading {
                 LaunchScreen()
             }
             
             
         }
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
-                isLoading.toggle()
-            })
-        }
+//        .onAppear {
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+//                isLoading.toggle()
+//            })
+//        }
         
         
     }
