@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @ObservedObject var viewModel = HomeViewModel()
+    @StateObject var viewModel: HomeViewModel
     @State var isShowingChangeUserPopup = false
     @State var isShowingChangePartnerPopup = false
     
@@ -18,7 +18,7 @@ struct HomeView: View {
                 Color(.white)
                 VStack {
                     EmptyImageView()
-                    CoupleImageView(user: $viewModel.user, isShowingChangeUserPopup: $isShowingChangeUserPopup, isShowingChangePartnerPopup: $isShowingChangePartnerPopup)
+                    CoupleImageView(viewModel: viewModel, isShowingChangeUserPopup: $isShowingChangeUserPopup, isShowingChangePartnerPopup: $isShowingChangePartnerPopup)
                     DdayCountView(dDay: $viewModel.dDay)
                     
                     Spacer()
@@ -57,8 +57,4 @@ struct HomeView: View {
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
-    }
-}
+

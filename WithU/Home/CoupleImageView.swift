@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct CoupleImageView: View {
-    @Binding var user: User
+    @StateObject var viewModel: HomeViewModel
     @Binding var isShowingChangeUserPopup: Bool
     @Binding var isShowingChangePartnerPopup: Bool
     
     var body: some View {
         HStack {
-            UserView(user: user)
+            UserView(user: viewModel.user)
                 .onTapGesture{
+                    print(viewModel.user.nickName)
                     isShowingChangeUserPopup.toggle()
-                    FirebaseService.fetchUser()
                 }
             
             
@@ -25,7 +25,7 @@ struct CoupleImageView: View {
                 .frame(width: 100, height: 100)
                 .offset(y: -30)
             
-            PartnerView(user: user)
+            PartnerView(user: viewModel.user)
                 .onTapGesture{
                     isShowingChangePartnerPopup.toggle()
                 }

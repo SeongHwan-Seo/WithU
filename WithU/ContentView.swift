@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var viewModel = HomeViewModel()
+    @StateObject var viewModel = HomeViewModel()
     @State private var isShowing = false
-    //@State private var isLoading = true
     
     var body: some View {
         ZStack {
@@ -20,7 +19,7 @@ struct ContentView: View {
                         MenuView(isShowing: $isShowing)
                         //.offset(y: 0)
                     }
-                    HomeView()
+                    HomeView(viewModel: viewModel)
                         .cornerRadius(isShowing ? 20 : 10)
                         .offset(x: isShowing ? 200 : 0, y: isShowing ? 30 : 0)
                         .scaleEffect(isShowing ? 0.8 : 1)
@@ -37,24 +36,23 @@ struct ContentView: View {
                         .edgesIgnoringSafeArea(.all)
                 }
                 .onAppear {
-                    //isShowing = false
+                    if UserDefaults.standard.string(forKey: "id") == nil {
+                        print("UserDefaults nil")
+                        viewModel.setInitUser()
+                        //viewModel.loadUser()
+                    } else {
+                        print("UserDefaults : OK")
+                        viewModel.loadUser()
+                    }
                     
                 }
-                
-                
             }
             
             if !viewModel.isLoading {
                 LaunchScreen()
             }
-            
-            
         }
-//        .onAppear {
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
-//                isLoading.toggle()
-//            })
-//        }
+        
         
         
     }

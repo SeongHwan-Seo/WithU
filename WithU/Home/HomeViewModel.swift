@@ -11,9 +11,6 @@ import FirebaseStorage
 import Combine
 
 class HomeViewModel: ObservableObject {
-    init() {
-        loadUser()
-    }
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -24,8 +21,28 @@ class HomeViewModel: ObservableObject {
     let db = Firestore.firestore()
     let storage = Storage.storage()
     
-    func loadUser() {
-        FirebaseService.fetchUser()
+    //앱 첫 사용자 등록
+    func setInitUser() {
+        let user = User()
+        UserDefaults.standard.set(user.id, forKey: "id")// user.id 를 UserDeFaults에 저장
+        
+        FirebaseService.setUser(user)
+            .sink{ (completion) in
+                switch completion {
+                case .failure(let error):
+                    print(error)
+                    return
+                case .finished:
+                    self.loadUser()
+                    return
+                }
+            } receiveValue: { _ in }
+            .store(in: &cancellables)
+    }
+    
+    //유저정보 업데이트
+    func updateUser() {
+        FirebaseService.setUser(user)
             .sink{ (completion) in
                 switch completion {
                 case .failure(let error):
@@ -34,9 +51,27 @@ class HomeViewModel: ObservableObject {
                 case .finished:
                     return
                 }
-            } receiveValue: { [weak self]user in
+            } receiveValue: { _ in }
+            .store(in: &cancellables)
+    }
+    
+    
+    //사용자 정보 불러오기
+    func loadUser() {
+        FirebaseService.fetchUser()
+            .sink{ (completion) in
+                switch completion {
+                case .failure(let error):
+                    print(error)
+                    return
+                case .finished:
+                    print("finished : \(self.user.nickName)")
+                    self.isLoading = true
+                    return
+                }
+            } receiveValue: { [weak self] (user) in
                 self?.user = user
-                self?.isLoading = true
+                print("receiveValue : \(user.nickName)")
             }
             .store(in: &cancellables)
     }

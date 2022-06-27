@@ -38,7 +38,7 @@ struct ChangeUserProfileView: View {
                         .frame(width: 250, height: 1)
                         .background(Color.gray)
                     Button(action: {
-                        viewModel.setUserInfo()
+                        viewModel.updateUser()
                         isShowingChangeUserPopup.toggle()
                     }, label: {
                         Text("확인")

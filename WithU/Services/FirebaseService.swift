@@ -18,10 +18,12 @@ struct FirebaseService {
             self.db.collection("users").document(UserDefaults.standard.string(forKey: "id")!)
                 .getDocument { (snapshot, error) in
                     if let error = error {
+                        print("fetUser() Error : error")
                         promise(.failure(error))
                         return
                     }
                     guard let snapshot = snapshot else {
+                        print("fetUser() Error : snapshot error")
                         promise(.failure(FirebaseError.badSnapshot))
                         return
                     }
@@ -29,6 +31,7 @@ struct FirebaseService {
                     var user = User()
                     if let data = try? snapshot.data(as: User.self) {
                         user = data
+                        
                     }
                     
                     promise(.success(user))
@@ -37,23 +40,29 @@ struct FirebaseService {
         .eraseToAnyPublisher()
     }
     
-    static func setInitUser() -> AnyPublisher<User, Error> {
-        Future<User,  Error> { promise in
-            var user = User()
-            //self.db.collection("users").document(user.id!).setData(from: user)
+    static func setUser(_ user: User) -> AnyPublisher<Void, Error> {
+        Future<Void,  Error> { promise in
+            print("setUser : start")
+            try? self.db.collection("users").document(user.id!).setData(from: user) { error in
+                if let error = error {
+                    print("setUser : failure")
+                    promise(.failure(error))
+                } else {
+                    print("setUser : success")
+                    promise(.success(()))
+                }
+            }
+            
         }
         .eraseToAnyPublisher()
     }
     
-//    static func setUser() {
-//        let user = User()
-//
-//        do {
-//
-//            try db.collection("users").document(UserDefaults.standard.string(forKey: "id") ?? UUID().uuidString).setData(from: user)
-//
-//        } catch let error {
-//            print("Error is : \(error)")
+//    static func setUser(_ user: User) -> AnyPublisher<Void, Error> {
+//        Future<Void, Error> { promise in
+//            print("setUser Start")
+//            self.db
 //        }
+//
+//
 //    }
 }

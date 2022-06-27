@@ -22,17 +22,7 @@ struct User: Codable, Identifiable {
     var message: String = "With U"
     var count: String = "1일"
     
-//    init(from decoder: Decoder) throws {
-//        let valuse = try decoder.container(keyedBy: CodingKeys.self)
-//
-//        self.id = try valuse.decode(String.self, forKey: .id)
-//        self.nickName = try valuse.decode(String.self, forKey: .nickName)
-//        self.imageString = try valuse.decode(String.self, forKey: .imageString)
-//        self.unickName = try valuse.decode(String.self, forKey: .unickName)
-//        self.uimageString = try valuse.decode(String.self, forKey: .uimageString)
-//        self.message = try valuse.decode(String.self, forKey: .message)
-//        self.count = try valuse.decode(String.self, forKey: .count)
-//    }
+
     
 }
 
