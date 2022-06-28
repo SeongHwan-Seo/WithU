@@ -16,8 +16,6 @@ struct ChangeUserProfileView: View {
     var body: some View {
         ZStack {
             VStack( spacing: 15) {
-//                let image = selectedImage == nil ? user.image : Image(uiImage: selectedImage ?? UIImage())
-//                image
                 Image(systemName: "greaterthan")
                     .resizable()
                     .frame(width: 90, height: 90)

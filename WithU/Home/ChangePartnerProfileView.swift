@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ChangePartnerProfileView: View {
+    @ObservedObject var viewModel = HomeViewModel()
     @Binding var user: User
     @Binding var isShowingChangePartnerPopup: Bool
     @State var isShowingPopupview = false
@@ -15,19 +16,18 @@ struct ChangePartnerProfileView: View {
     var body: some View {
         ZStack {
             VStack( spacing: 15) {
-                ZStack {
-                    Color.gray
-                        .frame(width: 250, height: 250)
-                        .opacity(0.2)
-                    Image(systemName: "plus")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .scaledToFit()
-                        .foregroundColor(.black)
-                }
-                .onTapGesture {
-                    isShowingPopupview.toggle()
-                }
+                Image(systemName: "lessthan")
+                    .resizable()
+                    .frame(width: 90, height: 90)
+                    .clipShape(Circle())
+                    .overlay(
+                        Circle().stroke(Color.white, lineWidth: 2)
+                    )
+                    .shadow(radius: 7)
+                    .foregroundColor(.black)
+                    .onTapGesture {
+                        isShowingPopupview.toggle()
+                    }
                 VStack {
                     TextField("애칭을 입력하세요.", text: $user.unickName )
                         .frame(width: 250)
@@ -36,7 +36,7 @@ struct ChangePartnerProfileView: View {
                         .frame(width: 250, height: 1)
                         .background(Color.gray)
                     Button(action: {
-                        //setUserInfo(user: user)
+                        viewModel.updateUser()
                         isShowingChangePartnerPopup.toggle()
                     }, label: {
                         Text("확인")

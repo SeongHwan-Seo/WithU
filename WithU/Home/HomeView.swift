@@ -41,7 +41,7 @@ struct HomeView: View {
             
             if self.isShowingChangePartnerPopup{
                 GeometryReader { geometry in
-                    ChangePartnerProfileView(user: $viewModel.user, isShowingChangePartnerPopup: $isShowingChangePartnerPopup,selectedImage: $viewModel.selectedImage)
+                    ChangePartnerProfileView(viewModel: viewModel, user: $viewModel.user, isShowingChangePartnerPopup: $isShowingChangePartnerPopup,selectedImage: $viewModel.selectedImage)
                         .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
                 }.background(
                     Color.black.opacity(0.65)

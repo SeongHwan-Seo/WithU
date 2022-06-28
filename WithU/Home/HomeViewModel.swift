@@ -76,39 +76,6 @@ class HomeViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    
-    //유저정보 저장
-    func setUserInfo() {
-        
-        if UserDefaults.standard.string(forKey: "id") == nil {
-            UserDefaults.standard.set(user.id, forKey: "id")
-        }
-        
-        UserDefaults.standard.set(user.nickName, forKey: "nickName")
-        UserDefaults.standard.set(user.unickName, forKey: "unickName")
-        UserDefaults.standard.set(user.message, forKey: "message")
-        UserDefaults.standard.set(user.count, forKey: "count")
-        
-        let imgName: String
-        if selectedImage != nil {
-            //user.image = Image(uiImage: selectedImage!)
-            //유저사진 firestorage에 저장
-            imgName = user.id! + "/" + UUID().uuidString
-            uploadImage(img: selectedImage!, name: imgName)
-        } else {
-            imgName = ""
-        }
-        
-        
-        
-        
-        // 유저정보 파이어스토어 저장
-        db.collection("USERS").document(user.id ?? "").setData(["UUID" : user.id ?? "", "NICKNAME" : user.nickName, "UNICKNAME" : user.unickName
-                                                                , "IMAGE" : imgName])
-    }
-    
-
-
 
     //FireStorage image저장
     func uploadImage(img: UIImage, name: String) {
