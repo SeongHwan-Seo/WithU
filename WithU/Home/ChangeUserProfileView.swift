@@ -8,15 +8,18 @@
 import SwiftUI
 
 struct ChangeUserProfileView: View {
-    @ObservedObject var viewModel = HomeViewModel()
-    @Binding var user: User
+    @StateObject var viewModel: HomeViewModel
     @Binding var isShowingChangeUserPopup: Bool
     @State var isShowingPopupview = false
-    @Binding var selectedImage: UIImage?
+    @State var choice = 1
+    
+    
     var body: some View {
         ZStack {
             VStack( spacing: 15) {
-                Image(systemName: "greaterthan")
+//                Image(systemName: "greaterthan")
+                let image = viewModel.selectedImage == nil ? Image(systemName: "greaterthan") : Image(uiImage: viewModel.selectedImage ?? UIImage())
+                    image
                     .resizable()
                     .frame(width: 90, height: 90)
                     .clipShape(Circle())
@@ -29,7 +32,7 @@ struct ChangeUserProfileView: View {
                         isShowingPopupview.toggle()
                     }
                 VStack {
-                    TextField("애칭을 입력하세요.", text: $user.nickName )
+                    TextField("애칭을 입력하세요.", text: $viewModel.user.nickName )
                         .frame(width: 250)
                         .foregroundColor(.black)
                     Divider()
@@ -58,7 +61,7 @@ struct ChangeUserProfileView: View {
         VStack {
             Spacer()
             
-            CustomActionSheetView(isShowingPopupview: $isShowingPopupview, selectedImage: $selectedImage).offset(y: self.isShowingPopupview ? 0 : UIScreen.main.bounds.height)
+            CustomActionSheetView(isShowingPopupview: $isShowingPopupview, selectedImage: $viewModel.selectedImage).offset(y: self.isShowingPopupview ? 0 : UIScreen.main.bounds.height)
         }.background(self.isShowingPopupview ? Color.black.opacity(0.3) : Color.clear)
             .edgesIgnoringSafeArea(.bottom)
         

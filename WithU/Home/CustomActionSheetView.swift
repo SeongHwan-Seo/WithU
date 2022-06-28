@@ -13,8 +13,9 @@ struct CustomActionSheetView: View {
     @State var imagePickerPresented = false
     @State private var profileImage: Image?
     func loadImage() {
-        guard let selectedImage = selectedImage else { return }
-        profileImage = Image(uiImage: selectedImage)
+        print("loadImage")
+//        guard let selectedImage = selectedImage else { return }
+//        profileImage = Image(uiImage: selectedImage)
     }
     
     

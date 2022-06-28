@@ -8,15 +8,16 @@
 import SwiftUI
 
 struct ChangePartnerProfileView: View {
-    @ObservedObject var viewModel = HomeViewModel()
-    @Binding var user: User
+    @StateObject var viewModel: HomeViewModel
     @Binding var isShowingChangePartnerPopup: Bool
     @State var isShowingPopupview = false
-    @Binding var selectedImage: UIImage?
+    @State var choice = 2
     var body: some View {
         ZStack {
             VStack( spacing: 15) {
-                Image(systemName: "lessthan")
+                //Image(systemName: "lessthan")
+                let image = viewModel.uselectedImage == nil ? Image(systemName: "lessthan") : Image(uiImage: viewModel.uselectedImage ?? UIImage())
+                    image
                     .resizable()
                     .frame(width: 90, height: 90)
                     .clipShape(Circle())
@@ -29,7 +30,7 @@ struct ChangePartnerProfileView: View {
                         isShowingPopupview.toggle()
                     }
                 VStack {
-                    TextField("애칭을 입력하세요.", text: $user.unickName )
+                    TextField("애칭을 입력하세요.", text: $viewModel.user.unickName )
                         .frame(width: 250)
                         .foregroundColor(.black)
                     Divider()
@@ -58,7 +59,7 @@ struct ChangePartnerProfileView: View {
         VStack {
             Spacer()
             
-            CustomActionSheetView(isShowingPopupview: $isShowingPopupview, selectedImage: $selectedImage).offset(y: self.isShowingPopupview ? 0 : UIScreen.main.bounds.height)
+            CustomActionSheetView(isShowingPopupview: $isShowingPopupview, selectedImage: $viewModel.uselectedImage).offset(y: self.isShowingPopupview ? 0 : UIScreen.main.bounds.height)
         }.background(self.isShowingPopupview ? Color.black.opacity(0.3) : Color.clear)
             .edgesIgnoringSafeArea(.bottom)
         

@@ -14,7 +14,7 @@ struct CoupleImageView: View {
     
     var body: some View {
         HStack {
-            UserView(user: viewModel.user)
+            UserView(user: viewModel.user, viewModel: viewModel)
                 .onTapGesture{
                     print(viewModel.user.nickName)
                     isShowingChangeUserPopup.toggle()
@@ -25,7 +25,7 @@ struct CoupleImageView: View {
                 .frame(width: 100, height: 100)
                 .offset(y: -30)
             
-            PartnerView(user: viewModel.user)
+            PartnerView(user: viewModel.user, viewModel: viewModel)
                 .onTapGesture{
                     isShowingChangePartnerPopup.toggle()
                 }
@@ -37,9 +37,11 @@ struct CoupleImageView: View {
 
 struct UserView: View {
     let user: User
+    @StateObject var viewModel: HomeViewModel
     var body: some View {
         VStack {
-            Image(systemName: "greaterthan")
+            let image = viewModel.selectedImage == nil ? Image(systemName: "greaterthan") : Image(uiImage: viewModel.selectedImage ?? UIImage())
+                image
                 .resizable()
                 .frame(width: 90, height: 90)
                 .clipShape(Circle())
@@ -58,9 +60,11 @@ struct UserView: View {
 
 struct PartnerView: View {
     let user: User
+    @StateObject var viewModel: HomeViewModel
     var body: some View {
         VStack {
-            Image(systemName: "lessthan")
+            let image = viewModel.uselectedImage == nil ? Image(systemName: "lessthan") : Image(uiImage: viewModel.uselectedImage ?? UIImage())
+                image
                 .resizable()
                 .frame(width: 90, height: 90)
                 .clipShape(Circle())
