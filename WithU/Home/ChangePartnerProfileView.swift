@@ -59,7 +59,7 @@ struct ChangePartnerProfileView: View {
         VStack {
             Spacer()
             
-            CustomActionSheetView(isShowingPopupview: $isShowingPopupview, selectedImage: $viewModel.uselectedImage).offset(y: self.isShowingPopupview ? 0 : UIScreen.main.bounds.height)
+            CustomActionSheetView(viewModel: viewModel, isShowingPopupview: $isShowingPopupview, selectedImage: $viewModel.uselectedImage, choice: $choice).offset(y: self.isShowingPopupview ? 0 : UIScreen.main.bounds.height)
         }.background(self.isShowingPopupview ? Color.black.opacity(0.3) : Color.clear)
             .edgesIgnoringSafeArea(.bottom)
         

@@ -61,7 +61,7 @@ struct ChangeUserProfileView: View {
         VStack {
             Spacer()
             
-            CustomActionSheetView(isShowingPopupview: $isShowingPopupview, selectedImage: $viewModel.selectedImage).offset(y: self.isShowingPopupview ? 0 : UIScreen.main.bounds.height)
+            CustomActionSheetView(viewModel: viewModel, isShowingPopupview: $isShowingPopupview, selectedImage: $viewModel.selectedImage, choice: $choice).offset(y: self.isShowingPopupview ? 0 : UIScreen.main.bounds.height)
         }.background(self.isShowingPopupview ? Color.black.opacity(0.3) : Color.clear)
             .edgesIgnoringSafeArea(.bottom)
         

@@ -77,25 +77,39 @@ class HomeViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-
+    //FireStore 프로필 사진 저장
+    func uploadImage(img: UIImage, name: String) {
+        FirebaseService.uploadImage(img: img, name: name, dic: user.id!)
+            .sink{ (completion) in
+                switch completion {
+                case .failure(let error):
+                    print(error)
+                    return
+                case .finished:
+                    return
+                }
+            } receiveValue: { _ in }
+            .store(in: &cancellables)
+    }
     
     
-  
+    
+    
     
     //FireStorage에서 이미지 가져오기
-//    func fetchImage(imageName: String) {
-//        let ref = storage.reference().child("images/" + "\(imageName)")
-//        
-//        ref.getData(maxSize: 1 * 1024 * 1024) { data, error in
-//            if let error = error {
-//                print("error while downloading image\n\(error.localizedDescription)")
-//                return
-//            } else {
-//                let image = UIImage(data: data!)
-//                //self.user.image = Image(uiImage: image!)
-//            }
-//        }
-//    }
+    //    func fetchImage(imageName: String) {
+    //        let ref = storage.reference().child("images/" + "\(imageName)")
+    //
+    //        ref.getData(maxSize: 1 * 1024 * 1024) { data, error in
+    //            if let error = error {
+    //                print("error while downloading image\n\(error.localizedDescription)")
+    //                return
+    //            } else {
+    //                let image = UIImage(data: data!)
+    //                //self.user.image = Image(uiImage: image!)
+    //            }
+    //        }
+    //    }
 }
 
 

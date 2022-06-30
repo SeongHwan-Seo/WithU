@@ -8,14 +8,29 @@
 import SwiftUI
 
 struct CustomActionSheetView: View {
+    @StateObject var viewModel: HomeViewModel
     @Binding var isShowingPopupview: Bool
     @Binding var selectedImage: UIImage?
+    @Binding var choice: Int //1 -> 내 프로필, 2 -> 파트너 프로필
     @State var imagePickerPresented = false
     @State private var profileImage: Image?
-    func loadImage() {
-        print("loadImage")
-//        guard let selectedImage = selectedImage else { return }
-//        profileImage = Image(uiImage: selectedImage)
+    func setImageString() {
+        switch choice {
+        case 1:
+            if viewModel.selectedImage != nil {
+                let imageString = (viewModel.user.id ?? "") + "myImage"
+                viewModel.user.imageString = imageString
+                viewModel.uploadImage(img: viewModel.selectedImage!, name: imageString)
+            }
+        case 2:
+            if viewModel.uselectedImage != nil {
+                let uImageString = (viewModel.user.id ?? "") + "uImage"
+                viewModel.user.uimageString = uImageString
+                viewModel.uploadImage(img: viewModel.uselectedImage!, name: uImageString)
+            }
+        default:
+            return
+        }
     }
     
     
@@ -31,7 +46,7 @@ struct CustomActionSheetView: View {
                     
                 }
                 .sheet(isPresented: $imagePickerPresented,
-                       onDismiss: loadImage,
+                       onDismiss: setImageString,
                        content: { ImagePicker(image: $selectedImage) })
                 .foregroundColor(Color.black)
                 

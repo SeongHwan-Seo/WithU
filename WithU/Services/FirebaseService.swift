@@ -13,7 +13,7 @@ import FirebaseStorage
 
 struct FirebaseService {
     static let db = Firestore.firestore()
-    let storage = Storage.storage()
+    static let storage = Storage.storage()
     
     static func fetchUser() -> AnyPublisher<User, Error> {
         Future<User, Error> { promise in
@@ -51,6 +51,7 @@ struct FirebaseService {
                     promise(.failure(error))
                 } else {
                     print("setUser : success")
+                    
                     promise(.success(()))
                 }
             }
@@ -60,23 +61,27 @@ struct FirebaseService {
     }
     
     //FireStorage image저장
-    func uploadImage(img: UIImage, name: String) {
-        let storageRef = storage.reference().child("images/\(name)")
-        let data = img.jpegData(compressionQuality: 0.5)
-        let metaData = StorageMetadata()
-        metaData.contentType = "Image/png"
-        
-        //upload data
-        if let data = data {
-            storageRef.putData(data, metadata: metaData) { (metaData, err) in
-                if let err = err {
-                    print("err when uploading jpg\n\(err)")
-                }
-                
-                if let metaData = metaData {
-                    print("metaData: \(metaData)")
+    static func uploadImage(img: UIImage, name: String, dic: String) -> AnyPublisher<Void, Error>{
+        Future<Void, Error> { promise in
+            let storageRef = storage.reference().child("images/\(dic)/\(name)")
+            let data = img.jpegData(compressionQuality: 0.5)
+            let metaData = StorageMetadata()
+            metaData.contentType = "Image/png"
+            
+            //upload data
+            if let data = data {
+                storageRef.putData(data, metadata: metaData) { (metaData, err) in
+                    if let err = err {
+                        print("err when uploading jpg\n\(err)")
+                    }
+                    
+                    if let metaData = metaData {
+                        print("metaData: \(metaData)")
+                    }
                 }
             }
         }
+        .eraseToAnyPublisher()
     }
+        
 }
