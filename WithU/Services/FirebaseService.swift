@@ -83,5 +83,43 @@ struct FirebaseService {
         }
         .eraseToAnyPublisher()
     }
+    
+    //FireStorage에서 이미지 가져오기
+    static func fetchImage(imageName: String, id: String) -> AnyPublisher<UIImage, Error> {
+        Future<UIImage, Error> { promise in
+            let ref = storage.reference().child("images/\(id)/" + "\(imageName)")
+            
+            ref.getData(maxSize: 1 * 1024 * 1024) { data, error in
+                if let error = error {
+                    print("error while downloading image\n\(error.localizedDescription)")
+                    promise(.failure(error))
+                    return
+                } else {
+                    promise(.success(UIImage(data: data!) ?? UIImage()))
+                    
+                }
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    static func fetchImage2(imageName: String, id: String) -> UIImage? {
+        let ref = storage.reference().child("images/\(id)/" + "\(imageName)")
+        var image: UIImage?
         
+        ref.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            if let error = error {
+                print("error while downloading image\n\(error.localizedDescription)")
+                
+                return
+            } else {
+                image = UIImage(data: data!)
+                print("fetchImage2")
+                print(image)
+                
+            }
+        }
+        return image
+    }
+    
 }

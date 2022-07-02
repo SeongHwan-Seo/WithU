@@ -59,6 +59,8 @@ class HomeViewModel: ObservableObject {
     
     //사용자 정보 불러오기
     func loadUser() {
+        var chk = true
+        
         FirebaseService.fetchUser()
             .sink{ (completion) in
                 switch completion {
@@ -67,12 +69,36 @@ class HomeViewModel: ObservableObject {
                     return
                 case .finished:
                     print("finished : \(self.user.nickName)")
-                    self.isLoading = true
+                    print("finished")
+                    print(self.selectedImage)
+                    if self.user.imageString == "" && self.user.uimageString == "" {
+                        self.isLoading = true
+                    } else {
+                        self.setImage()
+                    }
+                    
+                    //self.isLoading = true
                     return
                 }
             } receiveValue: { [weak self] (user) in
                 self?.user = user
-                print("receiveValue : \(user.nickName)")
+                print("receiveValue")
+                print(self?.selectedImage)
+//                if self?.user.imageString != "" {
+//                    chk = false
+//
+//                    if self?.selectedImage != nil {
+//                        chk = true
+//                    }
+//                }
+//
+//                if self?.user.uimageString != "" {
+//                    chk = false
+//
+//                    if self?.uselectedImage != nil {
+//                        chk = true
+//                    }
+//                }
             }
             .store(in: &cancellables)
     }
@@ -92,24 +118,60 @@ class HomeViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
+    func setImage() {
+        if self.user.imageString != "" {
+            FirebaseService.fetchImage(imageName: user.imageString, id: user.id!)
+                .sink{ (completion) in
+                    switch completion {
+                    case .failure(let error):
+                        print(error)
+                        return
+                    case .finished:
+                        self.isLoading = true
+                        return
+                    }
+                } receiveValue: { [weak self] (image) in
+                    self?.selectedImage = image
+                }
+                .store(in: &cancellables)
+        }
+        
+        if self.user.uimageString != "" {
+            FirebaseService.fetchImage(imageName: user.uimageString, id: user.id!)
+                .sink{ (completion) in
+                    switch completion {
+                    case .failure(let error):
+                        print(error)
+                        return
+                    case .finished:
+                        self.isLoading = true
+                        return
+                    }
+                } receiveValue: { [weak self] (image) in
+                    self?.uselectedImage = image
+                }
+                .store(in: &cancellables)
+        }
+    }
+    
+    func setImage2() {
+        if self.user.imageString != "" {
+            let image = FirebaseService.fetchImage2(imageName: user.imageString, id: user.id!)
+            print(image)
+            selectedImage = image
+        }
+        if self.user.uimageString != "" {
+            let image = FirebaseService.fetchImage2(imageName: user.uimageString, id: user.id!)
+            uselectedImage = image
+        }
+        
+        self.isLoading = true
+    }
     
     
     
     
-    //FireStorage에서 이미지 가져오기
-    //    func fetchImage(imageName: String) {
-    //        let ref = storage.reference().child("images/" + "\(imageName)")
-    //
-    //        ref.getData(maxSize: 1 * 1024 * 1024) { data, error in
-    //            if let error = error {
-    //                print("error while downloading image\n\(error.localizedDescription)")
-    //                return
-    //            } else {
-    //                let image = UIImage(data: data!)
-    //                //self.user.image = Image(uiImage: image!)
-    //            }
-    //        }
-    //    }
+    
 }
 
 
