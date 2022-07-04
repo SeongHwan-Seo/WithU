@@ -103,23 +103,5 @@ struct FirebaseService {
         .eraseToAnyPublisher()
     }
     
-    static func fetchImage2(imageName: String, id: String) -> UIImage? {
-        let ref = storage.reference().child("images/\(id)/" + "\(imageName)")
-        var image: UIImage?
-        
-        ref.getData(maxSize: 1 * 1024 * 1024) { data, error in
-            if let error = error {
-                print("error while downloading image\n\(error.localizedDescription)")
-                
-                return
-            } else {
-                image = UIImage(data: data!)
-                print("fetchImage2")
-                print(image)
-                
-            }
-        }
-        return image
-    }
     
 }

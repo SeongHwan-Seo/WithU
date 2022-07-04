@@ -59,7 +59,6 @@ class HomeViewModel: ObservableObject {
     
     //사용자 정보 불러오기
     func loadUser() {
-        var chk = true
         
         FirebaseService.fetchUser()
             .sink{ (completion) in
@@ -68,9 +67,6 @@ class HomeViewModel: ObservableObject {
                     print(error)
                     return
                 case .finished:
-                    print("finished : \(self.user.nickName)")
-                    print("finished")
-                    print(self.selectedImage)
                     if self.user.imageString == "" && self.user.uimageString == "" {
                         self.isLoading = true
                     } else {
@@ -82,23 +78,7 @@ class HomeViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] (user) in
                 self?.user = user
-                print("receiveValue")
-                print(self?.selectedImage)
-//                if self?.user.imageString != "" {
-//                    chk = false
-//
-//                    if self?.selectedImage != nil {
-//                        chk = true
-//                    }
-//                }
-//
-//                if self?.user.uimageString != "" {
-//                    chk = false
-//
-//                    if self?.uselectedImage != nil {
-//                        chk = true
-//                    }
-//                }
+
             }
             .store(in: &cancellables)
     }
@@ -119,6 +99,7 @@ class HomeViewModel: ObservableObject {
     }
     
     func setImage() {
+        var chk = true
         if self.user.imageString != "" {
             FirebaseService.fetchImage(imageName: user.imageString, id: user.id!)
                 .sink{ (completion) in
@@ -127,7 +108,11 @@ class HomeViewModel: ObservableObject {
                         print(error)
                         return
                     case .finished:
-                        self.isLoading = true
+                        if self.user.uimageString != "" {
+                            chk = false
+                        }
+                        if chk { self.isLoading = true }
+                        
                         return
                     }
                 } receiveValue: { [weak self] (image) in
@@ -153,23 +138,6 @@ class HomeViewModel: ObservableObject {
                 .store(in: &cancellables)
         }
     }
-    
-    func setImage2() {
-        if self.user.imageString != "" {
-            let image = FirebaseService.fetchImage2(imageName: user.imageString, id: user.id!)
-            print(image)
-            selectedImage = image
-        }
-        if self.user.uimageString != "" {
-            let image = FirebaseService.fetchImage2(imageName: user.uimageString, id: user.id!)
-            uselectedImage = image
-        }
-        
-        self.isLoading = true
-    }
-    
-    
-    
     
     
 }
