@@ -8,49 +8,124 @@
 import SwiftUI
 
 struct ChangeMessageView: View {
-    //@StateObject var viewModel: HomeViewModel
+    @StateObject var viewModel: HomeViewModel
+    @Binding var isShowingChangeMessagePopup: Bool
     @State var message = "With U"
-    @State var dDay = Date()
-    private var formatter: DateFormatter = {
-       let formatter = DateFormatter()
+    @State var dDay: Date? = Date()
+    @State var showDatePicker: Bool = false
+    var formatter: DateFormatter = {
+        let formatter = DateFormatter()
         formatter.dateFormat = "YYYY년 M월 d일"
         return formatter
     }()
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            HStack {
-                Image(systemName: "highlighter")
-                TextField("문구를 입력해 주세요.", text: $message)
-            }
-            
-            HStack {
-                Image(systemName: "calendar")
-                Text("\(dDay, formatter: formatter)")
-            }
-            Button(action: {
+        ZStack {
+            VStack(alignment: .leading, spacing: 10) {
+                HStack() {
+                    Image(systemName: "highlighter")
+                        .foregroundColor(.black)
+                    VStack {
+                        TextField("문구를 입력해 주세요.", text: $message)
+                            .frame(width: 150)
+                    }
+                    .foregroundColor(.black)
+                    
+                }
                 
-            }, label: {
-                Text("저장")
                 
-                    .fontWeight(.bold)
-                    .foregroundColor(.buttonForeground)
-            })
-            .frame(width: 250, height: 30)
-            .background(Color.buttonBackground)
+                HStack {
+                    Image(systemName: "calendar")
+                        .foregroundColor(.black)
+                    Text("\(dDay ?? Date(), formatter: formatter)")
+                        .onTapGesture {
+                            showDatePicker.toggle()
+                        }
+                        .foregroundColor(.black)
+                }
+                
+                
+                
+                
+                Button(action: {
+                    isShowingChangeMessagePopup.toggle()
+                }, label: {
+                    Text("저장")
+                    
+                        .fontWeight(.bold)
+                        .foregroundColor(.buttonForeground)
+                })
+                .frame(width: 250, height: 30)
+                .background(Color.buttonBackground)
+                .cornerRadius(12)
+                .padding(.top, 25)
+                
+            }
+            .frame(width: 250, height: 150)
+            .padding(10)
+            .background(.white)
             .cornerRadius(12)
-//            DatePicker(selection: $dDay, in: ...Date(), displayedComponents: .date) {
-//                Text("날짜를 선택하세요.")
-//            }
-//            .environment(\.locale, Locale.init(identifier: "ko"))
             
+            
+            if showDatePicker {
+                DatePickerWithButtons(showDatePicker: $showDatePicker, savedDate: $dDay, selectedDate: dDay ?? Date())
+            }
         }
-        .padding(10)
+        
     }
 }
 
-struct ChangeMessageView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChangeMessageView()
+struct DatePickerWithButtons: View {
+    
+    @Binding var showDatePicker: Bool
+    @Binding var savedDate: Date?
+    @State var selectedDate: Date = Date()
+    
+    var body: some View {
+        
+            
+            
+            VStack {
+                DatePicker("Test", selection: $selectedDate, in: ...Date(), displayedComponents: [.date])
+                    .datePickerStyle(GraphicalDatePickerStyle())
+                    
+                    .accentColor(Color.buttonBackground)
+                    
+                
+                Divider()
+                HStack {
+                    
+                    Button(action: {
+                        showDatePicker = false
+                    }, label: {
+                        Text("취소")
+                    })
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        savedDate = selectedDate
+                        showDatePicker = false
+                    }, label: {
+                        Text("선택".uppercased())
+                            .bold()
+                    })
+                    
+                }
+                .padding(.horizontal)
+                
+            }
+            .padding()
+            .background(
+                Color.white
+                    .cornerRadius(30)
+            )
+            .frame(width: 330, height: 280)
+            
+            
+        
+        
     }
 }
+
+

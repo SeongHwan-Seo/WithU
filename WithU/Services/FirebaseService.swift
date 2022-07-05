@@ -64,7 +64,7 @@ struct FirebaseService {
     static func uploadImage(img: UIImage, name: String, dic: String) -> AnyPublisher<Void, Error>{
         Future<Void, Error> { promise in
             let storageRef = storage.reference().child("images/\(dic)/\(name)")
-            let data = img.jpegData(compressionQuality: 0.5)
+            let data = img.jpegData(compressionQuality: 0.2)
             let metaData = StorageMetadata()
             metaData.contentType = "Image/png"
             

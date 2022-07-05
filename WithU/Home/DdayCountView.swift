@@ -8,17 +8,21 @@
 import SwiftUI
 
 struct DdayCountView: View {
-    @Binding var dDay: Dday
+    @StateObject var viewModel: HomeViewModel
+    @Binding var isShowingChangeMessagePopup: Bool
     var body: some View {
         VStack {
-            Text(dDay.message)
+            Text(viewModel.user.message)
                 .font(.system(size: 30, weight: .bold, design: .rounded))
                 .foregroundColor(.black)
-            Text(dDay.count)
+            Text(viewModel.user.count)
                 .font(.system(size: 26, weight: .bold, design: .rounded))
                 .foregroundColor(.black)
         }
         .padding(.top, 30)
+        .onTapGesture {
+            isShowingChangeMessagePopup.toggle()
+        }
     }
 }
 
