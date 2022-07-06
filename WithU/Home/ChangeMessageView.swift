@@ -63,7 +63,7 @@ struct ChangeMessageView: View {
             }
             .frame(width: 250, height: 150)
             .padding(10)
-            .background(.background)
+            .background(Color.popBackgroundColor)
             .cornerRadius(12)
             
             
@@ -118,7 +118,7 @@ struct DatePickerWithButtons: View {
             }
             .padding()
             .background(
-                Color.backgroundColor
+                Color.popBackgroundColor
                     .cornerRadius(30)
             )
             .frame(width: 330, height: 280)

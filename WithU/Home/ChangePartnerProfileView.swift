@@ -52,7 +52,7 @@ struct ChangePartnerProfileView: View {
                 
             }
             .padding()
-            .background(Color.backgroundColor)
+            .background(Color.popBackgroundColor)
             .cornerRadius(12)
         }
         

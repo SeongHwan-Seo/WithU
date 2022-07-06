@@ -13,5 +13,5 @@ extension Color {
     static let buttonForeground = Color("ButtonForeground")
     static let backgroundColor = Color("BackgroundColor")
     static let ForegroundColor = Color("ForegroundColor")
-    static let sheetColor = Color("SheetColor")
+    static let popBackgroundColor = Color("PopBackgroundColor")
 }

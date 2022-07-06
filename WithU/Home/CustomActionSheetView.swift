@@ -76,7 +76,7 @@ struct CustomActionSheetView: View {
         }.padding(.bottom, (UIApplication.shared.windows.last?.safeAreaInsets.bottom)! + 10)
             .padding(.horizontal)
             .padding(.top, 20)
-            .background(Color.sheetColor)
+            .background(Color.popBackgroundColor)
             .cornerRadius(20)
         
     }
