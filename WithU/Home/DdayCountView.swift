@@ -14,10 +14,10 @@ struct DdayCountView: View {
         VStack {
             Text(viewModel.user.message)
                 .font(.system(size: 30, weight: .bold, design: .rounded))
-                .foregroundColor(.black)
+                .foregroundColor(.ForegroundColor)
             Text(viewModel.user.count)
                 .font(.system(size: 26, weight: .bold, design: .rounded))
-                .foregroundColor(.black)
+                .foregroundColor(.ForegroundColor)
         }
         .padding(.top, 30)
         .onTapGesture {

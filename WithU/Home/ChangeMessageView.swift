@@ -24,24 +24,24 @@ struct ChangeMessageView: View {
             VStack(alignment: .leading, spacing: 10) {
                 HStack() {
                     Image(systemName: "highlighter")
-                        .foregroundColor(.black)
+                        .foregroundColor(.ForegroundColor)
                     VStack {
                         TextField("문구를 입력해 주세요.", text: $message)
                             .frame(width: 150)
                     }
-                    .foregroundColor(.black)
+                    .foregroundColor(.ForegroundColor)
                     
                 }
                 
                 
                 HStack {
                     Image(systemName: "calendar")
-                        .foregroundColor(.black)
+                        .foregroundColor(.ForegroundColor)
                     Text("\(dDay ?? Date(), formatter: formatter)")
                         .onTapGesture {
                             showDatePicker.toggle()
                         }
-                        .foregroundColor(.black)
+                        .foregroundColor(.ForegroundColor)
                 }
                 
                 
@@ -63,7 +63,7 @@ struct ChangeMessageView: View {
             }
             .frame(width: 250, height: 150)
             .padding(10)
-            .background(.white)
+            .background(.background)
             .cornerRadius(12)
             
             
@@ -100,6 +100,7 @@ struct DatePickerWithButtons: View {
                     }, label: {
                         Text("취소")
                     })
+                    .foregroundColor(Color.ForegroundColor)
                     
                     Spacer()
                     
@@ -110,14 +111,14 @@ struct DatePickerWithButtons: View {
                         Text("선택".uppercased())
                             .bold()
                     })
-                    
+                    .foregroundColor(Color.ForegroundColor)
                 }
                 .padding(.horizontal)
                 
             }
             .padding()
             .background(
-                Color.white
+                Color.backgroundColor
                     .cornerRadius(30)
             )
             .frame(width: 330, height: 280)

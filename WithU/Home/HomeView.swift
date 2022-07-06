@@ -16,7 +16,7 @@ struct HomeView: View {
     var body: some View {
         ZStack {
             ZStack {
-                Color(.white)
+                Color.backgroundColor
                 VStack {
                     EmptyImageView()
                     CoupleImageView(viewModel: viewModel, isShowingChangeUserPopup: $isShowingChangeUserPopup, isShowingChangePartnerPopup: $isShowingChangePartnerPopup)

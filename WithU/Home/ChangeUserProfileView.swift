@@ -27,14 +27,14 @@ struct ChangeUserProfileView: View {
                         Circle().stroke(Color.white, lineWidth: 2)
                     )
                     .shadow(radius: 7)
-                    .foregroundColor(.black)
+                    .foregroundColor(.ForegroundColor)
                     .onTapGesture {
                         isShowingPopupview.toggle()
                     }
                 VStack {
                     TextField("애칭을 입력하세요.", text: $viewModel.user.nickName )
                         .frame(width: 250)
-                        .foregroundColor(.black)
+                        .foregroundColor(.ForegroundColor)
                     Divider()
                         .frame(width: 250, height: 1)
                         .background(Color.gray)
@@ -54,7 +54,7 @@ struct ChangeUserProfileView: View {
                 
             }
             .padding()
-            .background(Color.white)
+            .background(Color.backgroundColor)
             .cornerRadius(12)
         }
         

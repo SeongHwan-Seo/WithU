@@ -48,7 +48,7 @@ struct CustomActionSheetView: View {
                 .sheet(isPresented: $imagePickerPresented,
                        onDismiss: setImageString,
                        content: { ImagePicker(image: $selectedImage) })
-                .foregroundColor(Color.black)
+                .foregroundColor(Color.ForegroundColor)
                 
                 Spacer()
             }
@@ -59,7 +59,7 @@ struct CustomActionSheetView: View {
                     Text("카메라로 찍기")
                     
                 }
-                .foregroundColor(Color.black)
+                .foregroundColor(Color.ForegroundColor)
                 Spacer()
             }
             HStack {
@@ -70,13 +70,13 @@ struct CustomActionSheetView: View {
                     Text("취소")
                     
                 }
-                .foregroundColor(Color.black)
+                .foregroundColor(Color.ForegroundColor)
                 Spacer()
             }
         }.padding(.bottom, (UIApplication.shared.windows.last?.safeAreaInsets.bottom)! + 10)
             .padding(.horizontal)
             .padding(.top, 20)
-            .background(Color.white)
+            .background(Color.sheetColor)
             .cornerRadius(20)
         
     }

@@ -49,10 +49,10 @@ struct UserView: View {
                     Circle().stroke(Color.white, lineWidth: 2)
                 )
                 .shadow(radius: 7)
-                .foregroundColor(.black)
+                .foregroundColor(.ForegroundColor)
             
             Text(user.nickName)
-                .foregroundColor(.black)
+                .foregroundColor(.ForegroundColor)
             
         }
     }
@@ -72,10 +72,10 @@ struct PartnerView: View {
                     Circle().stroke(Color.white, lineWidth: 2)
                 )
                 .shadow(radius: 7)
-                .foregroundColor(.black)
+                .foregroundColor(.ForegroundColor)
             
             Text(user.unickName)
-                .foregroundColor(.black)
+                .foregroundColor(.ForegroundColor)
         }
     }
 }
