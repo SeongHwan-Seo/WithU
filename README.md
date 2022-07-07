@@ -1,2 +1,2 @@
 # WithU
-Couple Diary App
+Couple D-day App
