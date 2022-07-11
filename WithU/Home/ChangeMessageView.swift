@@ -16,12 +16,12 @@ struct ChangeMessageView: View {
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYY년 M월 d일"
         return formatter
-    }()
+    }() //사용자에게 보이는 formatter
     var onlyDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYY-MM-dd"
         return formatter
-    }()
+    }() //파이어베이스 저장 formatter
     
     var body: some View {
         ZStack {

@@ -15,7 +15,7 @@ class HomeViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     @Published var user: User = User()
-    @Published var dDay: Dday = Dday(message: "With U", count: "1일")
+    @Published var dayCount: Int = 1
     @Published var selectedImage: UIImage?
     @Published var uselectedImage: UIImage?
     @Published var isLoading: Bool = false
@@ -96,6 +96,12 @@ class HomeViewModel: ObservableObject {
                 }
             } receiveValue: { _ in }
             .store(in: &cancellables)
+    }
+    
+    //사귄날짜 ~ 오늘까지 일 수
+    func days(from date: Date) -> Int {
+        print(Calendar.current.dateComponents([.day], from: date, to: Date()).day ?? 0 + 1)
+        return Calendar.current.dateComponents([.day], from: date, to: Date()).day ?? 0 + 1
     }
     
     func setImage() {

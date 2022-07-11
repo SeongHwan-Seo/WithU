@@ -15,7 +15,7 @@ struct DdayCountView: View {
             Text(viewModel.user.message)
                 .font(.system(size: 30, weight: .bold, design: .rounded))
                 .foregroundColor(.ForegroundColor)
-            Text(viewModel.user.count)
+            Text("\(viewModel.days(from: viewModel.user.date ?? Date()))일")
                 .font(.system(size: 26, weight: .bold, design: .rounded))
                 .foregroundColor(.ForegroundColor)
         }
