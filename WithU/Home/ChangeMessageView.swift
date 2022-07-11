@@ -10,12 +10,16 @@ import SwiftUI
 struct ChangeMessageView: View {
     @StateObject var viewModel: HomeViewModel
     @Binding var isShowingChangeMessagePopup: Bool
-    @State var message = "With U"
-    @State var dDay: Date? = Date()
+    //@State var dDay: Date? = Date()
     @State var showDatePicker: Bool = false
     var formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYY년 M월 d일"
+        return formatter
+    }()
+    var onlyDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY-MM-dd"
         return formatter
     }()
     
@@ -26,7 +30,7 @@ struct ChangeMessageView: View {
                     Image(systemName: "highlighter")
                         .foregroundColor(.ForegroundColor)
                     VStack {
-                        TextField("문구를 입력해 주세요.", text: $message)
+                        TextField("문구를 입력해 주세요.", text: $viewModel.user.message)
                             .frame(width: 150)
                     }
                     .foregroundColor(.ForegroundColor)
@@ -37,7 +41,7 @@ struct ChangeMessageView: View {
                 HStack {
                     Image(systemName: "calendar")
                         .foregroundColor(.ForegroundColor)
-                    Text("\(dDay ?? Date(), formatter: formatter)")
+                    Text("\(viewModel.user.date ?? Date(), formatter: formatter)")
                         .onTapGesture {
                             showDatePicker.toggle()
                         }
@@ -48,12 +52,16 @@ struct ChangeMessageView: View {
                 
                 
                 Button(action: {
+                    viewModel.updateUser()
                     isShowingChangeMessagePopup.toggle()
+                    print(onlyDateFormatter.string(from: viewModel.user.date ?? Date()))
+                    
                 }, label: {
                     Text("저장")
                     
                         .fontWeight(.bold)
                         .foregroundColor(.buttonForeground)
+                    
                 })
                 .frame(width: 250, height: 30)
                 .background(Color.buttonBackground)
@@ -68,7 +76,7 @@ struct ChangeMessageView: View {
             
             
             if showDatePicker {
-                DatePickerWithButtons(showDatePicker: $showDatePicker, savedDate: $dDay, selectedDate: dDay ?? Date())
+                DatePickerWithButtons(showDatePicker: $showDatePicker, savedDate: $viewModel.user.date, selectedDate: viewModel.user.date ?? Date())
             }
         }
         
@@ -80,7 +88,11 @@ struct DatePickerWithButtons: View {
     @Binding var showDatePicker: Bool
     @Binding var savedDate: Date?
     @State var selectedDate: Date = Date()
-    
+//    var formatter: DateFormatter = {
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "YYYY-MM-dd"
+//        return formatter
+//    }()
     var body: some View {
         
             
@@ -107,6 +119,7 @@ struct DatePickerWithButtons: View {
                     Button(action: {
                         savedDate = selectedDate
                         showDatePicker = false
+                        //print(formatter.string(from: savedDate ?? Date()))
                     }, label: {
                         Text("선택".uppercased())
                             .bold()
