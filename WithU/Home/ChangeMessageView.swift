@@ -6,12 +6,26 @@
 //
 
 import SwiftUI
+//체크박스 트일 토글
+struct CheckboxToggleStyle: ToggleStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        return HStack {
+            
+            Image(systemName: configuration.isOn ? "checkmark.square" : "square")
+                .resizable()
+                .frame(width: 18, height: 18)
+                .onTapGesture { configuration.isOn.toggle() }
+            configuration.label
+        }
+    }
+}
 
 struct ChangeMessageView: View {
     @StateObject var viewModel: HomeViewModel
     @Binding var isShowingChangeMessagePopup: Bool
     //@State var dDay: Date? = Date()
     @State var showDatePicker: Bool = false
+    @State private var isToggle: Bool = UserDefaults.standard.bool(forKey: "check")
     var formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYY년 M월 d일"
@@ -48,25 +62,32 @@ struct ChangeMessageView: View {
                         .foregroundColor(.ForegroundColor)
                 }
                 
+                HStack {
+                    Toggle(isOn: $isToggle) {
+                        Text("1일부터 시작")
+                            .foregroundColor(.ForegroundColor)
+                    }
+                    .toggleStyle(CheckboxToggleStyle())
+                }
+                
                 
                 
                 
                 Button(action: {
                     viewModel.updateUser()
                     isShowingChangeMessagePopup.toggle()
-                    print(onlyDateFormatter.string(from: viewModel.user.date ?? Date()))
+                    UserDefaults.standard.set(self.isToggle, forKey: "check")
                     
                 }, label: {
                     Text("저장")
-                    
                         .fontWeight(.bold)
                         .foregroundColor(.buttonForeground)
-                    
+                        .frame(width: 250, height: 30)
                 })
                 .frame(width: 250, height: 30)
                 .background(Color.buttonBackground)
                 .cornerRadius(12)
-                .padding(.top, 25)
+                .padding(.top, 15)
                 
             }
             .frame(width: 250, height: 150)

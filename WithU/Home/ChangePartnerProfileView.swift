@@ -44,6 +44,7 @@ struct ChangePartnerProfileView: View {
                         
                             .fontWeight(.bold)
                             .foregroundColor(.buttonForeground)
+                            .frame(width: 250, height: 30)
                     })
                     .frame(width: 250, height: 30)
                     .background(Color.buttonBackground)

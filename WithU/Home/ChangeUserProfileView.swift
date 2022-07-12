@@ -43,9 +43,9 @@ struct ChangeUserProfileView: View {
                         isShowingChangeUserPopup.toggle()
                     }, label: {
                         Text("확인")
-                        
                             .fontWeight(.bold)
                             .foregroundColor(.buttonForeground)
+                            .frame(width: 250, height: 30)
                     })
                     .frame(width: 250, height: 30)
                     .background(Color.buttonBackground)

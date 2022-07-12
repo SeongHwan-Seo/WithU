@@ -100,8 +100,16 @@ class HomeViewModel: ObservableObject {
     
     //사귄날짜 ~ 오늘까지 일 수
     func days(from date: Date) -> Int {
-        print(Calendar.current.dateComponents([.day], from: date, to: Date()).day ?? 0 + 1)
-        return Calendar.current.dateComponents([.day], from: date, to: Date()).day ?? 0 + 1
+        
+        var dayCount = Calendar.current.dateComponents([.day], from: date, to: Date()).day
+        
+        if UserDefaults.standard.bool(forKey: "check") {
+            return Int(dayCount ?? 0) + 1
+        } else {
+            return Int(dayCount ?? 0)
+        }
+        
+        //return Int(dayCount ?? 0) + 1
     }
     
     func setImage() {
