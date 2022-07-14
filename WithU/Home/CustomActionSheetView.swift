@@ -11,7 +11,7 @@ struct CustomActionSheetView: View {
     @StateObject var viewModel: HomeViewModel
     @Binding var isShowingPopupview: Bool
     @Binding var selectedImage: UIImage?
-    @Binding var choice: Int //1 -> 내 프로필, 2 -> 파트너 프로필
+    @Binding var choice: Int //1 -> 내 프로필, 2 -> 파트너 프로필, 3 -> bgImage
     @State var imagePickerPresented = false
     @State private var profileImage: Image?
     func setImageString() {
@@ -27,6 +27,14 @@ struct CustomActionSheetView: View {
                 let uImageString = (viewModel.user.id ?? "") + "uImage"
                 viewModel.user.uimageString = uImageString
                 viewModel.uploadImage(img: viewModel.uselectedImage!, name: uImageString)
+            }
+        case 3:
+            if viewModel.bgSelectedImage != nil {
+                let bgImageString = (viewModel.user.id ?? "") + "bgImage"
+                viewModel.user.bgImageString = bgImageString
+                viewModel.uploadImage(img: viewModel.bgSelectedImage!, name: bgImageString)
+                
+                viewModel.updateUser()
             }
         default:
             return

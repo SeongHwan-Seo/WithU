@@ -21,7 +21,9 @@ struct User: Codable, Identifiable {
     // User info message and D-day count
     var message: String = "With U"
     var date: Date? = Date()
-    //var count: String = "1일"
+    // backgroundImage
+    var bgImageString: String = ""
+    
     
 
     

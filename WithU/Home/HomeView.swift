@@ -12,19 +12,33 @@ struct HomeView: View {
     @State var isShowingChangeUserPopup = false
     @State var isShowingChangePartnerPopup = false
     @State var isShowingChangeMessagePopup = false
+    @State var isShowingPopupview = false
+    @State var choice = 3
     
     var body: some View {
         ZStack {
             ZStack {
                 Color.backgroundColor
+                //
                 VStack {
-                    EmptyImageView()
+                    BgImageView(viewModel: viewModel)
+                        .onTapGesture {
+                            isShowingPopupview.toggle()
+                        }
                     CoupleImageView(viewModel: viewModel, isShowingChangeUserPopup: $isShowingChangeUserPopup, isShowingChangePartnerPopup: $isShowingChangePartnerPopup)
                     DdayCountView(viewModel: viewModel, isShowingChangeMessagePopup: $isShowingChangeMessagePopup)
                     
                     Spacer()
                 }
                 .edgesIgnoringSafeArea(.all)
+                
+                //
+                VStack {
+                    Spacer()
+                    
+                    CustomActionSheetView(viewModel: viewModel, isShowingPopupview: $isShowingPopupview, selectedImage: $viewModel.bgSelectedImage, choice: $choice).offset(y: self.isShowingPopupview ? 0 : UIScreen.main.bounds.height)
+                }.background(self.isShowingPopupview ? Color.black.opacity(0.3) : Color.clear)
+                    .edgesIgnoringSafeArea(.bottom)
             }
             
             if self.isShowingChangeUserPopup{
@@ -60,6 +74,8 @@ struct HomeView: View {
                 )
                 
             }
+            
+            
             
         }
         

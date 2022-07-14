@@ -18,6 +18,7 @@ class HomeViewModel: ObservableObject {
     @Published var dayCount: Int = 1
     @Published var selectedImage: UIImage?
     @Published var uselectedImage: UIImage?
+    @Published var bgSelectedImage: UIImage?
     @Published var isLoading: Bool = false
     let db = Firestore.firestore()
     //let storage = Storage.storage()
@@ -67,7 +68,7 @@ class HomeViewModel: ObservableObject {
                     print(error)
                     return
                 case .finished:
-                    if self.user.imageString == "" && self.user.uimageString == "" {
+                    if self.user.imageString == "" && self.user.uimageString == "" && self.user.bgImageString == "" {
                         self.isLoading = true
                     } else {
                         self.setImage()
@@ -143,7 +144,11 @@ class HomeViewModel: ObservableObject {
                         print(error)
                         return
                     case .finished:
-                        self.isLoading = true
+                        if self.user.bgImageString != "" {
+                            chk = false
+                        }
+                        if chk { self.isLoading = true }
+                        
                         return
                     }
                 } receiveValue: { [weak self] (image) in
@@ -151,6 +156,26 @@ class HomeViewModel: ObservableObject {
                 }
                 .store(in: &cancellables)
         }
+        
+        if self.user.bgImageString != "" {
+            FirebaseService.fetchImage(imageName: user.bgImageString, id: user.id!)
+                .sink{ (completion) in
+                    switch completion {
+                    case .failure(let error):
+                        print(error)
+                        return
+                    case .finished:
+                        self.isLoading = true
+                        
+                        return
+                    }
+                } receiveValue: { [weak self] (image) in
+                    self?.bgSelectedImage = image
+                }
+                .store(in: &cancellables)
+        }
+        
+        
     }
     
     
