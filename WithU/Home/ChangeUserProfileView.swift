@@ -32,7 +32,7 @@ struct ChangeUserProfileView: View {
                         isShowingPopupview.toggle()
                     }
                 VStack {
-                    TextField("애칭을 입력하세요.", text: $viewModel.user.nickName )
+                    TextField("애칭을 입력하세요.", text: $viewModel.user.nickName)
                         .frame(width: 250)
                         .foregroundColor(.ForegroundColor)
                     Divider()
@@ -50,6 +50,7 @@ struct ChangeUserProfileView: View {
                     .frame(width: 250, height: 30)
                     .background(Color.buttonBackground)
                     .cornerRadius(12)
+                    //.disabled(viewModel.user.nickName.isEmpty)
                 }
                 
             }

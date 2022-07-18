@@ -10,6 +10,8 @@ import SwiftUI
 struct DdayCountView: View {
     @StateObject var viewModel: HomeViewModel
     @Binding var isShowingChangeMessagePopup: Bool
+    @Binding var isShowingMenuView: Bool
+    
     var body: some View {
         VStack {
             Text(viewModel.user.message)
@@ -21,7 +23,10 @@ struct DdayCountView: View {
         }
         .padding(.top, 30)
         .onTapGesture {
-            isShowingChangeMessagePopup.toggle()
+            if !isShowingMenuView {
+                isShowingChangeMessagePopup.toggle()
+            }
+            
         }
     }
 }

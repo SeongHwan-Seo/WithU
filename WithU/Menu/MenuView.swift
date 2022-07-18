@@ -8,14 +8,22 @@
 import SwiftUI
 
 struct MenuView: View {
-    @Binding var isShowing: Bool
+    @Environment(\.colorScheme) var colorScheme
+    @Binding var isShowingMenuView: Bool
+    
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [Color(red: 225/255, green: 218/255, blue: 244/255), Color(red: 196/255, green: 203/255, blue: 242/255)]), startPoint: .top, endPoint: .bottom) 
-                .ignoresSafeArea()
+            if colorScheme == .dark {
+                Color.popBackgroundColor
+                    .ignoresSafeArea()
+            } else {
+                LinearGradient(gradient: Gradient(colors: [Color(red: 225/255, green: 218/255, blue: 244/255), Color(red: 196/255, green: 203/255, blue: 242/255)]), startPoint: .top, endPoint: .bottom)
+                    .ignoresSafeArea()
+            }
+            
             
             VStack {
-                MenuHeadView(isShowing: $isShowing)
+                MenuHeadView(isShowingMenuView: $isShowingMenuView)
                     .frame(height: 200)
                 
                 ForEach(MenuViewModel.allCases, id: \.self) { option in
@@ -46,6 +54,6 @@ func chooseDefinition(index: Int) -> some View {
 
 struct MenuView_Previews: PreviewProvider {
     static var previews: some View {
-        MenuView(isShowing: .constant(true))
+        MenuView(isShowingMenuView: .constant(true))
     }
 }

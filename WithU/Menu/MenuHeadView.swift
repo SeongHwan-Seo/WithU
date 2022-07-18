@@ -9,14 +9,14 @@ import SwiftUI
 import Lottie
 
 struct MenuHeadView: View {
-    @Binding var isShowing: Bool
+    @Binding var isShowingMenuView: Bool
     
     var body: some View {
         ZStack(alignment: .topTrailing) {
             
             Button(action: {
                 withAnimation(.spring()) {
-                    isShowing.toggle()
+                    isShowingMenuView.toggle()
                 }
             }, label: {
                 Image(systemName: "xmark")
@@ -55,6 +55,6 @@ struct MenuHeadView: View {
 
 struct MenuHeadView_Previews: PreviewProvider {
     static var previews: some View {
-        MenuHeadView(isShowing: .constant(true))
+        MenuHeadView(isShowingMenuView: .constant(true))
     }
 }

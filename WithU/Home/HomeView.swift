@@ -14,6 +14,7 @@ struct HomeView: View {
     @State var isShowingChangeMessagePopup = false
     @State var isShowingPopupview = false
     @State var choice = 3
+    @Binding var isShowingMenuView: Bool
     
     var body: some View {
         ZStack {
@@ -23,10 +24,13 @@ struct HomeView: View {
                 VStack {
                     BgImageView(viewModel: viewModel)
                         .onTapGesture {
-                            isShowingPopupview.toggle()
+                            if !isShowingMenuView {
+                                isShowingPopupview.toggle()
+                            }
+                            
                         }
-                    CoupleImageView(viewModel: viewModel, isShowingChangeUserPopup: $isShowingChangeUserPopup, isShowingChangePartnerPopup: $isShowingChangePartnerPopup)
-                    DdayCountView(viewModel: viewModel, isShowingChangeMessagePopup: $isShowingChangeMessagePopup)
+                    CoupleImageView(viewModel: viewModel, isShowingChangeUserPopup: $isShowingChangeUserPopup, isShowingChangePartnerPopup: $isShowingChangePartnerPopup, isShowingMenuView: $isShowingMenuView)
+                    DdayCountView(viewModel: viewModel, isShowingChangeMessagePopup: $isShowingChangeMessagePopup, isShowingMenuView: $isShowingMenuView)
                     
                     Spacer()
                 }

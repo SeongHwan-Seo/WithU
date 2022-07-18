@@ -33,10 +33,16 @@ struct BgImageView: View {
             .aspectRatio(contentMode: .fit)
             
         } else {
-            Image(uiImage: viewModel.bgSelectedImage ?? UIImage())
-                .resizable()
-                .frame(width: .infinity, height: 400)
-                .aspectRatio(contentMode: .fit)
+            
+            VStack {
+                
+                Image(uiImage: viewModel.bgSelectedImage ?? UIImage())
+                    .resizable()
+                    .frame(width: UIScreen.main.bounds.width , height: 400)
+                    
+            } //VStack
+            
+            
         }
     }
 }

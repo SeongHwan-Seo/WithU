@@ -9,24 +9,24 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var viewModel = HomeViewModel()
-    @State private var isShowing = false
+    @State private var isShowingMenuView = false
     
     var body: some View {
         ZStack {
             NavigationView {
                 ZStack {
-                    if isShowing {
-                        MenuView(isShowing: $isShowing)
+                    if isShowingMenuView {
+                        MenuView(isShowingMenuView: $isShowingMenuView)
                         //.offset(y: 0)
                     }
-                    HomeView(viewModel: viewModel)
-                        .cornerRadius(isShowing ? 20 : 10)
-                        .offset(x: isShowing ? 200 : 0, y: isShowing ? 30 : 0)
-                        .scaleEffect(isShowing ? 0.8 : 1)
+                    HomeView(viewModel: viewModel, isShowingMenuView: $isShowingMenuView)
+                        .cornerRadius(isShowingMenuView ? 20 : 10)
+                        .offset(x: isShowingMenuView ? 200 : 0, y: isShowingMenuView ? 30 : 0)
+                        .scaleEffect(isShowingMenuView ? 0.8 : 1)
                         .navigationBarItems(leading: Button(
                             action: {
                                 withAnimation(.spring()) {
-                                    isShowing.toggle()
+                                    isShowingMenuView.toggle()
                                 }
                             },
                             label: {
@@ -37,11 +37,9 @@ struct ContentView: View {
                 }
                 .onAppear {
                     if UserDefaults.standard.string(forKey: "id") == nil {
-                        print("UserDefaults nil")
                         viewModel.setInitUser()
-                        //viewModel.loadUser()
+                        
                     } else {
-                        print("UserDefaults : OK")
                         viewModel.loadUser()
                     }
                     

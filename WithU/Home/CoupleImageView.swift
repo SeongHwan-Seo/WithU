@@ -11,13 +11,17 @@ struct CoupleImageView: View {
     @StateObject var viewModel: HomeViewModel
     @Binding var isShowingChangeUserPopup: Bool
     @Binding var isShowingChangePartnerPopup: Bool
+    @Binding var isShowingMenuView: Bool
     
     var body: some View {
         HStack {
             UserView(user: viewModel.user, viewModel: viewModel)
                 .onTapGesture{
-                    print(viewModel.user.nickName)
-                    isShowingChangeUserPopup.toggle()
+                    
+                    if !isShowingMenuView {
+                        isShowingChangeUserPopup.toggle()
+                    }
+                    
                 }
             
             
@@ -27,7 +31,11 @@ struct CoupleImageView: View {
             
             PartnerView(user: viewModel.user, viewModel: viewModel)
                 .onTapGesture{
-                    isShowingChangePartnerPopup.toggle()
+                    
+                    if !isShowingMenuView {
+                        isShowingChangePartnerPopup.toggle()
+                    }
+                    
                 }
             
         }
@@ -41,8 +49,9 @@ struct UserView: View {
     var body: some View {
         VStack {
             let image = viewModel.selectedImage == nil ? Image(systemName: "greaterthan") : Image(uiImage: viewModel.selectedImage ?? UIImage())
-                image
+            image
                 .resizable()
+                .aspectRatio(contentMode: .fill)
                 .frame(width: 90, height: 90)
                 .clipShape(Circle())
                 .overlay(
@@ -64,8 +73,9 @@ struct PartnerView: View {
     var body: some View {
         VStack {
             let image = viewModel.uselectedImage == nil ? Image(systemName: "lessthan") : Image(uiImage: viewModel.uselectedImage ?? UIImage())
-                image
+            image
                 .resizable()
+                .aspectRatio(contentMode: .fill)
                 .frame(width: 90, height: 90)
                 .clipShape(Circle())
                 .overlay(
