@@ -8,9 +8,42 @@
 import SwiftUI
 
 struct StoryView: View {
+    @Environment(\.presentationMode) var presentationMode
+    
     var body: some View {
-        Text("Story View")
-    }
+        ZStack {
+            ZStack(alignment: .top) {
+                Color.backgroundColor
+                    .ignoresSafeArea()
+                    .navigationBarBackButtonHidden(true)
+                    .navigationBarHidden(true)
+                HStack {
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }, label: {
+                        Image(systemName: "xmark")
+                            .imageScale(.large)
+                            .padding()
+                            .foregroundColor(.ForegroundColor)
+                    })
+                    
+                    Spacer()
+                    
+                    NavigationLink(
+                        destination: {
+                            CreateAnniversaryView()
+                        },
+                        label: {
+                            Image(systemName: "plus")
+                                .imageScale(.large)
+                                .padding()
+                                .foregroundColor(.ForegroundColor)
+                        })
+                }
+            }
+            
+            
+        }    }
 }
 
 struct StoryView_Previews: PreviewProvider {

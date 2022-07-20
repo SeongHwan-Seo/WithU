@@ -2,14 +2,12 @@
 //  AnniversaryViewModel.swift
 //  WithU
 //
-//  Created by seosh on 4/20/22.
+//  Created by seosh on 7/20/22.
 //
 
 import Foundation
+import SwiftUI
 
-struct AnniversaryViewModel {
-    var uuidString: String
-    var title: String
-    var date: Date
-    var dDay: Int
+class AnniversaryViewModel: ObservableObject {
+    
 }
