@@ -40,6 +40,7 @@ struct AnniversaryView: View {
                                 .padding()
                                 .foregroundColor(.ForegroundColor)
                         })
+                    
                 }
             }
             
