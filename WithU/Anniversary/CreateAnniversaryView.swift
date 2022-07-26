@@ -13,52 +13,68 @@ struct CreateAnniversaryView: View {
     @State var selectedDate = Date()
     
     var body: some View {
-        VStack {
-            TextField("제목을 입력하세요.", text: $title)
-                .font(.system(size: 20))
-                .textFieldStyle(.plain)
-                .foregroundColor(.ForegroundColor)
-            Divider()
-                .frame(maxWidth: .infinity)
-            DatePicker(selection: $selectedDate,
-                       in: Date()...,
-                       displayedComponents: [.date]){}
-                .labelsHidden()
-                .datePickerStyle(.graphical)
-                .accentColor(.buttonBackground)
-            
-            Spacer()
-            
-            Button(
-                action: {
+        ZStack(alignment: .top) {
+            ZStack(alignment: .top) {
+                Color.backgroundColor
+                    .ignoresSafeArea()
+                    .navigationBarBackButtonHidden(true)
+                    .navigationBarHidden(true)
+                
+                HStack {
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }, label: {
+                        Text("취소")
+                            .font(.headline)
+                            .foregroundColor(.ForegroundColor)
+                    })
                     
-                },
-                label: {
-                    Text("저장")
-                        .font(.system(size: 20))
-                        .fontWeight(.bold)
-                        .foregroundColor(.buttonForeground)
-                        .frame(maxWidth: .infinity, maxHeight: 50)
-                })
-            .frame(maxWidth: .infinity, maxHeight: 50)
-            .background(Color.buttonBackground)
-            .cornerRadius(12)
+                    Spacer()
+                    
+                    Text("기념일 등록")
+                        .font(.headline)
+                        .foregroundColor(.ForegroundColor)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        
+                    }, label: {
+                        Text("저장")
+                            .font(.headline)
+                            .foregroundColor(.buttonBackground)
+                    })
+                }
+                .padding()
+            }
+            
+            VStack {
+                TextField("제목을 입력하세요.", text: $title)
+                    .font(.system(size: 20))
+                    .textFieldStyle(.plain)
+                    .foregroundColor(.ForegroundColor)
+                Divider()
+                    .frame(maxWidth: .infinity)
+                DatePicker(selection: $selectedDate,
+                           in: Date()...,
+                           displayedComponents: [.date]){}
+                    .labelsHidden()
+                    .datePickerStyle(.graphical)
+                    .accentColor(.buttonBackground)
+                
+                
+            }
+            .padding()
+            .offset(y: 35)
+            
         }
-        .padding()
         
         
-
-        //.navigationBarBackButtonHidden(true)
-//        .navigationBarItems(leading: Button(action: {
-//            presentationMode.wrappedValue.dismiss()
-//        }, label: {
-//            Image(systemName: "xmark")
-//                .imageScale(.large)
-//                .foregroundColor(.ForegroundColor)
-//        }))
-       // .navigationTitle("기념일 등록")
-       // .navigationBarTitleDisplayMode(.inline)
-
+            
+        
+        
+        
+        
         
         
     }
