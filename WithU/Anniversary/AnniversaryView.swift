@@ -30,6 +30,11 @@ struct AnniversaryView: View {
                     
                     Spacer()
                     
+                    Text("기념일")
+                        .font(.headline)
+                    
+                    Spacer()
+                    
                     NavigationLink(
                         destination: {
                             CreateAnniversaryView()
@@ -44,6 +49,14 @@ struct AnniversaryView: View {
                 }
             }
             
+            ScrollView {
+                VStack {
+                    ForEach(0..<15, id: \.self) { i in
+                        AnniversaryListView()
+                    }
+                }
+            }
+            .offset(y: 50)
             
         }
         

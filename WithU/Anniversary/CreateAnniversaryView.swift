@@ -19,33 +19,37 @@ struct CreateAnniversaryView: View {
                     .ignoresSafeArea()
                     .navigationBarBackButtonHidden(true)
                     .navigationBarHidden(true)
-                
-                HStack {
-                    Button(action: {
-                        presentationMode.wrappedValue.dismiss()
-                    }, label: {
-                        Text("취소")
+                VStack{
+                    HStack {
+                        Button(action: {
+                            presentationMode.wrappedValue.dismiss()
+                        }, label: {
+                            Text("취소")
+                                .font(.headline)
+                                .foregroundColor(.ForegroundColor)
+                        })
+                        
+                        Spacer()
+                        
+                        Text("기념일 등록")
                             .font(.headline)
                             .foregroundColor(.ForegroundColor)
-                    })
-                    
-                    Spacer()
-                    
-                    Text("기념일 등록")
-                        .font(.headline)
-                        .foregroundColor(.ForegroundColor)
-                    
-                    Spacer()
-                    
-                    Button(action: {
                         
-                    }, label: {
-                        Text("저장")
-                            .font(.headline)
-                            .foregroundColor(.buttonBackground)
-                    })
+                        Spacer()
+                        
+                        Button(action: {
+                            
+                        }, label: {
+                            Text("저장")
+                                .font(.headline)
+                                .foregroundColor(.buttonBackground)
+                        })
+                    }
+                    .padding()
+                    
+                    Divider()
                 }
-                .padding()
+                
             }
             
             VStack {
@@ -65,7 +69,7 @@ struct CreateAnniversaryView: View {
                 
             }
             .padding()
-            .offset(y: 35)
+            .offset(y: 60)
             
         }
         
