@@ -6,7 +6,6 @@ target 'WithU' do
   use_frameworks!
 
   # Pods for WithU
-  pod 'ExytePopupView'
   pod 'FirebaseFirestore'
   pod 'FirebaseAnalytics'
   pod 'FirebaseAuth'

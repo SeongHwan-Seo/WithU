@@ -103,5 +103,22 @@ struct FirebaseService {
         .eraseToAnyPublisher()
     }
     
+    static func createAnniversary(_ anniversary: Anniversary, _ userId: String) -> AnyPublisher<Bool, Error> {
+        Future<Bool, Error> { promise in
+            print("setUser : start")
+            try? self.db.collection("users").document(userId).collection("anniversary").document(anniversary.id).setData(from: anniversary) { error in
+                if let error = error {
+                    print("createAnniversary : failure")
+                    promise(.failure(error))
+                } else {
+                    print("createAnniversary : success")
+                    
+                    promise(.success(true))
+                }
+            }
+            
+        }
+        .eraseToAnyPublisher()
+    }
     
 }

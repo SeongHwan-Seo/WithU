@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		381D4F0D78FDAAD9FFBDAAD4 /* Pods_WithU.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8D06DD24848BB6204B80C1 /* Pods_WithU.framework */; };
+		582E339428ABB12000817033 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 582E339328ABB12000817033 /* GoogleService-Info.plist */; };
 		CF0483E12860913F00455F78 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0483E02860913F00455F78 /* FirebaseService.swift */; };
 		CF0E4CDB284F693A00012270 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0E4CDA284F693A00012270 /* HomeViewModel.swift */; };
 		CF0E4CDD284F73DD00012270 /* ChangePartnerProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0E4CDC284F73DD00012270 /* ChangePartnerProfileView.swift */; };
@@ -26,7 +27,6 @@
 		CF4D51602806E63400146D9F /* MenuHeadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4D515F2806E63400146D9F /* MenuHeadView.swift */; };
 		CF4D51622806E64000146D9F /* MenuOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4D51612806E64000146D9F /* MenuOptionView.swift */; };
 		CF4D51642806E65600146D9F /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4D51632806E65600146D9F /* MenuViewModel.swift */; };
-		CF5979962850B4DD00F0AC33 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF5979952850B4DD00F0AC33 /* GoogleService-Info.plist */; };
 		CF5C79DE2888204500D89E22 /* Anniversary.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5C79DD2888204500D89E22 /* Anniversary.swift */; };
 		CF5C79E2288821DB00D89E22 /* AnniversaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5C79E1288821DB00D89E22 /* AnniversaryViewModel.swift */; };
 		CF5C79E42888224D00D89E22 /* CreateAnniversaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5C79E32888224D00D89E22 /* CreateAnniversaryView.swift */; };
@@ -49,6 +49,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		582E339328ABB12000817033 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5B8D06DD24848BB6204B80C1 /* Pods_WithU.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WithU.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		92169406D3711DD53CD3D16B /* Pods-WithU.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WithU.debug.xcconfig"; path = "Target Support Files/Pods-WithU/Pods-WithU.debug.xcconfig"; sourceTree = "<group>"; };
 		C03D3172ECA2698A2A8618AE /* Pods-WithU.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WithU.release.xcconfig"; path = "Target Support Files/Pods-WithU/Pods-WithU.release.xcconfig"; sourceTree = "<group>"; };
@@ -71,7 +72,6 @@
 		CF4D515F2806E63400146D9F /* MenuHeadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeadView.swift; sourceTree = "<group>"; };
 		CF4D51612806E64000146D9F /* MenuOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuOptionView.swift; sourceTree = "<group>"; };
 		CF4D51632806E65600146D9F /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
-		CF5979952850B4DD00F0AC33 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CF5C79DD2888204500D89E22 /* Anniversary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Anniversary.swift; sourceTree = "<group>"; };
 		CF5C79E1288821DB00D89E22 /* AnniversaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnniversaryViewModel.swift; sourceTree = "<group>"; };
 		CF5C79E32888224D00D89E22 /* CreateAnniversaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAnniversaryView.swift; sourceTree = "<group>"; };
@@ -188,8 +188,8 @@
 				CF4D51512806E37700146D9F /* ContentView.swift */,
 				CFD52E0C2844D6AC00CEC320 /* Menu */,
 				CF16535F28103B650045D0A2 /* Anniversary */,
-				CF5979952850B4DD00F0AC33 /* GoogleService-Info.plist */,
 				CF4D51532806E37900146D9F /* Assets.xcassets */,
+				582E339328ABB12000817033 /* GoogleService-Info.plist */,
 				CF4D51552806E37900146D9F /* Preview Content */,
 			);
 			path = WithU;
@@ -357,9 +357,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF4D51572806E37900146D9F /* Preview Assets.xcassets in Resources */,
+				582E339428ABB12000817033 /* GoogleService-Info.plist in Resources */,
 				CF4D51542806E37900146D9F /* Assets.xcassets in Resources */,
 				CF6B0BA8280D832D00F9FC12 /* heart.json in Resources */,
-				CF5979962850B4DD00F0AC33 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

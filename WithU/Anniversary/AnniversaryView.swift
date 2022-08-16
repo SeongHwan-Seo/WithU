@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
-import ExytePopupView
+
 
 struct AnniversaryView: View {
     @Environment(\.presentationMode) var presentationMode
+    @StateObject var viewModel = AnniversaryViewModel()
     
     var body: some View {
         ZStack {
@@ -37,7 +38,7 @@ struct AnniversaryView: View {
                     
                     NavigationLink(
                         destination: {
-                            CreateAnniversaryView()
+                            CreateAnniversaryView(viewModel: viewModel)
                         },
                         label: {
                             Image(systemName: "plus")

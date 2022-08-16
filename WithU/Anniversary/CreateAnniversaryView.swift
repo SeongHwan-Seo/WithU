@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CreateAnniversaryView: View {
     @Environment(\.presentationMode) var presentationMode
+    @StateObject var viewModel: AnniversaryViewModel
     @State var title = ""
     @State var selectedDate = Date()
     
@@ -39,6 +40,12 @@ struct CreateAnniversaryView: View {
                         
                         Button(action: {
                             
+//                            if viewModel.createAnniversary(anniversary: Anniversary(id: UUID().uuidString, title: title, date: viewModel.getOnlyDate(date: selectedDate)), userId: UserDefaults.standard.string(forKey: "id") ?? "") {
+//                                presentationMode.wrappedValue.dismiss()
+//                            } else {
+//                                print("저장실패")
+//                            }
+                            viewModel.createAnniversary(anniversary: Anniversary(id: UUID().uuidString, title: title, date: viewModel.getOnlyDate(date: selectedDate)), userId: UserDefaults.standard.string(forKey: "id") ?? "")
                         }, label: {
                             Text("저장")
                                 .font(.headline)
@@ -74,18 +81,12 @@ struct CreateAnniversaryView: View {
         }
         
         
-            
         
         
         
         
         
         
-    }
-}
-
-struct CreateAnniversaryView_Previews: PreviewProvider {
-    static var previews: some View {
-        CreateAnniversaryView()
+        
     }
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 struct Anniversary: Codable, Identifiable {
-    var id: String = UUID().uuidString
-    var title: String = ""
-    var date: Date
+    var id: String
+    var title: String
+    var date: String
 }
