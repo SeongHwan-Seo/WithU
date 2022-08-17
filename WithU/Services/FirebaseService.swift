@@ -103,8 +103,9 @@ struct FirebaseService {
         .eraseToAnyPublisher()
     }
     
-    static func createAnniversary(_ anniversary: Anniversary, _ userId: String) -> AnyPublisher<Bool, Error> {
-        Future<Bool, Error> { promise in
+    //기념일 생성
+    static func createAnniversary(_ anniversary: Anniversary, _ userId: String) -> AnyPublisher<Void, Error> {
+        Future<Void, Error> { promise in
             print("setUser : start")
             try? self.db.collection("users").document(userId).collection("anniversary").document(anniversary.id).setData(from: anniversary) { error in
                 if let error = error {
@@ -113,10 +114,41 @@ struct FirebaseService {
                 } else {
                     print("createAnniversary : success")
                     
-                    promise(.success(true))
+                    promise(.success(()))
                 }
             }
             
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    //기념일 가져오기
+    static func fetchAnniversaries(_ userId: String) -> AnyPublisher<[Anniversary], Error> {
+        
+        Future<[Anniversary], Error> { promise in
+            self.db.collection("users").document(userId).collection("anniversary")
+                .getDocuments{ (snapshot, error) in
+                    if let error = error {
+                        promise(.failure(error))
+                        return
+                    }
+                    
+                    guard let snapshot = snapshot else {
+                        print("fetAnniversary() Error : snapshot error")
+                        promise(.failure(FirebaseError.badSnapshot))
+                        return
+                    }
+                    
+                    var anniversaries = [Anniversary]()
+                    snapshot.documents.forEach { document in
+                        if let anniversary = try? document.data(as: Anniversary.self) {
+                            if anniversaries.contains(where: { $0.id == anniversary.id}) { return }
+                            anniversaries.append(anniversary)
+                        }
+                    }
+                    
+                    promise(.success(anniversaries))
+                }
         }
         .eraseToAnyPublisher()
     }
