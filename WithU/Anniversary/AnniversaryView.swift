@@ -52,13 +52,26 @@ struct AnniversaryView: View {
             
             ScrollView {
                 VStack {
-                    ForEach(0..<15, id: \.self) { i in
-                        AnniversaryListView()
+                    ForEach(viewModel.anniversaries, id: \.id) { anniversary in
+                        AnniversaryListView(anniversary: anniversary)
                     }
+                    
                 }
             }
             .offset(y: 50)
             
+            //            List {
+            //                ForEach(viewModel.anniversaries, id: \.id) { anniversary in
+            //                    VStack {
+            //                        AnniversaryListView(anniversary: anniversary)
+            //                    }
+            //
+            //                }
+            //            }
+            
+        }
+        .onAppear {
+            viewModel.loadAnniversaries(userId: UserDefaults.standard.string(forKey: "id") ?? "")
         }
         
         

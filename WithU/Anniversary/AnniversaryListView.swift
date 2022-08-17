@@ -8,15 +8,17 @@
 import SwiftUI
 
 struct AnniversaryListView: View {
+    let anniversary: Anniversary
+    
     var body: some View {
         ZStack {
             Color.backgroundColor
             
             HStack {
                 VStack(alignment: .leading) {
-                    Text("2000일")
+                    Text("\(anniversary.title)")
                         .font(.title2)
-                    Text("2022년 1월 1일")
+                    Text("\(anniversary.date)")
                 }
                 
                 
@@ -46,8 +48,3 @@ struct CardModifier: ViewModifier {
 }
 
 
-struct AnniversaryListView_Previews: PreviewProvider {
-    static var previews: some View {
-        AnniversaryListView()
-    }
-}

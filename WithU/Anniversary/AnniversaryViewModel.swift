@@ -13,7 +13,24 @@ class AnniversaryViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     @Published var anniversaries = [Anniversary]()
-    @Published var isSuccess = false
+    
+    
+    //기념일 가졍오기
+    func loadAnniversaries(userId: String) {
+        FirebaseService.fetchAnniversaries(userId)
+            .sink{ (complition) in
+                switch complition {
+                case .failure(let error):
+                    print(error)
+                    return
+                case .finished:
+                    return
+                }
+            } receiveValue: { [weak self] (anniversaries) in
+                self?.anniversaries = anniversaries
+            }
+            .store(in: &cancellables)
+    }
     
     //기념일 생성
     func createAnniversary(anniversary: Anniversary, userId: String) {
@@ -27,8 +44,8 @@ class AnniversaryViewModel: ObservableObject {
                 case .finished:
                     return
                 }
-            } receiveValue: { value in
-                self.isSuccess = value
+            } receiveValue: { _ in
+            
             }
             .store(in: &cancellables)
             

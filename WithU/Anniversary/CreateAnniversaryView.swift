@@ -40,12 +40,8 @@ struct CreateAnniversaryView: View {
                         
                         Button(action: {
                             
-//                            if viewModel.createAnniversary(anniversary: Anniversary(id: UUID().uuidString, title: title, date: viewModel.getOnlyDate(date: selectedDate)), userId: UserDefaults.standard.string(forKey: "id") ?? "") {
-//                                presentationMode.wrappedValue.dismiss()
-//                            } else {
-//                                print("저장실패")
-//                            }
-                            viewModel.createAnniversary(anniversary: Anniversary(id: UUID().uuidString, title: title, date: viewModel.getOnlyDate(date: selectedDate)), userId: UserDefaults.standard.string(forKey: "id") ?? "")
+                            viewModel.createAnniversary(anniversary: Anniversary(id: UUID().uuidString, title: title, date: viewModel.getOnlyDate(date: selectedDate)), userId: UserDefaults.standard.string(forKey: "id") ?? "") 
+                            presentationMode.wrappedValue.dismiss()
                         }, label: {
                             Text("저장")
                                 .font(.headline)
