@@ -106,17 +106,29 @@ struct FirebaseService {
     //기념일 생성
     static func createAnniversary(_ anniversary: Anniversary, _ userId: String) -> AnyPublisher<Void, Error> {
         Future<Void, Error> { promise in
-            print("setUser : start")
-            try? self.db.collection("users").document(userId).collection("anniversary").document(anniversary.id).setData(from: anniversary) { error in
-                if let error = error {
-                    print("createAnniversary : failure")
-                    promise(.failure(error))
-                } else {
-                    print("createAnniversary : success")
-                    
-                    promise(.success(()))
+//            try? self.db.collection("users").document(userId).collection("anniversary").document(anniversary.id).setData(from: anniversary) { error in
+//                if let error = error {
+//                    print("createAnniversary : failure")
+//                    promise(.failure(error))
+//                } else {
+//                    print("createAnniversary : success")
+//
+//                    promise(.success(()))
+//                }
+//            }
+            self.db.collection("users").document(userId).collection("anniversary")
+                .addDocument(data: [
+                    "id": anniversary.id,
+                    "title": anniversary.title,
+                    "date": anniversary.date
+                ]) {
+                    error in
+                    if let error = error {
+                        promise(.failure(error))
+                    } else {
+                        promise(.success(()))
+                    }
                 }
-            }
             
         }
         .eraseToAnyPublisher()
