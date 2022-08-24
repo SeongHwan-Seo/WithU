@@ -40,7 +40,7 @@ struct CreateAnniversaryView: View {
                         
                         Button(action: {
                             
-                            viewModel.createAnniversary(anniversary: Anniversary(id: UUID().uuidString, title: title, date: viewModel.getOnlyDate(date: selectedDate)), userId: UserDefaults.standard.string(forKey: "id") ?? "") 
+                            viewModel.createAnniversary(anniversary: Anniversary(id: UUID().uuidString, title: title, date: viewModel.getOnlyDate(date: selectedDate)), userId: UserDefaults.standard.string(forKey: "id") ?? "")
                             presentationMode.wrappedValue.dismiss()
                         }, label: {
                             Text("저장")

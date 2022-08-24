@@ -51,12 +51,19 @@ struct AnniversaryView: View {
             }
             
             ScrollView {
-                VStack {
-                    ForEach(viewModel.anniversaries, id: \.id) { anniversary in
-                        AnniversaryListView(anniversary: anniversary)
+                
+                    VStack {
+                        ForEach(viewModel.anniversaries, id: \.id) { anniversary in
+                            AnniversaryListView(anniversary: anniversary)
+                                
+                                
+                        }
+                        
+                        
+                        
                     }
-                    
-                }
+                
+                
             }
             .offset(y: 50)
             
@@ -75,6 +82,12 @@ struct AnniversaryView: View {
         }
         
         
+    }
+}
+
+extension AnniversaryView {
+    func deleteItems(at offsets: IndexSet) {
+        viewModel.anniversaries.remove(atOffsets: offsets)
     }
 }
 
