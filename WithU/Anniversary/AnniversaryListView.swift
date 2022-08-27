@@ -10,6 +10,7 @@ import SwiftUI
 struct AnniversaryListView: View {
     let anniversary: Anniversary
     @State var offset = 0.0
+    @StateObject var viewModel: AnniversaryViewModel
     
     var body: some View {
         
@@ -22,7 +23,7 @@ struct AnniversaryListView: View {
                 Spacer()
                 
                 Button(action: {
-                    
+                    viewModel.deleteAnniversary(anniversaryId: anniversary.id, userId: UserDefaults.standard.string(forKey: "id") ?? "")
                 }, label: {
                     Image(systemName: "trash")
                         .font(.title)

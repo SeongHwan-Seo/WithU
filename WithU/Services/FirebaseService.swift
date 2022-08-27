@@ -106,18 +106,9 @@ struct FirebaseService {
     //기념일 생성
     static func createAnniversary(_ anniversary: Anniversary, _ userId: String) -> AnyPublisher<Void, Error> {
         Future<Void, Error> { promise in
-//            try? self.db.collection("users").document(userId).collection("anniversary").document(anniversary.id).setData(from: anniversary) { error in
-//                if let error = error {
-//                    print("createAnniversary : failure")
-//                    promise(.failure(error))
-//                } else {
-//                    print("createAnniversary : success")
-//
-//                    promise(.success(()))
-//                }
-//            }
+            
             self.db.collection("users").document(userId).collection("anniversary")
-                .addDocument(data: [
+                .document(anniversary.id).setData([
                     "id": anniversary.id,
                     "title": anniversary.title,
                     "date": anniversary.date
@@ -156,6 +147,9 @@ struct FirebaseService {
                         if let anniversary = try? document.data(as: Anniversary.self) {
                             if anniversaries.contains(where: { $0.id == anniversary.id}) { return }
                             anniversaries.append(anniversary)
+                            print(#function)
+                            print(document.documentID)
+                            print(anniversary)
                         }
                     }
                     
@@ -165,4 +159,22 @@ struct FirebaseService {
         .eraseToAnyPublisher()
     }
     
+    
+    static func deleteAnniversary(_ anniversaryId: String, _ userId: String) -> AnyPublisher<Void, Error> {
+        Future<Void, Error> { promise in
+            self.db.collection("users").document(userId).collection("anniversary")
+                .document(anniversaryId).delete() { error in
+                    if let error = error {
+                        print(#function)
+                        print(error.localizedDescription)
+                    }
+                    else {
+                        print(#function)
+                        print("success \n anniversaryId: \(anniversaryId) \n userId: \(userId)")
+                    }
+                    
+                }
+        }
+        .eraseToAnyPublisher()
+    }
 }

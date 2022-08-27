@@ -54,7 +54,7 @@ struct AnniversaryView: View {
                 
                     VStack {
                         ForEach(viewModel.anniversaries, id: \.id) { anniversary in
-                            AnniversaryListView(anniversary: anniversary)
+                            AnniversaryListView(anniversary: anniversary, viewModel: viewModel)
                                 
                                 
                         }
@@ -66,15 +66,6 @@ struct AnniversaryView: View {
                 
             }
             .offset(y: 50)
-            
-            //            List {
-            //                ForEach(viewModel.anniversaries, id: \.id) { anniversary in
-            //                    VStack {
-            //                        AnniversaryListView(anniversary: anniversary)
-            //                    }
-            //
-            //                }
-            //            }
             
         }
         .onAppear {

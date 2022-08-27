@@ -48,9 +48,28 @@ class AnniversaryViewModel: ObservableObject {
             
             }
             .store(in: &cancellables)
-            
         
-        
+    }
+    
+    ///  기념일 삭제
+    /// - Parameters:
+    ///   - anniversaryId: 기념일 아이디
+    ///   - userId: 유저 아이디
+    func deleteAnniversary(anniversaryId: String, userId: String) {
+        FirebaseService.deleteAnniversary(anniversaryId, userId)
+            .sink{ (completion) in
+                switch completion {
+                case .failure(let error):
+                    print(error)
+                    return
+                case .finished:
+                    return
+                }
+                
+            } receiveValue: { _ in
+                
+            }
+            .store(in: &cancellables)
     }
     
     //년월일 날짜 뽑아내기

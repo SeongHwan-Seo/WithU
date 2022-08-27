@@ -57,7 +57,7 @@ struct CreateAnniversaryView: View {
             
             VStack {
                 TextField("제목을 입력하세요.", text: $title)
-                    .font(.system(size: 20))
+                    .font(.system(size: 14))
                     .textFieldStyle(.plain)
                     .foregroundColor(.ForegroundColor)
                 Divider()
