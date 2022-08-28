@@ -63,6 +63,7 @@ class AnniversaryViewModel: ObservableObject {
                     print(error)
                     return
                 case .finished:
+                    self.loadAnniversaries(userId: userId)
                     return
                 }
                 

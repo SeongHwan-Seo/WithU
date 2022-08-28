@@ -17,23 +17,7 @@ struct AnniversaryListView: View {
         ZStack {
             Color.backgroundColor
             
-            HStack {
-                
-                
-                Spacer()
-                
-                Button(action: {
-                    viewModel.deleteAnniversary(anniversaryId: anniversary.id, userId: UserDefaults.standard.string(forKey: "id") ?? "")
-                }, label: {
-                    Image(systemName: "trash")
-                        .font(.title)
-                        .foregroundColor(.red)
-                        .frame(width: 60, height: 60)
-                })
-                
-                
-                
-            }
+            
             
             
             HStack {
@@ -52,34 +36,17 @@ struct AnniversaryListView: View {
             }
             .padding()
             .modifier(CardModifier())
-            .offset(x: offset)
-            .gesture(DragGesture().onChanged(onChanged(value:)).onEnded(onEnd(value:)))
+            
             
         }
-        
         .padding([.top, .horizontal])
-    }
-    
-    func onChanged(value: DragGesture.Value) {
-        //anniversary.
-        
-        
-        offset = value.translation.width
         
     }
     
-    func onEnd(value: DragGesture.Value) {
-        withAnimation(.easeOut){
-            if -offset > 50 {
-                offset = -60
-            }
-            else {
-                offset = 0
-            }
-        }
-        
-    }
+    
 }
+
+
 
 struct CardModifier: ViewModifier {
     func body(content: Content) -> some View {

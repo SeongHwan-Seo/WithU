@@ -147,9 +147,7 @@ struct FirebaseService {
                         if let anniversary = try? document.data(as: Anniversary.self) {
                             if anniversaries.contains(where: { $0.id == anniversary.id}) { return }
                             anniversaries.append(anniversary)
-                            print(#function)
-                            print(document.documentID)
-                            print(anniversary)
+                            
                         }
                     }
                     
@@ -170,7 +168,7 @@ struct FirebaseService {
                     }
                     else {
                         print(#function)
-                        print("success \n anniversaryId: \(anniversaryId) \n userId: \(userId)")
+                        
                     }
                     
                 }

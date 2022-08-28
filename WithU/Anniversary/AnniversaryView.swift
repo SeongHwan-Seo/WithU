@@ -57,6 +57,7 @@ struct AnniversaryView: View {
                             AnniversaryListView(anniversary: anniversary, viewModel: viewModel)
                                 
                                 
+                                
                         }
                         
                         
