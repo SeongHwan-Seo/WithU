@@ -12,7 +12,7 @@ struct MenuHeadView: View {
     @Binding var isShowingMenuView: Bool
     
     var body: some View {
-        ZStack(alignment: .topTrailing) {
+        ZStack(alignment: .topLeading) {
             
             Button(action: {
                 withAnimation(.spring()) {
@@ -24,6 +24,7 @@ struct MenuHeadView: View {
                     .foregroundColor(.white)
                     .padding()
             })
+            
                 
             
             VStack(alignment: .leading) {

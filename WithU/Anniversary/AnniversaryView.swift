@@ -50,23 +50,10 @@ struct AnniversaryView: View {
                 }
             }
             
-            ScrollView {
-                
-                    VStack {
-                        ForEach(viewModel.anniversaries, id: \.id) { anniversary in
-                            AnniversaryListView(anniversary: anniversary, viewModel: viewModel)
-                                
-                                
-                                
-                        }
-                        
-                        
-                        
-                    }
-                
-                
-            }
-            .offset(y: 50)
+            
+            AnniversaryListView(viewModel: viewModel)
+                .offset(y: 50)
+
             
         }
         .onAppear {

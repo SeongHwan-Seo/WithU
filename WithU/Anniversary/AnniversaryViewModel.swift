@@ -63,7 +63,7 @@ class AnniversaryViewModel: ObservableObject {
                     print(error)
                     return
                 case .finished:
-                    self.loadAnniversaries(userId: userId)
+                    //self.loadAnniversaries(userId: userId)
                     return
                 }
                 
@@ -73,7 +73,7 @@ class AnniversaryViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    //년월일 날짜 뽑아내기
+    //년월일 날짜 뽑아내기 date -> String
     func getOnlyDate(date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -81,4 +81,42 @@ class AnniversaryViewModel: ObservableObject {
         return current_date_string
     }
     
+    
+    
+    /// 기념일 D-day 계산
+    /// - Parameter date: 기념일 날짜
+    /// - Returns: 지난 기념일 + day /지나지 않은 기념일 - day
+    func calCulDay(from date: Date) -> Int {
+        
+        if Date().toString() == date.toString() {
+            return 0
+        }
+        
+        let dayCount = Calendar.current.dateComponents([.day], from: Date(), to: date).day
+        
+        return Int(dayCount ?? 0) + 1
+    }
+    
+    
+}
+
+extension String {
+    func toDate() -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        if let date = dateFormatter.date(from: self) {
+            return date
+        } else {
+            return nil
+        }
+            
+    }
+}
+
+extension Date {
+    func toString() -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter.string(from: self)
+    }
 }

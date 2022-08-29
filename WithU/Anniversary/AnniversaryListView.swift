@@ -8,44 +8,79 @@
 import SwiftUI
 
 struct AnniversaryListView: View {
-    let anniversary: Anniversary
-    @State var offset = 0.0
     @StateObject var viewModel: AnniversaryViewModel
+    
     
     var body: some View {
         
-        ZStack {
-            Color.backgroundColor
-            
-            
-            
-            
-            HStack {
+        List {
+            ForEach(viewModel.anniversaries, id: \.id) { anniversary in
                 
-                VStack(alignment: .leading) {
-                    Text("\(anniversary.title)")
-                        .font(.title2)
-                    Text("\(anniversary.date)")
+                let dDay = viewModel.calCulDay(from: anniversary.date.toDate() ?? Date())
+                
+                ZStack {
+                    //Color.backgroundColor
+                    
+                    
+                    
+                    
+                    HStack {
+                        
+                        VStack(alignment: .leading) {
+                            Text("\(anniversary.title)")
+                                .font(.title2)
+                            Text("\(anniversary.date)")
+                        }
+                        
+                        
+                        Spacer()
+                        
+                        if dDay == 0 {
+                            Text("D-Day")
+                                .font(.title2)
+                        } else if dDay > 0 {
+                            Text("D-\(dDay)")
+                                .font(.title2)
+                        } else {
+                            Text("D+\(dDay)")
+                                .font(.title2)
+                        }
+                        
+                            
+                    }
+                    //.padding()
+                    //.modifier(CardModifier())
+                    
                 }
-                
-                
-                Spacer()
-                
-                Text("D-200")
-                    .font(.title2)
             }
-            .padding()
-            .modifier(CardModifier())
-            
-            
+            .onDelete(perform: deleteItems)
+            //.padding([.top, .horizontal])
         }
-        .padding([.top, .horizontal])
         
     }
     
     
 }
 
+
+extension AnniversaryListView {
+    
+    /// 기념일삭제
+    /// - Parameter offsets: 기념일 배열 인덱스
+    func deleteItems(at offsets: IndexSet) {
+        offsets.map{ viewModel.anniversaries[$0] }.forEach { anniversary in
+            viewModel.deleteAnniversary(anniversaryId: anniversary.id
+                                        , userId: UserDefaults.standard.string(forKey: "id") ?? "")
+            
+            
+        
+            if let index:Int = viewModel.anniversaries.firstIndex(where: {$0.id == anniversary.id}) {
+                viewModel.anniversaries.remove(at: index)
+            }
+        }
+        
+    }
+}
 
 
 struct CardModifier: ViewModifier {

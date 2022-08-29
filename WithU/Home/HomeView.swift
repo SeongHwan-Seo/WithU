@@ -34,7 +34,7 @@ struct HomeView: View {
                     
                     Spacer()
                 }
-                .edgesIgnoringSafeArea(.all)
+                //.edgesIgnoringSafeArea(.all)
                 
                 //
                 VStack {

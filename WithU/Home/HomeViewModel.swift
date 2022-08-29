@@ -102,7 +102,7 @@ class HomeViewModel: ObservableObject {
     //사귄날짜 ~ 오늘까지 일 수
     func days(from date: Date) -> Int {
         
-        var dayCount = Calendar.current.dateComponents([.day], from: date, to: Date()).day
+        let dayCount = Calendar.current.dateComponents([.day], from: date, to: Date()).day
         
         if UserDefaults.standard.bool(forKey: "check") {
             return Int(dayCount ?? 0) + 1
@@ -110,7 +110,6 @@ class HomeViewModel: ObservableObject {
             return Int(dayCount ?? 0)
         }
         
-        //return Int(dayCount ?? 0) + 1
     }
     
     func setImage() {
