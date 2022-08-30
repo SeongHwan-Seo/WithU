@@ -15,7 +15,7 @@ class AnniversaryViewModel: ObservableObject {
     @Published var anniversaries = [Anniversary]()
     
     
-    //기념일 가졍오기
+    //기념일 가져오기
     func loadAnniversaries(userId: String) {
         FirebaseService.fetchAnniversaries(userId)
             .sink{ (complition) in
@@ -27,7 +27,7 @@ class AnniversaryViewModel: ObservableObject {
                     return
                 }
             } receiveValue: { [weak self] (anniversaries) in
-                self?.anniversaries = anniversaries
+                self?.anniversaries = anniversaries.sorted(by: {$0.date < $1.date})
             }
             .store(in: &cancellables)
     }
@@ -89,12 +89,19 @@ class AnniversaryViewModel: ObservableObject {
     func calCulDay(from date: Date) -> Int {
         
         if Date().toString() == date.toString() {
+          
             return 0
         }
         
         let dayCount = Calendar.current.dateComponents([.day], from: Date(), to: date).day
         
-        return Int(dayCount ?? 0) + 1
+        if Int(dayCount ?? 0) + 1 > 0 {
+            return Int(dayCount ?? 0) + 1
+        } else  {
+            return Int(dayCount ?? 0)
+        }
+        
+        
     }
     
     

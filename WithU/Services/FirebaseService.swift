@@ -64,7 +64,7 @@ struct FirebaseService {
     static func uploadImage(img: UIImage, name: String, dic: String) -> AnyPublisher<Void, Error>{
         Future<Void, Error> { promise in
             let storageRef = storage.reference().child("images/\(dic)/\(name)")
-            let data = img.jpegData(compressionQuality: 0.2)
+            let data = img.jpegData(compressionQuality: 0.1)
             let metaData = StorageMetadata()
             metaData.contentType = "Image/png"
             
@@ -147,6 +147,7 @@ struct FirebaseService {
                         if let anniversary = try? document.data(as: Anniversary.self) {
                             if anniversaries.contains(where: { $0.id == anniversary.id}) { return }
                             anniversaries.append(anniversary)
+                            
                             
                         }
                     }

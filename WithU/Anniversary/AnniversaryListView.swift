@@ -41,21 +41,20 @@ struct AnniversaryListView: View {
                         } else if dDay > 0 {
                             Text("D-\(dDay)")
                                 .font(.title2)
-                        } else {
-                            Text("D+\(dDay)")
+                        } else if dDay < 0 {
+                            Text("D+\(abs(dDay))")
                                 .font(.title2)
                         }
                         
                             
                     }
-                    //.padding()
-                    //.modifier(CardModifier())
                     
                 }
             }
             .onDelete(perform: deleteItems)
-            //.padding([.top, .horizontal])
+            .listStyle(PlainListStyle())
         }
+        
         
     }
     

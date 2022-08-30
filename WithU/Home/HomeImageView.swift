@@ -12,10 +12,7 @@ struct HomeImageView: View {
         Image("background")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .onTapGesture {
-                print("tapped image")
-                
-            }
+            
     }
 }
 

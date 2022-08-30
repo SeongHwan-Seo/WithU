@@ -29,6 +29,11 @@ struct StoryView: View {
                     
                     Spacer()
                     
+                    Text("스토리")
+                        .font(.headline)
+                    
+                    Spacer()
+                    
                     NavigationLink(
                         destination: {
                             //CreateAnniversaryView()
