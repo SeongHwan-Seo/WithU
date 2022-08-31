@@ -29,7 +29,7 @@ struct CreateStoryView: View {
                     
                     Spacer()
                     
-                    Text("기념일 등록")
+                    Text("스토리 등록")
                         .font(.headline)
                         .foregroundColor(.ForegroundColor)
                     
@@ -47,6 +47,51 @@ struct CreateStoryView: View {
                 .padding()
                 
                 Divider()
+                
+                StoryBodyView()
+                    .padding()
+            }
+            
+        }
+    }
+}
+
+struct selectedImage: Identifiable {
+    var id = UUID().uuidString
+    var image: Image
+}
+
+struct StoryBodyView: View {
+    @State var text = ""
+    @State var selectedImages = [selectedImage]()
+    var body: some View {
+        VStack {
+            TextField("내용을 입력하세요.", text: $text)
+                .font(.system(size: 14))
+                .textFieldStyle(.plain)
+                .foregroundColor(.ForegroundColor)
+            
+            VStack {
+                HStack {
+                    Button(action: {
+                        
+                    }, label: {
+                        Text("사진 추가")
+                            .foregroundColor(.buttonBackground)
+                    })
+                    
+                    Spacer()
+                }
+            }
+            .padding(.top, 30)
+            
+            if selectedImages.count != 0 {
+                HStack {
+                    ForEach(selectedImages) { selectedImage in
+                        
+                        
+                    }
+                }
             }
             
         }

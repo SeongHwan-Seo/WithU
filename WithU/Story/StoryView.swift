@@ -36,7 +36,7 @@ struct StoryView: View {
                     
                     NavigationLink(
                         destination: {
-                            //CreateAnniversaryView()
+                            CreateStoryView()
                         },
                         label: {
                             Image(systemName: "plus")
