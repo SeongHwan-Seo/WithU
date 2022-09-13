@@ -28,7 +28,9 @@ struct MenuView: View {
                 
                 ForEach(MenuViewModel.allCases, id: \.self) { option in
                     NavigationLink(
-                        destination: chooseDefinition(index: option.rawValue),
+                        destination: chooseDefinition(index: option.rawValue)
+                            //.navigationBarBackButtonHidden(true)
+                        ,
                         label: {MenuOptionView(viewModel: option)})
                 }
                 

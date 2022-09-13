@@ -107,23 +107,6 @@ class AnniversaryViewModel: ObservableObject {
     
 }
 
-extension String {
-    func toDate() -> Date? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        if let date = dateFormatter.date(from: self) {
-            return date
-        } else {
-            return nil
-        }
-            
-    }
-}
 
-extension Date {
-    func toString() -> String? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        return dateFormatter.string(from: self)
-    }
-}
+
+

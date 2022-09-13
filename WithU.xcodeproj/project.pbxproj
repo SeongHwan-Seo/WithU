@@ -10,6 +10,11 @@
 		381D4F0D78FDAAD9FFBDAAD4 /* Pods_WithU.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8D06DD24848BB6204B80C1 /* Pods_WithU.framework */; };
 		5826E7D028BE38FE00E4678F /* CreateStoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5826E7CF28BE38FE00E4678F /* CreateStoryView.swift */; };
 		582E339428ABB12000817033 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 582E339328ABB12000817033 /* GoogleService-Info.plist */; };
+		5849069728D09C140015C2F6 /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5849069628D09C140015C2F6 /* PhotoPicker.swift */; };
+		5849069928D0A7C20015C2F6 /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5849069828D0A7C20015C2F6 /* Story.swift */; };
+		5849069B28D0A98F0015C2F6 /* StoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5849069A28D0A98F0015C2F6 /* StoryViewModel.swift */; };
+		5849069D28D0B0A90015C2F6 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5849069C28D0B0A90015C2F6 /* StringExtension.swift */; };
+		5849069F28D0B0B70015C2F6 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5849069E28D0B0B70015C2F6 /* DateExtension.swift */; };
 		CF0483E12860913F00455F78 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0483E02860913F00455F78 /* FirebaseService.swift */; };
 		CF0E4CDB284F693A00012270 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0E4CDA284F693A00012270 /* HomeViewModel.swift */; };
 		CF0E4CDD284F73DD00012270 /* ChangePartnerProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0E4CDC284F73DD00012270 /* ChangePartnerProfileView.swift */; };
@@ -52,6 +57,11 @@
 /* Begin PBXFileReference section */
 		5826E7CF28BE38FE00E4678F /* CreateStoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStoryView.swift; sourceTree = "<group>"; };
 		582E339328ABB12000817033 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5849069628D09C140015C2F6 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
+		5849069828D0A7C20015C2F6 /* Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Story.swift; sourceTree = "<group>"; };
+		5849069A28D0A98F0015C2F6 /* StoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewModel.swift; sourceTree = "<group>"; };
+		5849069C28D0B0A90015C2F6 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		5849069E28D0B0B70015C2F6 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		5B8D06DD24848BB6204B80C1 /* Pods_WithU.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WithU.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		92169406D3711DD53CD3D16B /* Pods-WithU.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WithU.debug.xcconfig"; path = "Target Support Files/Pods-WithU/Pods-WithU.debug.xcconfig"; sourceTree = "<group>"; };
 		C03D3172ECA2698A2A8618AE /* Pods-WithU.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WithU.release.xcconfig"; path = "Target Support Files/Pods-WithU/Pods-WithU.release.xcconfig"; sourceTree = "<group>"; };
@@ -150,6 +160,8 @@
 			isa = PBXGroup;
 			children = (
 				CF216695284E294300A08735 /* ColorExtension.swift */,
+				5849069C28D0B0A90015C2F6 /* StringExtension.swift */,
+				5849069E28D0B0B70015C2F6 /* DateExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -217,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				CFC4ACC128575F3600B2B97C /* ImagePicker.swift */,
+				5849069628D09C140015C2F6 /* PhotoPicker.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -246,6 +259,8 @@
 			children = (
 				CF16535A281034890045D0A2 /* StoryView.swift */,
 				5826E7CF28BE38FE00E4678F /* CreateStoryView.swift */,
+				5849069828D0A7C20015C2F6 /* Story.swift */,
+				5849069A28D0A98F0015C2F6 /* StoryViewModel.swift */,
 			);
 			path = Story;
 			sourceTree = "<group>";
@@ -431,6 +446,7 @@
 				CFAA293828083E50001CAE7A /* LaunchScreen.swift in Sources */,
 				CFD52E132844D76200CEC320 /* HomeView.swift in Sources */,
 				CF4D51522806E37700146D9F /* ContentView.swift in Sources */,
+				5849069D28D0B0A90015C2F6 /* StringExtension.swift in Sources */,
 				CFD52E172844DA5700CEC320 /* HomeImageView.swift in Sources */,
 				CF0E4CDF284F772300012270 /* Dday.swift in Sources */,
 				CF4D515E2806E62600146D9F /* MenuView.swift in Sources */,
@@ -440,15 +456,19 @@
 				CF16535B281034890045D0A2 /* StoryView.swift in Sources */,
 				CF0483E12860913F00455F78 /* FirebaseService.swift in Sources */,
 				CF5C79E42888224D00D89E22 /* CreateAnniversaryView.swift in Sources */,
+				5849069B28D0A98F0015C2F6 /* StoryViewModel.swift in Sources */,
 				CFD52E1B2844E0EB00CEC320 /* CoupleImageView.swift in Sources */,
 				5826E7D028BE38FE00E4678F /* CreateStoryView.swift in Sources */,
 				CF4D51502806E37700146D9F /* WithUApp.swift in Sources */,
+				5849069728D09C140015C2F6 /* PhotoPicker.swift in Sources */,
+				5849069F28D0B0B70015C2F6 /* DateExtension.swift in Sources */,
 				CF16535D281034940045D0A2 /* SettingView.swift in Sources */,
 				CF4D51642806E65600146D9F /* MenuViewModel.swift in Sources */,
 				CF4D51622806E64000146D9F /* MenuOptionView.swift in Sources */,
 				CF165359281034800045D0A2 /* ProfileView.swift in Sources */,
 				CF4D51602806E63400146D9F /* MenuHeadView.swift in Sources */,
 				CFD52E1D2844E91400CEC320 /* User.swift in Sources */,
+				5849069928D0A7C20015C2F6 /* Story.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

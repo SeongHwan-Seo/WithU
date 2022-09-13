@@ -176,4 +176,26 @@ struct FirebaseService {
         }
         .eraseToAnyPublisher()
     }
+    
+    static func createStory(story: Story, userId: String) -> AnyPublisher<Void, Error> {
+        Future<Void, Error> { promise in
+            
+            self.db.collection("users").document(userId).collection("story")
+                .document(story.id).setData([
+                    "id": story.id,
+                    "date": story.date,
+                    "content": story.content,
+                    "images": story.images
+                ]) {
+                    error in
+                    if let error = error {
+                        promise(.failure(error))
+                    } else {
+                        promise(.success(()))
+                    }
+                }
+            
+        }
+        .eraseToAnyPublisher()
+    }
 }

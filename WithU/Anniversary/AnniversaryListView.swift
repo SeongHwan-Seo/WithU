@@ -10,7 +10,6 @@ import SwiftUI
 struct AnniversaryListView: View {
     @StateObject var viewModel: AnniversaryViewModel
     
-    
     var body: some View {
         
         List {
@@ -19,9 +18,6 @@ struct AnniversaryListView: View {
                 let dDay = viewModel.calCulDay(from: anniversary.date.toDate() ?? Date())
                 
                 ZStack {
-                    //Color.backgroundColor
-                    
-                    
                     
                     
                     HStack {
@@ -53,6 +49,11 @@ struct AnniversaryListView: View {
             }
             .onDelete(perform: deleteItems)
             .listStyle(PlainListStyle())
+            
+        }
+        
+        .onAppear{
+            //UITableView.appearance().backgroundColor = UIColor(.backgroundColor)
         }
         
         

@@ -13,60 +13,67 @@ struct AnniversaryView: View {
     @StateObject var viewModel = AnniversaryViewModel()
     
     var body: some View {
-        ZStack {
+        
+        
+        
+        
+        ZStack(alignment: .top) {
             ZStack(alignment: .top) {
                 Color.backgroundColor
                     .ignoresSafeArea()
                     .navigationBarBackButtonHidden(true)
                     .navigationBarHidden(true)
-                HStack {
-                    Button(action: {
-                        presentationMode.wrappedValue.dismiss()
-                    }, label: {
-                        Image(systemName: "xmark")
-                            .imageScale(.large)
-                            .padding()
-                            .foregroundColor(.ForegroundColor)
-                    })
-                    
-                    Spacer()
-                    
-                    Text("기념일")
-                        .font(.headline)
-                    
-                    Spacer()
-                    
-                    NavigationLink(
-                        destination: {
-                            CreateAnniversaryView(viewModel: viewModel)
-                        },
-                        label: {
-                            Image(systemName: "plus")
-                                .imageScale(.large)
-                                .padding()
+                VStack {
+                    HStack {
+                        Button(action: {
+                            presentationMode.wrappedValue.dismiss()
+                        }, label: {
+                            Image(systemName: "xmark")
                                 .foregroundColor(.ForegroundColor)
                         })
-                    
-                }
-            }
-            
-            
-            AnniversaryListView(viewModel: viewModel)
-                .offset(y: 50)
 
-            
+                        Spacer()
+
+                        Text("기념일")
+                            .font(.headline)
+                            .foregroundColor(.ForegroundColor)
+
+                        Spacer()
+
+                        NavigationLink(
+                            destination: {
+                                CreateAnniversaryView(viewModel: viewModel)
+                            },
+                            label: {
+                                Image(systemName: "plus")
+                                    .foregroundColor(.ForegroundColor)
+                            })
+
+                    }
+                    .padding()
+
+                    Divider()
+                }
+
+
+            }
+
+
+            VStack {
+                AnniversaryListView(viewModel: viewModel)
+
+            }
+
+            .offset(y: 61)
+            .padding(.bottom, 20)
+
+
         }
         .onAppear {
             viewModel.loadAnniversaries(userId: UserDefaults.standard.string(forKey: "id") ?? "")
         }
         
         
-    }
-}
-
-extension AnniversaryView {
-    func deleteItems(at offsets: IndexSet) {
-        viewModel.anniversaries.remove(atOffsets: offsets)
     }
 }
 

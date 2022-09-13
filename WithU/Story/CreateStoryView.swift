@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct CreateStoryView: View {
     
@@ -56,14 +57,22 @@ struct CreateStoryView: View {
     }
 }
 
-struct selectedImage: Identifiable {
-    var id = UUID().uuidString
-    var image: Image
-}
+//struct selectedImage: Identifiable {
+//    var id = UUID().uuidString
+//    var image: Image
+//}
 
 struct StoryBodyView: View {
     @State var text = ""
-    @State var selectedImages = [selectedImage]()
+    @State var selectedImages: [UIImage] = []
+    var config: PHPickerConfiguration  {
+        var config = PHPickerConfiguration(photoLibrary: PHPhotoLibrary.shared())
+        config.filter = .images //videos, livePhotos...
+        config.selectionLimit = 0 //0 => any, set 1-2-3 for har limit
+        return config
+    }
+    @State var isShowingPicker = false
+    
     var body: some View {
         VStack {
             TextField("내용을 입력하세요.", text: $text)
@@ -74,7 +83,7 @@ struct StoryBodyView: View {
             VStack {
                 HStack {
                     Button(action: {
-                        
+                        isShowingPicker.toggle()
                     }, label: {
                         Text("사진 추가")
                             .foregroundColor(.buttonBackground)
@@ -86,14 +95,24 @@ struct StoryBodyView: View {
             .padding(.top, 30)
             
             if selectedImages.count != 0 {
-                HStack {
-                    ForEach(selectedImages) { selectedImage in
-                        
-                        
+                ScrollView(.horizontal){
+                    HStack {
+                        ForEach(selectedImages, id: \.self) { selectedImage in
+                            Image(uiImage: selectedImage)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 100, height: 100)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                            
+                        }
                     }
                 }
+                
             }
             
+        }
+        .sheet(isPresented: $isShowingPicker) {
+            PhotoPicker(configuration: config, pickerResult: $selectedImages, isShowingPicker: $isShowingPicker)
         }
     }
 }
