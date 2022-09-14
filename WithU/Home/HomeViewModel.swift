@@ -99,6 +99,8 @@ class HomeViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
+    
+    
     //사귄날짜 ~ 오늘까지 일 수
     func days(from date: Date) -> Int {
         

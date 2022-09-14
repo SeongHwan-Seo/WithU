@@ -84,6 +84,40 @@ struct FirebaseService {
         .eraseToAnyPublisher()
     }
     
+    
+    /// 파이어베이스 이미지 배열 저장
+    /// - Parameters:
+    ///   - img: 이미지 배열
+    ///   - name: 유저아이디
+    ///   - dic: 폴더이름(유저아이디)
+    /// - Returns: <#description#>
+    static func uploadImage(img: [UIImage],imgName: [String], dic: String) -> AnyPublisher<Void, Error>{
+        Future<Void, Error> { promise in
+            print(imgName)
+            let metaData = StorageMetadata()
+            metaData.contentType = "Image/png"
+            for idx in 0..<img.count{
+                let storageRef = storage.reference().child("images/\(dic)/story/\(imgName[idx])")
+                let data = img[idx].jpegData(compressionQuality: 0.1)
+                
+                //upload data
+                if let data = data {
+                    storageRef.putData(data, metadata: metaData) { (metaData, err) in
+                        if let err = err {
+                            print("err when uploading jpg\n\(err)")
+                        }
+                        
+                        if let metaData = metaData {
+                            print("metaData: \(metaData)")
+                        }
+                    }
+                }
+            }
+            
+        }
+        .eraseToAnyPublisher()
+    }
+    
     //FireStorage에서 이미지 가져오기
     static func fetchImage(imageName: String, id: String) -> AnyPublisher<UIImage, Error> {
         Future<UIImage, Error> { promise in

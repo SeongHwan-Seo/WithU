@@ -11,6 +11,11 @@ import PhotosUI
 struct CreateStoryView: View {
     
     @Environment(\.presentationMode) var presentationMode
+    @State var selectedImages: [UIImage] = []
+    @State var selectedImageStrings: [String] = []
+    @State var text = ""
+    @StateObject var viewModel = StoryViewModel()
+    
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -37,7 +42,8 @@ struct CreateStoryView: View {
                     Spacer()
                     
                     Button(action: {
-                        
+                        viewModel.createStory(story: Story(id: UUID().uuidString, date: Date().toString()!, content: text, images: selectedImageStrings), userId: UserDefaults.standard.string(forKey: "id")!)
+                        viewModel.uploadStoryImage(img: selectedImages,imgName: selectedImageStrings, userId: UserDefaults.standard.string(forKey: "id")!)
                         
                     }, label: {
                         Text("저장")
@@ -49,7 +55,7 @@ struct CreateStoryView: View {
                 
                 Divider()
                 
-                StoryBodyView()
+                StoryBodyView(text: $text, selectedImages: $selectedImages, selectedImageStrings: $selectedImageStrings)
                     .padding()
             }
             
@@ -63,8 +69,9 @@ struct CreateStoryView: View {
 //}
 
 struct StoryBodyView: View {
-    @State var text = ""
-    @State var selectedImages: [UIImage] = []
+    @Binding var text: String
+    @Binding var selectedImages: [UIImage]
+    @Binding var selectedImageStrings: [String]
     var config: PHPickerConfiguration  {
         var config = PHPickerConfiguration(photoLibrary: PHPhotoLibrary.shared())
         config.filter = .images //videos, livePhotos...
@@ -72,6 +79,18 @@ struct StoryBodyView: View {
         return config
     }
     @State var isShowingPicker = false
+    func setImageStrings() {
+        print(#function)
+        print(selectedImages.count)
+        if selectedImages.count != 0 {
+            print("setImageStrings")
+            for idx in 0..<selectedImages.count {
+                let imageString =
+                UserDefaults.standard.string(forKey: "id")! + "\(idx)"
+                selectedImageStrings.append(imageString)
+            }
+        }
+    }
     
     var body: some View {
         VStack {
@@ -111,7 +130,7 @@ struct StoryBodyView: View {
             }
             
         }
-        .sheet(isPresented: $isShowingPicker) {
+        .sheet(isPresented: $isShowingPicker, onDismiss: setImageStrings) {
             PhotoPicker(configuration: config, pickerResult: $selectedImages, isShowingPicker: $isShowingPicker)
         }
     }
