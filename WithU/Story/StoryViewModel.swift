@@ -13,6 +13,7 @@ class StoryViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     @Published var stories = [Story]()
+    @Published var selectedImageStrings = [String]()
     
     func createStory(story: Story, userId: String) {
         
@@ -36,8 +37,9 @@ class StoryViewModel: ObservableObject {
     /// - Parameters:
     ///   - img: 스토리이미지 배열
     ///   - name: 이미지 이름
-    func uploadStoryImage(img: [UIImage], imgName: [String], userId: String) {
-        FirebaseService.uploadImage(img: img, imgName: imgName ,dic: userId)
+    func uploadStoryImage(img: [UIImage],imgName: [String], userId: String, storyId: String) {
+
+        FirebaseService.uploadImage(img: img, imgName: imgName ,dic: userId, storyId: storyId)
             .sink{ (completion) in
                 switch completion {
                 case .failure(let error):

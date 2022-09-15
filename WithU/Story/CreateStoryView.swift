@@ -12,8 +12,9 @@ struct CreateStoryView: View {
     
     @Environment(\.presentationMode) var presentationMode
     @State var selectedImages: [UIImage] = []
-    @State var selectedImageStrings: [String] = []
+    @State var selectedImageStrings = [String]()
     @State var text = ""
+    let storyID = UUID().uuidString
     @StateObject var viewModel = StoryViewModel()
     
     
@@ -42,8 +43,9 @@ struct CreateStoryView: View {
                     Spacer()
                     
                     Button(action: {
-                        viewModel.createStory(story: Story(id: UUID().uuidString, date: Date().toString()!, content: text, images: selectedImageStrings), userId: UserDefaults.standard.string(forKey: "id")!)
-                        viewModel.uploadStoryImage(img: selectedImages,imgName: selectedImageStrings, userId: UserDefaults.standard.string(forKey: "id")!)
+                        viewModel.createStory(story: Story(id: storyID, date: Date().toString()!, content: text, images: selectedImageStrings), userId: UserDefaults.standard.string(forKey: "id")!)
+                        viewModel.uploadStoryImage(img: selectedImages, imgName: selectedImageStrings, userId: UserDefaults.standard.string(forKey: "id")!, storyId: storyID)
+                        presentationMode.wrappedValue.dismiss()
                         
                     }, label: {
                         Text("저장")
@@ -55,7 +57,7 @@ struct CreateStoryView: View {
                 
                 Divider()
                 
-                StoryBodyView(text: $text, selectedImages: $selectedImages, selectedImageStrings: $selectedImageStrings)
+                StoryBodyView(text: $text, selectedImages: $selectedImages,selectedImageStrings: $selectedImageStrings, viewModel: viewModel)
                     .padding()
             }
             
@@ -63,15 +65,13 @@ struct CreateStoryView: View {
     }
 }
 
-//struct selectedImage: Identifiable {
-//    var id = UUID().uuidString
-//    var image: Image
-//}
+
 
 struct StoryBodyView: View {
     @Binding var text: String
     @Binding var selectedImages: [UIImage]
     @Binding var selectedImageStrings: [String]
+    @StateObject var viewModel: StoryViewModel
     var config: PHPickerConfiguration  {
         var config = PHPickerConfiguration(photoLibrary: PHPhotoLibrary.shared())
         config.filter = .images //videos, livePhotos...
@@ -79,18 +79,7 @@ struct StoryBodyView: View {
         return config
     }
     @State var isShowingPicker = false
-    func setImageStrings() {
-        print(#function)
-        print(selectedImages.count)
-        if selectedImages.count != 0 {
-            print("setImageStrings")
-            for idx in 0..<selectedImages.count {
-                let imageString =
-                UserDefaults.standard.string(forKey: "id")! + "\(idx)"
-                selectedImageStrings.append(imageString)
-            }
-        }
-    }
+    
     
     var body: some View {
         VStack {
@@ -130,8 +119,8 @@ struct StoryBodyView: View {
             }
             
         }
-        .sheet(isPresented: $isShowingPicker, onDismiss: setImageStrings) {
-            PhotoPicker(configuration: config, pickerResult: $selectedImages, isShowingPicker: $isShowingPicker)
+        .sheet(isPresented: $isShowingPicker) {
+            PhotoPicker(configuration: config, pickerResult: $selectedImages, selectedImageStrings: $selectedImageStrings, isShowingPicker: $isShowingPicker)
         }
     }
 }

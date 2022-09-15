@@ -91,13 +91,13 @@ struct FirebaseService {
     ///   - name: 유저아이디
     ///   - dic: 폴더이름(유저아이디)
     /// - Returns: <#description#>
-    static func uploadImage(img: [UIImage],imgName: [String], dic: String) -> AnyPublisher<Void, Error>{
+    static func uploadImage(img: [UIImage],imgName: [String], dic: String, storyId: String) -> AnyPublisher<Void, Error>{
         Future<Void, Error> { promise in
             print(imgName)
             let metaData = StorageMetadata()
             metaData.contentType = "Image/png"
             for idx in 0..<img.count{
-                let storageRef = storage.reference().child("images/\(dic)/story/\(imgName[idx])")
+                let storageRef = storage.reference().child("images/\(dic)/story/\(storyId)/\(imgName[idx])")
                 let data = img[idx].jpegData(compressionQuality: 0.1)
                 
                 //upload data

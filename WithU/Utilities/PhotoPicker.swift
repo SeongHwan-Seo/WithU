@@ -11,13 +11,16 @@ import PhotosUI
 struct PhotoPicker: UIViewControllerRepresentable {
     let configuration: PHPickerConfiguration
     @Binding var pickerResult: [UIImage]
+    @Binding var selectedImageStrings: [String]
     @Binding var isShowingPicker: Bool
+    
     func makeUIViewController(context: Context) -> PHPickerViewController {
         let controller = PHPickerViewController(configuration: configuration)
         controller.delegate = context.coordinator
         return controller
     }
     func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) { }
+    
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
@@ -40,6 +43,8 @@ struct PhotoPicker: UIViewControllerRepresentable {
                             print(error.localizedDescription)
                         } else {
                             self.parent.pickerResult.append(newImage as! UIImage)
+                            self.parent.selectedImageStrings.append(UserDefaults.standard.string(forKey: "id")! + "\(self.parent.selectedImageStrings.count)")
+                            
                         }
                     }
                 } else {
