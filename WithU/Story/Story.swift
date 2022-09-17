@@ -13,4 +13,5 @@ struct Story: Codable, Identifiable {
     var date: String
     var content: String
     var images: [String]
+    
 }

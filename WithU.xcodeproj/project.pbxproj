@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		381D4F0D78FDAAD9FFBDAAD4 /* Pods_WithU.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8D06DD24848BB6204B80C1 /* Pods_WithU.framework */; };
+		581EB4A628D57DF10092107D /* StoryItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581EB4A528D57DF10092107D /* StoryItemView.swift */; };
 		5826E7D028BE38FE00E4678F /* CreateStoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5826E7CF28BE38FE00E4678F /* CreateStoryView.swift */; };
 		582E339428ABB12000817033 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 582E339328ABB12000817033 /* GoogleService-Info.plist */; };
 		5849069728D09C140015C2F6 /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5849069628D09C140015C2F6 /* PhotoPicker.swift */; };
@@ -55,6 +56,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		581EB4A528D57DF10092107D /* StoryItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryItemView.swift; sourceTree = "<group>"; };
 		5826E7CF28BE38FE00E4678F /* CreateStoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStoryView.swift; sourceTree = "<group>"; };
 		582E339328ABB12000817033 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5849069628D09C140015C2F6 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 				5826E7CF28BE38FE00E4678F /* CreateStoryView.swift */,
 				5849069828D0A7C20015C2F6 /* Story.swift */,
 				5849069A28D0A98F0015C2F6 /* StoryViewModel.swift */,
+				581EB4A528D57DF10092107D /* StoryItemView.swift */,
 			);
 			path = Story;
 			sourceTree = "<group>";
@@ -463,6 +466,7 @@
 				5849069728D09C140015C2F6 /* PhotoPicker.swift in Sources */,
 				5849069F28D0B0B70015C2F6 /* DateExtension.swift in Sources */,
 				CF16535D281034940045D0A2 /* SettingView.swift in Sources */,
+				581EB4A628D57DF10092107D /* StoryItemView.swift in Sources */,
 				CF4D51642806E65600146D9F /* MenuViewModel.swift in Sources */,
 				CF4D51622806E64000146D9F /* MenuOptionView.swift in Sources */,
 				CF165359281034800045D0A2 /* ProfileView.swift in Sources */,

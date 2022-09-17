@@ -15,7 +15,7 @@ struct CreateStoryView: View {
     @State var selectedImageStrings = [String]()
     @State var text = ""
     let storyID = UUID().uuidString
-    @StateObject var viewModel = StoryViewModel()
+    @StateObject var viewModel: StoryViewModel
     
     
     var body: some View {
@@ -127,6 +127,6 @@ struct StoryBodyView: View {
 
 struct CreateStoryView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateStoryView()
+        CreateStoryView(viewModel: StoryViewModel())
     }
 }

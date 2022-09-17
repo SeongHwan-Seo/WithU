@@ -14,6 +14,7 @@ class StoryViewModel: ObservableObject {
     
     @Published var stories = [Story]()
     @Published var selectedImageStrings = [String]()
+    @Published var images: [String : UIImage?] = [:]
     
     func createStory(story: Story, userId: String) {
         
@@ -51,4 +52,28 @@ class StoryViewModel: ObservableObject {
             } receiveValue: { _ in }
             .store(in: &cancellables)
     }
+    
+    
+    /// 스토리 가져오가
+    /// - Parameter userId: 유저 아이디
+    func loadStories(userId: String) {
+        print(#function)
+        FirebaseService.fetchStories(userId)
+            .sink{ (complition) in
+                switch complition {
+                case .failure(let error):
+                    print(error)
+                    return
+                case .finished:
+                    return
+                }
+            } receiveValue: { [weak self] (stories) in
+                self?.stories = stories.sorted(by: {$0.date < $1.date})
+                print("receiveValue: ", stories)
+                
+            }
+            .store(in: &cancellables)
+    }
+    
+    
 }

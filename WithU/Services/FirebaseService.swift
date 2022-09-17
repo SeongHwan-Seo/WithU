@@ -232,4 +232,69 @@ struct FirebaseService {
         }
         .eraseToAnyPublisher()
     }
+    
+    
+    /// 스토리 가져오기
+    /// - Parameter userId: 유저 아이디
+    /// - Returns: 스토리 배열
+    static func fetchStories(_ userId: String) -> AnyPublisher<[Story], Error> {
+        
+        Future<[Story], Error> { promise in
+            
+            self.db.collection("users").document(userId).collection("story")
+                .getDocuments{ (snapshot, error) in
+                    if let error = error {
+                        promise(.failure(error))
+                        return
+                    }
+                    
+                    guard let snapshot = snapshot else {
+                        print("fetAnniversary() Error : snapshot error")
+                        promise(.failure(FirebaseError.badSnapshot))
+                        return
+                    }
+                    
+                    var stories = [Story]()
+                    snapshot.documents.forEach { document in
+                        if let story = try? document.data(as: Story.self) {
+                            if stories.contains(where: { $0.id == story.id}) { return }
+                            
+                            stories.append(story)
+                            
+                        }
+                    }
+                    
+                    promise(.success(stories))
+                }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    
+    /// 이미지 여러장 가져오기
+    /// - Parameters:
+    ///   - imageName: 이미지 이름 배열
+    ///   - id: 유저 아이디
+    /// - Returns: 이미지
+    static func fetchImages(imageName: [String], id: String, storyId: String) -> AnyPublisher<UIImage, Error> {
+        Future<UIImage, Error> { promise in
+            for idx in 0..<imageName.count {
+                let ref = storage.reference().child("images/\(id)/story/\(storyId)/" + "\(imageName[idx])")
+                
+                ref.getData(maxSize: 1 * 1024 * 1024) { data, error in
+                    if let error = error {
+                        print("error while downloading image\n\(error.localizedDescription)")
+                        promise(.failure(error))
+                        return
+                    } else {
+                        promise(.success(UIImage(data: data!) ?? UIImage()))
+                        
+                    }
+                }
+            }
+            
+        }
+        .eraseToAnyPublisher()
+    }
+    
 }
