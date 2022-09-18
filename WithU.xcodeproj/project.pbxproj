@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		381D4F0D78FDAAD9FFBDAAD4 /* Pods_WithU.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8D06DD24848BB6204B80C1 /* Pods_WithU.framework */; };
+		580FAFA428D6F85E00B91C2E /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580FAFA328D6F85E00B91C2E /* ViewExtension.swift */; };
 		581EB4A628D57DF10092107D /* StoryItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581EB4A528D57DF10092107D /* StoryItemView.swift */; };
 		5826E7D028BE38FE00E4678F /* CreateStoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5826E7CF28BE38FE00E4678F /* CreateStoryView.swift */; };
 		582E339428ABB12000817033 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 582E339328ABB12000817033 /* GoogleService-Info.plist */; };
@@ -56,6 +57,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		580FAFA328D6F85E00B91C2E /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		581EB4A528D57DF10092107D /* StoryItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryItemView.swift; sourceTree = "<group>"; };
 		5826E7CF28BE38FE00E4678F /* CreateStoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStoryView.swift; sourceTree = "<group>"; };
 		582E339328ABB12000817033 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 				CF216695284E294300A08735 /* ColorExtension.swift */,
 				5849069C28D0B0A90015C2F6 /* StringExtension.swift */,
 				5849069E28D0B0B70015C2F6 /* DateExtension.swift */,
+				580FAFA328D6F85E00B91C2E /* ViewExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -260,10 +263,10 @@
 			isa = PBXGroup;
 			children = (
 				CF16535A281034890045D0A2 /* StoryView.swift */,
-				5826E7CF28BE38FE00E4678F /* CreateStoryView.swift */,
-				5849069828D0A7C20015C2F6 /* Story.swift */,
 				5849069A28D0A98F0015C2F6 /* StoryViewModel.swift */,
 				581EB4A528D57DF10092107D /* StoryItemView.swift */,
+				5826E7CF28BE38FE00E4678F /* CreateStoryView.swift */,
+				5849069828D0A7C20015C2F6 /* Story.swift */,
 			);
 			path = Story;
 			sourceTree = "<group>";
@@ -446,6 +449,7 @@
 				CF8562922856195C0021063D /* CustomActionSheetView.swift in Sources */,
 				CFAE68832848C5F000A54E38 /* ProfileMenu.swift in Sources */,
 				CF165357281030A90045D0A2 /* AnniversaryView.swift in Sources */,
+				580FAFA428D6F85E00B91C2E /* ViewExtension.swift in Sources */,
 				CFAA293828083E50001CAE7A /* LaunchScreen.swift in Sources */,
 				CFD52E132844D76200CEC320 /* HomeView.swift in Sources */,
 				CF4D51522806E37700146D9F /* ContentView.swift in Sources */,

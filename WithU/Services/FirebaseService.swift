@@ -247,23 +247,25 @@ struct FirebaseService {
                         promise(.failure(error))
                         return
                     }
-                    
+
                     guard let snapshot = snapshot else {
                         print("fetAnniversary() Error : snapshot error")
                         promise(.failure(FirebaseError.badSnapshot))
                         return
                     }
-                    
+
                     var stories = [Story]()
                     snapshot.documents.forEach { document in
-                        if let story = try? document.data(as: Story.self) {
+                        if var story = try? document.data(as: Story.self) {
                             if stories.contains(where: { $0.id == story.id}) { return }
                             
                             stories.append(story)
-                            
+
                         }
+
                     }
-                    
+
+
                     promise(.success(stories))
                 }
         }
@@ -276,25 +278,77 @@ struct FirebaseService {
     ///   - imageName: 이미지 이름 배열
     ///   - id: 유저 아이디
     /// - Returns: 이미지
-    static func fetchImages(imageName: [String], id: String, storyId: String) -> AnyPublisher<UIImage, Error> {
-        Future<UIImage, Error> { promise in
+    static func fetchImages(imageName: [String], id: String, storyId: String) -> AnyPublisher<[UIImage], Error> {
+        Future<[UIImage], Error> { promise in
+            var imgArr : [UIImage] = []
             for idx in 0..<imageName.count {
+                
                 let ref = storage.reference().child("images/\(id)/story/\(storyId)/" + "\(imageName[idx])")
                 
                 ref.getData(maxSize: 1 * 1024 * 1024) { data, error in
                     if let error = error {
+                        print("================================")
                         print("error while downloading image\n\(error.localizedDescription)")
+                        print("================================")
                         promise(.failure(error))
+                        
                         return
                     } else {
-                        promise(.success(UIImage(data: data!) ?? UIImage()))
+                        
+                        imgArr.append(UIImage(data: data!)!)
+                        if idx == imageName.count - 1 {
+                            promise(.success(imgArr))
+                        }
                         
                     }
                 }
+                
             }
+            
+            
             
         }
         .eraseToAnyPublisher()
     }
+    
+    
+        /// 스토리 이미지 URL 가져오기
+        /// - Parameters:
+        ///   - id: 유저아이디
+        ///   - story: 스토리
+        /// - Returns: URL 배열
+        static func getImageURL(imageName: [String], id: String, storyId: String) -> AnyPublisher<[URL], Error> {
+            // Create a reference to the file you want to download
+            Future<[URL], Error> { promise in
+    
+                var URL = [URL]()
+                for idx in 0..<imageName.count {
+                    let ref = storage.reference().child("images/\(id)/story/\(storyId)/" + "\(imageName[idx])")
+    
+                    ref.downloadURL { url, error in
+                      if let error = error {
+                        // Handle any errors
+                          print("Error getImageURL : ", error.localizedDescription)
+    
+                          promise(.failure(error))
+                          return
+                      } else {
+                        // Get the download URL for 'images/stars.jpg'
+                          if let url = url {
+                              URL.append(url)
+                          }
+                          if idx == imageName.count - 1 {
+                              promise(.success(URL))
+                          }
+                      }
+                    }
+                }
+    
+    
+            }
+            .eraseToAnyPublisher()
+    
+        }
+    
     
 }

@@ -57,7 +57,15 @@ struct StoryView: View {
             }
             
             VStack {
-                StoryItemView()
+                if viewModel.isLoading {
+                    ProgressView()
+                } else {
+                    if viewModel.stories.count > 0 {
+                            StoryItemView(viewModel: viewModel)
+                    }
+                }
+                
+                
             }
             .offset(y: 61)
             .padding(.bottom, 20)
