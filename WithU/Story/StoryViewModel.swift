@@ -14,8 +14,9 @@ class StoryViewModel: ObservableObject {
     
     @Published var stories = [Story]()
     @Published var selectedImageStrings = [String]()
-    @Published var images: [String : [URL]] = [:]
+    @Published var images: [String : [UIImage]] = [:]
     @Published var isLoading = false
+    @Published var isUploading = false
     
     func createStory(story: Story, userId: String) {
         
@@ -29,6 +30,7 @@ class StoryViewModel: ObservableObject {
                     return
                 }
             } receiveValue: { _ in
+                self.isUploading = true
                 
             }
             .store(in: &cancellables)
@@ -48,6 +50,7 @@ class StoryViewModel: ObservableObject {
                     print(error)
                     return
                 case .finished:
+                    self.isUploading = false
                     return
                 }
             } receiveValue: { _ in }
@@ -66,7 +69,8 @@ class StoryViewModel: ObservableObject {
                     print(error)
                     return
                 case .finished:
-                    self.getImageURL()
+                    
+                    self.getStoryImages(userId: userId)
                     //self.isLoading = false
                     
                     return
@@ -80,25 +84,35 @@ class StoryViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    func setStoryImages(imgName: [String], userId: String, storyId: String) {
-        FirebaseService.fetchImages(imageName: imgName, id: userId, storyId: storyId)
-            .sink{ (completion) in
-                switch completion {
-                case .failure(let error):
-                    print(error)
-                    return
-                case .finished:
-                    if self.stories.count == self.images.count {
-                        self.isLoading = false
+    func getStoryImages( userId: String) {
+        for story in self.stories{
+            for idx in 0..<story.images.count {
+                FirebaseService.fetchImages(imageName: story.images[idx], id: userId, storyId: story.id)
+                    .sink{ (completion) in
+                        switch completion {
+                        case .failure(let error):
+                            print(error)
+                            return
+                        case .finished:
+                                self.isLoading = false
+                            
+                            return
+                        }
+                    } receiveValue: { [weak self] (image) in
+                        if self?.images[story.id] == nil {
+                            self?.images[story.id] = [image]
+                        } else {
+                            if self?.images[story.id]?.count != story.images.count {
+                                self?.images[story.id]?.append(image)
+                            }
+                        }
+                        //self?.images[storyId] = image
                     }
-                    
-                    return
-                }
-            } receiveValue: { [weak self] (image) in
-                
-                //self?.images[storyId] = image
+                    .store(in: &cancellables)
             }
-            .store(in: &cancellables)
+            
+        }
+        
     }
     
 //    func getImageURL(imgName: [String], userId: String, storyId: String)  {
@@ -118,28 +132,32 @@ class StoryViewModel: ObservableObject {
 //            .store(in: &cancellables)
 //    }
     
-    func getImageURL() {
+//    func getImageURL() {
+////        for story in self.stories {
+////            self.images[story.id] = FirebaseService.getImageURL(imageName: story.images, id: UserDefaults.standard.string(forKey: "id")!, storyId: story.id)
+////        }
 //        for story in self.stories {
-//            self.images[story.id] = FirebaseService.getImageURL(imageName: story.images, id: UserDefaults.standard.string(forKey: "id")!, storyId: story.id)
+//            FirebaseService.getImageURL(imageName: story.images[0], id: UserDefaults.standard.string(forKey: "id")!, storyId: story.id)
+//                .sink{ (completion) in
+//                    switch completion {
+//                    case .failure(let error) :
+//                        print(error)
+//                        return
+//                    case .finished:
+//                        self.isLoading = false
+//                        return
+//                    }
+//                } receiveValue: { url in
+//                    if self.images[story.id] == nil {
+//                        self.images[story.id] = [url]
+//                    } else {
+//                        self.images[story.id]?.append(url)
+//                    }
+//                }
+//                .store(in: &cancellables)
 //        }
-        for story in self.stories {
-            FirebaseService.getImageURL(imageName: story.images, id: UserDefaults.standard.string(forKey: "id")!, storyId: story.id)
-                .sink{ (completion) in
-                    switch completion {
-                    case .failure(let error) :
-                        print(error)
-                        return
-                    case .finished:
-                        self.isLoading = false
-                        return
-                    }
-                } receiveValue: { url in
-                    self.images[story.id] = url
-                }
-                .store(in: &cancellables)
-        }
-        
-    }
+//
+//    }
 
     
     

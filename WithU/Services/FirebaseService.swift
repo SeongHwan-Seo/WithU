@@ -278,12 +278,12 @@ struct FirebaseService {
     ///   - imageName: 이미지 이름 배열
     ///   - id: 유저 아이디
     /// - Returns: 이미지
-    static func fetchImages(imageName: [String], id: String, storyId: String) -> AnyPublisher<[UIImage], Error> {
-        Future<[UIImage], Error> { promise in
+    static func fetchImages(imageName: String, id: String, storyId: String) -> AnyPublisher<UIImage, Error> {
+        Future<UIImage, Error> { promise in
             var imgArr : [UIImage] = []
-            for idx in 0..<imageName.count {
+            
                 
-                let ref = storage.reference().child("images/\(id)/story/\(storyId)/" + "\(imageName[idx])")
+                let ref = storage.reference().child("images/\(id)/story/\(storyId)/" + "\(imageName)")
                 
                 ref.getData(maxSize: 1 * 1024 * 1024) { data, error in
                     if let error = error {
@@ -294,16 +294,14 @@ struct FirebaseService {
                         
                         return
                     } else {
+                        promise(.success(UIImage(data: data!) ?? UIImage()))
+                        print(data)
                         
-                        imgArr.append(UIImage(data: data!)!)
-                        if idx == imageName.count - 1 {
-                            promise(.success(imgArr))
-                        }
                         
                     }
                 }
                 
-            }
+            
             
             
             
@@ -317,13 +315,11 @@ struct FirebaseService {
         ///   - id: 유저아이디
         ///   - story: 스토리
         /// - Returns: URL 배열
-        static func getImageURL(imageName: [String], id: String, storyId: String) -> AnyPublisher<[URL], Error> {
+        static func getImageURL(imageName: String, id: String, storyId: String) -> AnyPublisher<String, Error> {
             // Create a reference to the file you want to download
-            Future<[URL], Error> { promise in
+            Future<String, Error> { promise in
     
-                var URL = [URL]()
-                for idx in 0..<imageName.count {
-                    let ref = storage.reference().child("images/\(id)/story/\(storyId)/" + "\(imageName[idx])")
+                    let ref = storage.reference().child("images/\(id)/story/\(storyId)/" + "\(imageName)")
     
                     ref.downloadURL { url, error in
                       if let error = error {
@@ -335,14 +331,12 @@ struct FirebaseService {
                       } else {
                         // Get the download URL for 'images/stars.jpg'
                           if let url = url {
-                              URL.append(url)
+                              promise(.success(url.path))
                           }
-                          if idx == imageName.count - 1 {
-                              promise(.success(URL))
-                          }
+                          
                       }
                     }
-                }
+                
     
     
             }

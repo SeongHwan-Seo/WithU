@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct StoryItemView: View {
     @StateObject var viewModel: StoryViewModel
@@ -35,36 +36,40 @@ struct StoryItemView: View {
                     
                     Text("\(story.content)")
                     
-                    let columns = Array(repeating: GridItem(.flexible(), spacing: 15), count: 2)
+                    let columns = Array(repeating: GridItem(.flexible(), spacing: 70), count: 2)
                     
-                    if story.images.count > 0  && viewModel.isLoading{
+                    if  !viewModel.isLoading{
                         LazyVGrid(columns: columns, alignment: .center, spacing: 10, content: {
-                            ForEach(viewModel.images[story.id]!, id: \.self){
-                                url in
-                                AsyncImage(url: url)
-                                    
-                            }
+                            
+                                ForEach(viewModel.images[story.id] ?? [UIImage()], id: \.self) { data in
+                                    Image(uiImage: data)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: (getRect().width - 100) / 2 , height: 140)
+                                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                                }
+                            
                             
                         })
-                       
+                        
                         
                         
                     }
                     
                     //if viewModel.images.count > 0 {
-
-//                        LazyVGrid(columns: columns, alignment: .center, spacing: 10, content: {
-//                            ForEach(viewModel.images[story.id] ?? [UIImage](), id: \.self) { img in
-//                                Image(uiImage: img)
-//                                    .resizable()
-//                                    .aspectRatio(contentMode: .fill)
-//                                    .frame(width: (getRect().width - 100) / 2 , height: 120)
-//                                    .clipShape(RoundedRectangle(cornerRadius: 12))
-//
-//                            }
-//                        })
-                        
-                        
+                    
+                    //                        LazyVGrid(columns: columns, alignment: .center, spacing: 10, content: {
+                    //                            ForEach(viewModel.images[story.id] ?? [UIImage](), id: \.self) { img in
+                    //                                Image(uiImage: img)
+                    //                                    .resizable()
+                    //                                    .aspectRatio(contentMode: .fill)
+                    //                                    .frame(width: (getRect().width - 100) / 2 , height: 120)
+                    //                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    //
+                    //                            }
+                    //                        })
+                    
+                    
                     //}
                     
                 }

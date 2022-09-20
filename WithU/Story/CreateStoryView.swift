@@ -8,6 +8,7 @@
 import SwiftUI
 import PhotosUI
 
+
 struct CreateStoryView: View {
     
     @Environment(\.presentationMode) var presentationMode
@@ -45,7 +46,10 @@ struct CreateStoryView: View {
                     Button(action: {
                         viewModel.createStory(story: Story(id: storyID, date: Date().toString()!, content: text, images: selectedImageStrings), userId: UserDefaults.standard.string(forKey: "id")!)
                         viewModel.uploadStoryImage(img: selectedImages, imgName: selectedImageStrings, userId: UserDefaults.standard.string(forKey: "id")!, storyId: storyID)
-                        presentationMode.wrappedValue.dismiss()
+                        if !viewModel.isUploading {
+                            presentationMode.wrappedValue.dismiss()
+                        }
+                        
                         
                     }, label: {
                         Text("저장")

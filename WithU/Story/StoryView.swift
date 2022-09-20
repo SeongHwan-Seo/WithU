@@ -72,7 +72,10 @@ struct StoryView: View {
             
         }
         .onAppear{
-            viewModel.loadStories(userId: userId)
+            if !viewModel.isUploading {
+                viewModel.loadStories(userId: userId)
+            }
+            
         }
         
     }
