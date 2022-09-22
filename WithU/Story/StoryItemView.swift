@@ -10,7 +10,7 @@ import Kingfisher
 
 struct StoryItemView: View {
     @StateObject var viewModel: StoryViewModel
-    
+    @State var isShowingActionSheet = false
     
     
     var body: some View {
@@ -23,14 +23,14 @@ struct StoryItemView: View {
                         Spacer()
                         Button(action: {
                             
-                            print("story : ", viewModel.images)
-                            
-                            
+                            isShowingActionSheet.toggle()
+                            print(story.content)
                         }, label: {
                             Image(systemName: "ellipsis")
                                 .frame(width: 44, height: 44)
                                 .foregroundColor(.ForegroundColor)
                         })
+                        
                     }
                     
                     
@@ -47,33 +47,17 @@ struct StoryItemView: View {
                                         .aspectRatio(contentMode: .fill)
                                         .frame(width: (getRect().width - 100) / 2 , height: 140)
                                         .clipShape(RoundedRectangle(cornerRadius: 12))
+                                        .redacted(reason: viewModel.isLoading ? .placeholder : .init())
                                 }
                             
                             
                         })
                         
-                        
-                        
                     }
-                    
-                    //if viewModel.images.count > 0 {
-                    
-                    //                        LazyVGrid(columns: columns, alignment: .center, spacing: 10, content: {
-                    //                            ForEach(viewModel.images[story.id] ?? [UIImage](), id: \.self) { img in
-                    //                                Image(uiImage: img)
-                    //                                    .resizable()
-                    //                                    .aspectRatio(contentMode: .fill)
-                    //                                    .frame(width: (getRect().width - 100) / 2 , height: 120)
-                    //                                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    //
-                    //                            }
-                    //                        })
-                    
-                    
-                    //}
                     
                 }
                 .padding()
+                
                 
             }
         }

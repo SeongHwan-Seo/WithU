@@ -256,15 +256,13 @@ struct FirebaseService {
 
                     var stories = [Story]()
                     snapshot.documents.forEach { document in
-                        if var story = try? document.data(as: Story.self) {
+                        if let story = try? document.data(as: Story.self) {
                             if stories.contains(where: { $0.id == story.id}) { return }
                             
                             stories.append(story)
-
                         }
 
                     }
-
 
                     promise(.success(stories))
                 }
@@ -280,7 +278,7 @@ struct FirebaseService {
     /// - Returns: 이미지
     static func fetchImages(imageName: String, id: String, storyId: String) -> AnyPublisher<UIImage, Error> {
         Future<UIImage, Error> { promise in
-            var imgArr : [UIImage] = []
+            
             
                 
                 let ref = storage.reference().child("images/\(id)/story/\(storyId)/" + "\(imageName)")
@@ -295,7 +293,6 @@ struct FirebaseService {
                         return
                     } else {
                         promise(.success(UIImage(data: data!) ?? UIImage()))
-                        print(data)
                         
                         
                     }

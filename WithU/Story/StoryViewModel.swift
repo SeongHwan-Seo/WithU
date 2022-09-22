@@ -27,10 +27,10 @@ class StoryViewModel: ObservableObject {
                     print(error)
                     return
                 case .finished:
+                    
                     return
                 }
             } receiveValue: { _ in
-                self.isUploading = true
                 
             }
             .store(in: &cancellables)
@@ -53,7 +53,9 @@ class StoryViewModel: ObservableObject {
                     self.isUploading = false
                     return
                 }
-            } receiveValue: { _ in }
+            } receiveValue: { _ in
+                self.isUploading = true
+            }
             .store(in: &cancellables)
     }
     

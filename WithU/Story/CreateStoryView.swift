@@ -15,6 +15,7 @@ struct CreateStoryView: View {
     @State var selectedImages: [UIImage] = []
     @State var selectedImageStrings = [String]()
     @State var text = ""
+    @State var isDisable = true
     let storyID = UUID().uuidString
     @StateObject var viewModel: StoryViewModel
     
@@ -54,17 +55,32 @@ struct CreateStoryView: View {
                     }, label: {
                         Text("저장")
                             .font(.headline)
-                            .foregroundColor(.buttonBackground)
+                            .foregroundColor(isEmpty() ?  Color.gray : .buttonBackground)
                     })
+                    .disabled(isEmpty())
                 }
                 .padding()
                 
+                
                 Divider()
                 
-                StoryBodyView(text: $text, selectedImages: $selectedImages,selectedImageStrings: $selectedImageStrings, viewModel: viewModel)
+                StoryBodyView(text: $text, selectedImages: $selectedImages,selectedImageStrings: $selectedImageStrings,isDisable: $isDisable, viewModel: viewModel)
                     .padding()
             }
             
+        }
+    }
+}
+
+extension CreateStoryView {
+    
+    /// check mepty text && image
+    /// - Returns: bool
+    fileprivate func isEmpty() -> Bool{
+        if self.selectedImages.count > 0 && !self.isDisable {
+            return false
+        } else {
+            return true
         }
     }
 }
@@ -75,6 +91,7 @@ struct StoryBodyView: View {
     @Binding var text: String
     @Binding var selectedImages: [UIImage]
     @Binding var selectedImageStrings: [String]
+    @Binding var isDisable: Bool
     @StateObject var viewModel: StoryViewModel
     var config: PHPickerConfiguration  {
         var config = PHPickerConfiguration(photoLibrary: PHPhotoLibrary.shared())
@@ -85,12 +102,21 @@ struct StoryBodyView: View {
     @State var isShowingPicker = false
     
     
+    
     var body: some View {
         VStack {
             TextField("내용을 입력하세요.", text: $text)
                 .font(.system(size: 14))
                 .textFieldStyle(.plain)
                 .foregroundColor(.ForegroundColor)
+                .onChange(of: text) { text in
+                    if text.isEmpty {
+                        isDisable = true
+                    } else {
+                        isDisable = false
+                    }
+                    
+                }
             
             VStack {
                 HStack {
