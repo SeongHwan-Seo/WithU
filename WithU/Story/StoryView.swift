@@ -62,7 +62,7 @@ struct StoryView: View {
                         .padding(.top, 10)
                 } else {
                     if viewModel.stories.count > 0 {
-                            StoryItemView(viewModel: viewModel)
+                            StoryItemView(viewModel: viewModel, userId: userId)
                     }
                 }
                 

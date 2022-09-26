@@ -234,6 +234,31 @@ struct FirebaseService {
     }
     
     
+    /// 스토리삭제
+    /// - Parameters:
+    ///   - storyId: 스토리아이디
+    ///   - userId: 유저아디디
+    /// - Returns: void
+    static func deleteStory(storyId: String, userId: String) -> AnyPublisher<Void, Error> {
+        Future<Void, Error> { promise in
+            self.db.collection("users").document(userId).collection("story")
+                .document(storyId).delete() { error in
+                    if let error = error {
+                        print(#function)
+                        print(error.localizedDescription)
+                        promise(.failure(error))
+                    }
+                    else {
+                        print(#function)
+                        promise(.success(()))
+                    }
+                    
+                }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    
     /// 스토리 가져오기
     /// - Parameter userId: 유저 아이디
     /// - Returns: 스토리 배열
@@ -301,6 +326,33 @@ struct FirebaseService {
             
             
             
+            
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    
+    /// 스토리 이미지 삭제
+    /// - Parameters:
+    ///   - storyId: 스토리 아이디
+    ///   - userId: 유저 아이디
+    /// - Returns: void
+    static func deleteStoryImage(storyId: String, userId: String) -> AnyPublisher<Void, Error> {
+        Future<Void, Error> { promise in
+            let ref = storage.reference().child("images/\(userId)/story/\(storyId)")
+            
+            ref.listAll { values, error in
+                if let error = error {
+                    print("================================")
+                    print("error while deleting image\n\(error.localizedDescription)")
+                    print("================================")
+                    promise(.failure(error))
+                } else {
+                    values.items.forEach{ item in
+                        item.delete()
+                    }
+                }
+            }
             
         }
         .eraseToAnyPublisher()
