@@ -52,7 +52,7 @@ struct StoryView: View {
                     .padding()
                     Divider()
                 }
-           
+                
                 
             }
             
@@ -62,23 +62,35 @@ struct StoryView: View {
                         .padding(.top, 10)
                 } else {
                     if viewModel.stories.count > 0 {
+                        
                             StoryItemView(viewModel: viewModel, userId: userId)
+                            
                     }
                 }
                 
                 
             }
+            
             .offset(y: 61)
             .padding(.bottom, 20)
             
+            
         }
+        
         .onAppear{
             if !viewModel.isUploading {
                 viewModel.loadStories(userId: userId)
             }
-            
         }
         
+    }
+}
+
+public struct ViewOffsetKey: PreferenceKey {
+    public typealias Value = CGFloat
+    public static var defaultValue = CGFloat.zero
+    public static func reduce(value: inout Value, nextValue: () -> Value) {
+        value += nextValue()
     }
 }
 

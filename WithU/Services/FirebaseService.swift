@@ -93,7 +93,6 @@ struct FirebaseService {
     /// - Returns: <#description#>
     static func uploadImage(img: [UIImage],imgName: [String], dic: String, storyId: String) -> AnyPublisher<Void, Error>{
         Future<Void, Error> { promise in
-            print(imgName)
             let metaData = StorageMetadata()
             metaData.contentType = "Image/png"
             for idx in 0..<img.count{
@@ -105,10 +104,14 @@ struct FirebaseService {
                     storageRef.putData(data, metadata: metaData) { (metaData, err) in
                         if let err = err {
                             print("err when uploading jpg\n\(err)")
+                            promise(.failure(err))
                         }
                         
                         if let metaData = metaData {
                             print("metaData: \(metaData)")
+                            if idx == img.count - 1 {
+                                promise(.success(()))
+                            }
                         }
                     }
                 }
@@ -351,6 +354,7 @@ struct FirebaseService {
                     values.items.forEach{ item in
                         item.delete()
                     }
+                    promise(.success(()))
                 }
             }
             

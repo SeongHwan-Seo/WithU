@@ -83,6 +83,18 @@ struct StoryItemView: View {
                     }
                     
                 }
+//                .background(GeometryReader {
+//                    // detect Pull-to-refresh
+//                    Color.clear.preference(key: ViewOffsetKey.self, value: -$0.frame(in: .global).origin.y)
+//                })
+//                .onPreferenceChange(ViewOffsetKey.self) {
+//                    print($0)
+//                    if $0 < -124 && !viewModel.isLoading {
+//                        viewModel.isLoading = true
+//                        viewModel.stories = [Story]()
+//                        viewModel.loadStories(userId: userId)
+//                    }
+//                }
                 .padding()
                 
                 

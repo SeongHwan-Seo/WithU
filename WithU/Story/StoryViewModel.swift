@@ -42,7 +42,8 @@ class StoryViewModel: ObservableObject {
     ///   - img: 스토리이미지 배열
     ///   - name: 이미지 이름
     func uploadStoryImage(img: [UIImage],imgName: [String], userId: String, storyId: String) {
-
+        self.isUploading = true
+        
         FirebaseService.uploadImage(img: img, imgName: imgName ,dic: userId, storyId: storyId)
             .sink{ (completion) in
                 switch completion {
@@ -54,7 +55,7 @@ class StoryViewModel: ObservableObject {
                     return
                 }
             } receiveValue: { _ in
-                self.isUploading = true
+                
             }
             .store(in: &cancellables)
     }
@@ -99,8 +100,8 @@ class StoryViewModel: ObservableObject {
                                 print(error)
                                 return
                             case .finished:
-                                    self.isLoading = false
-                                
+                                self.isLoading = false
+                                print(self.isLoading)
                                 return
                             }
                         } receiveValue: { [weak self] (image) in

@@ -45,11 +45,12 @@ struct CreateStoryView: View {
                     Spacer()
                     
                     Button(action: {
+                        
                         viewModel.createStory(story: Story(id: storyID, date: Date().toString()!, content: text, images: selectedImageStrings), userId: UserDefaults.standard.string(forKey: "id")!)
                         viewModel.uploadStoryImage(img: selectedImages, imgName: selectedImageStrings, userId: UserDefaults.standard.string(forKey: "id")!, storyId: storyID)
-                        if !viewModel.isUploading {
+                        //if !viewModel.isUploading {
                             presentationMode.wrappedValue.dismiss()
-                        }
+                        //}
                         
                         
                     }, label: {
