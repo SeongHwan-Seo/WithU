@@ -35,15 +35,7 @@ struct ContentView: View {
                             }))
                         .edgesIgnoringSafeArea(.all)
                 }
-                .onAppear {
-                    if UserDefaults.standard.string(forKey: "id") == nil {
-                        viewModel.setInitUser()
-                        
-                    } else {
-                        viewModel.loadUser()
-                    }
-                    
-                }
+                
             }
             
             if !viewModel.isLoading {

@@ -21,7 +21,15 @@ class HomeViewModel: ObservableObject {
     @Published var bgSelectedImage: UIImage?
     @Published var isLoading: Bool = false
     let db = Firestore.firestore()
-    //let storage = Storage.storage()
+    
+    init() {
+        if UserDefaults.standard.string(forKey: "id") == nil {
+            setInitUser()
+            
+        } else {
+            loadUser()
+        }
+    }
     
     //앱 첫 사용자 등록
     func setInitUser() {

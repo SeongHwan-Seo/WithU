@@ -48,15 +48,21 @@ struct CreateStoryView: View {
                         
                         viewModel.createStory(story: Story(id: storyID, date: Date().toString()!, content: text, images: selectedImageStrings), userId: UserDefaults.standard.string(forKey: "id")!)
                         viewModel.uploadStoryImage(img: selectedImages, imgName: selectedImageStrings, userId: UserDefaults.standard.string(forKey: "id")!, storyId: storyID)
-                        //if !viewModel.isUploading {
-                            presentationMode.wrappedValue.dismiss()
-                        //}
+                        
                         
                         
                     }, label: {
-                        Text("저장")
-                            .font(.headline)
-                            .foregroundColor(isEmpty() ?  Color.gray : .buttonBackground)
+                        
+                        if !viewModel.isUploading {
+                            Text("저장")
+                                .font(.headline)
+                                .foregroundColor(isEmpty() ?  Color.gray : .buttonBackground)
+                        } else {
+                            ProgressView()
+                                .font(.headline)
+                        }
+                        
+                        
                     })
                     .disabled(isEmpty())
                 }
@@ -69,6 +75,9 @@ struct CreateStoryView: View {
                     .padding()
             }
             
+        }
+        .onReceive(viewModel.didSendRequest) { _ in
+            presentationMode.wrappedValue.dismiss()
         }
     }
 }
@@ -153,6 +162,7 @@ struct StoryBodyView: View {
         .sheet(isPresented: $isShowingPicker) {
             PhotoPicker(configuration: config, pickerResult: $selectedImages, selectedImageStrings: $selectedImageStrings, isShowingPicker: $isShowingPicker)
         }
+        
     }
 }
 

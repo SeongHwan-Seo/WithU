@@ -14,6 +14,7 @@ struct StoryItemView: View {
     let userId: String
     
     
+    
     @State var param: Story = Story(id: "", date: "", content: "", images: [""])
     
     var body: some View {
@@ -35,7 +36,7 @@ struct StoryItemView: View {
                                 .foregroundColor(.ForegroundColor)
                         })
                         .confirmationDialog(
-                                    "Are you sure you want to import this file?",
+                                    "",
                                     isPresented: $isShowingActionSheet, presenting:
                                         param
                                 ) { story in
@@ -46,10 +47,12 @@ struct StoryItemView: View {
                                     }
                                     
                                     Button {
-                                        viewModel.deleteStory(story: story, userId: userId)
-                                        viewModel.deleteStoryImage(story: story, userId: userId)
+                                            viewModel.deleteStory(story: story, userId: userId)
+                                            viewModel.deleteStoryImage(story: story, userId: userId)
+                                        
                                     } label: {
                                         Text("삭제")
+                                            .foregroundColor(Color.red)
                                     }
                                     
                                     
@@ -63,18 +66,45 @@ struct StoryItemView: View {
                     
                     Text("\(story.content)")
                     
-                    let columns = Array(repeating: GridItem(.flexible(), spacing: 70), count: 2)
-                    
+                    let columns = Array(repeating: GridItem(.flexible(), spacing: 10), count: 2)
+                    //var _ index = 0
                     if  !viewModel.isLoading{
                         LazyVGrid(columns: columns, alignment: .center, spacing: 10, content: {
                             
                             ForEach(viewModel.images[story.id] ?? [UIImage()], id: \.self) { data in
+//                                ZStack {
+//                                    if index <= 3 {
+//                                        Image(uiImage: data)
+//                                            .resizable()
+//                                            .aspectRatio(contentMode: .fill)
+//                                            .frame(width: (getRect().width - 50) / 2 , height: 140)
+//                                            .clipShape(RoundedRectangle(cornerRadius: 12))
+//                                            .redacted(reason: viewModel.isLoading ? .placeholder : .init())
+//                                    }
+//
+//                                    if viewModel.images[story.id]?.count ?? 0 > 4 && index == 3 {
+//                                        RoundedRectangle(cornerRadius: 12)
+//                                            .fill(Color.black.opacity(0.3))
+//
+//                                        let remainingImages =
+//                                        (viewModel.images[story.id]?.count ?? 0) - 4
+//
+//                                        Text("+\(remainingImages)")
+//                                            .font(.title)
+//                                            .fontWeight(.heavy)
+//                                            .foregroundColor(.white)
+//                                    }
+//
+//                                }
                                 Image(uiImage: data)
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
-                                    .frame(width: (getRect().width - 100) / 2 , height: 140)
+                                    .frame(width: (getRect().width - 50) / 2 , height: 140)
                                     .clipShape(RoundedRectangle(cornerRadius: 12))
                                     .redacted(reason: viewModel.isLoading ? .placeholder : .init())
+                                
+                                
+                                //index += 1
                             }
                             
                             
@@ -117,6 +147,14 @@ struct StoryItemView: View {
     }
 }
 
+struct ImageGridView: View {
+    let storyImages: [UIImage]
+    var body: some View {
+        VStack {
+            
+        }
+    }
+}
 
 
 struct CustomActionSheet: View {

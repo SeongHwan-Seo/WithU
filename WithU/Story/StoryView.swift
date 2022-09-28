@@ -56,7 +56,7 @@ struct StoryView: View {
                 
             }
             
-            VStack {
+            VStack() {
                 if viewModel.isLoading {
                     ProgressView()
                         .padding(.top, 10)
@@ -64,6 +64,7 @@ struct StoryView: View {
                     if viewModel.stories.count > 0 {
                         
                             StoryItemView(viewModel: viewModel, userId: userId)
+                            
                             
                     }
                 }

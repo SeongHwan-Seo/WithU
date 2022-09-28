@@ -18,6 +18,12 @@ class StoryViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var isUploading = false
     
+    var didSendRequest: AnyPublisher<Void, Never> {
+        subject.eraseToAnyPublisher()
+    }
+    
+    private let subject = PassthroughSubject<Void, Never>()
+    
     func createStory(story: Story, userId: String) {
         
         FirebaseService.createStory(story: story, userId: userId)
@@ -52,6 +58,7 @@ class StoryViewModel: ObservableObject {
                     return
                 case .finished:
                     self.isUploading = false
+                    self.subject.send()
                     return
                 }
             } receiveValue: { _ in
@@ -122,7 +129,7 @@ class StoryViewModel: ObservableObject {
         
     }
     
-
+    
     func deleteStory(story: Story, userId: String) {
         FirebaseService.deleteStory(storyId: story.id, userId: userId)
             .sink{ (completion) in
@@ -157,7 +164,7 @@ class StoryViewModel: ObservableObject {
     }
     
     
-   
+    
 }
 
 
