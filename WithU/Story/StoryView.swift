@@ -77,7 +77,13 @@ struct StoryView: View {
             
             
         }
-        
+        .overlay(
+            ZStack {
+                if !viewModel.detailSelectedImages.isEmpty {
+                    DetailImagesView(viewModel: viewModel)
+                }
+            }
+        )
         .onAppear{
             if !viewModel.isUploading {
                 viewModel.loadStories(userId: userId)

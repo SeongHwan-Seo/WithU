@@ -17,6 +17,7 @@
 		5849069B28D0A98F0015C2F6 /* StoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5849069A28D0A98F0015C2F6 /* StoryViewModel.swift */; };
 		5849069D28D0B0A90015C2F6 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5849069C28D0B0A90015C2F6 /* StringExtension.swift */; };
 		5849069F28D0B0B70015C2F6 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5849069E28D0B0B70015C2F6 /* DateExtension.swift */; };
+		58F5FD2328EC613D002DB680 /* DetailImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F5FD2228EC613D002DB680 /* DetailImagesView.swift */; };
 		CF0483E12860913F00455F78 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0483E02860913F00455F78 /* FirebaseService.swift */; };
 		CF0E4CDB284F693A00012270 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0E4CDA284F693A00012270 /* HomeViewModel.swift */; };
 		CF0E4CDD284F73DD00012270 /* ChangePartnerProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0E4CDC284F73DD00012270 /* ChangePartnerProfileView.swift */; };
@@ -66,6 +67,7 @@
 		5849069A28D0A98F0015C2F6 /* StoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewModel.swift; sourceTree = "<group>"; };
 		5849069C28D0B0A90015C2F6 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		5849069E28D0B0B70015C2F6 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		58F5FD2228EC613D002DB680 /* DetailImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailImagesView.swift; sourceTree = "<group>"; };
 		5B8D06DD24848BB6204B80C1 /* Pods_WithU.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WithU.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		92169406D3711DD53CD3D16B /* Pods-WithU.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WithU.debug.xcconfig"; path = "Target Support Files/Pods-WithU/Pods-WithU.debug.xcconfig"; sourceTree = "<group>"; };
 		C03D3172ECA2698A2A8618AE /* Pods-WithU.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WithU.release.xcconfig"; path = "Target Support Files/Pods-WithU/Pods-WithU.release.xcconfig"; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 				581EB4A528D57DF10092107D /* StoryItemView.swift */,
 				5826E7CF28BE38FE00E4678F /* CreateStoryView.swift */,
 				5849069828D0A7C20015C2F6 /* Story.swift */,
+				58F5FD2228EC613D002DB680 /* DetailImagesView.swift */,
 			);
 			path = Story;
 			sourceTree = "<group>";
@@ -445,6 +448,7 @@
 				CF0E4CDB284F693A00012270 /* HomeViewModel.swift in Sources */,
 				CFD52E252844F5C000CEC320 /* DdayCountView.swift in Sources */,
 				CF5C79E2288821DB00D89E22 /* AnniversaryViewModel.swift in Sources */,
+				58F5FD2328EC613D002DB680 /* DetailImagesView.swift in Sources */,
 				CFD52E192844DA9500CEC320 /* BgImageView.swift in Sources */,
 				CF8562922856195C0021063D /* CustomActionSheetView.swift in Sources */,
 				CFAE68832848C5F000A54E38 /* ProfileMenu.swift in Sources */,

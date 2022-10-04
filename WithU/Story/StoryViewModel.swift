@@ -17,7 +17,9 @@ class StoryViewModel: ObservableObject {
     @Published var images: [String : [UIImage]] = [:]
     @Published var isLoading = false
     @Published var isUploading = false
-    
+    @Published var detailSelectedImages: [UIImage] = []
+    @Published var detailSelectedIndex: Int = 0
+     
     var didSendRequest: AnyPublisher<Void, Never> {
         subject.eraseToAnyPublisher()
     }

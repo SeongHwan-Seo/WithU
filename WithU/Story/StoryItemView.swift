@@ -36,30 +36,30 @@ struct StoryItemView: View {
                                 .foregroundColor(.ForegroundColor)
                         })
                         .confirmationDialog(
-                                    "",
-                                    isPresented: $isShowingActionSheet, presenting:
-                                        param
-                                ) { story in
-                                    Button {
-                                        // Handle import action.
-                                    } label: {
-                                        Text("수정")
-                                    }
-                                    
-                                    Button {
-                                            viewModel.deleteStory(story: story, userId: userId)
-                                            viewModel.deleteStoryImage(story: story, userId: userId)
-                                        
-                                    } label: {
-                                        Text("삭제")
-                                            .foregroundColor(Color.red)
-                                    }
-                                    
-                                    
-                                    Button("취소", role: .cancel) {
-                                        isShowingActionSheet.toggle()
-                                    }
-                                }
+                            "",
+                            isPresented: $isShowingActionSheet, presenting:
+                                param
+                        ) { story in
+                            Button {
+                                // Handle import action.
+                            } label: {
+                                Text("수정")
+                            }
+                            
+                            Button {
+                                viewModel.deleteStory(story: story, userId: userId)
+                                viewModel.deleteStoryImage(story: story, userId: userId)
+                                
+                            } label: {
+                                Text("삭제")
+                                    .foregroundColor(Color.red)
+                            }
+                            
+                            
+                            Button("취소", role: .cancel) {
+                                isShowingActionSheet.toggle()
+                            }
+                        }
                         
                     }
                     
@@ -71,77 +71,26 @@ struct StoryItemView: View {
                     if  !viewModel.isLoading{
                         LazyVGrid(columns: columns, alignment: .center, spacing: 10, content: {
                             
-                            ForEach(viewModel.images[story.id] ?? [UIImage()], id: \.self) { data in
-//                                ZStack {
-//                                    if index <= 3 {
-//                                        Image(uiImage: data)
-//                                            .resizable()
-//                                            .aspectRatio(contentMode: .fill)
-//                                            .frame(width: (getRect().width - 50) / 2 , height: 140)
-//                                            .clipShape(RoundedRectangle(cornerRadius: 12))
-//                                            .redacted(reason: viewModel.isLoading ? .placeholder : .init())
-//                                    }
-//
-//                                    if viewModel.images[story.id]?.count ?? 0 > 4 && index == 3 {
-//                                        RoundedRectangle(cornerRadius: 12)
-//                                            .fill(Color.black.opacity(0.3))
-//
-//                                        let remainingImages =
-//                                        (viewModel.images[story.id]?.count ?? 0) - 4
-//
-//                                        Text("+\(remainingImages)")
-//                                            .font(.title)
-//                                            .fontWeight(.heavy)
-//                                            .foregroundColor(.white)
-//                                    }
-//
-//                                }
-                                Image(uiImage: data)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: (getRect().width - 50) / 2 , height: 140)
-                                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                                    .redacted(reason: viewModel.isLoading ? .placeholder : .init())
+                            ForEach(viewModel.images[story.id]?.indices ?? [UIImage()].indices, id: \.self) { index in
+                                ImageGridView(storyImages: viewModel.images[story.id] ?? [UIImage()], index: index, viewModel: viewModel)
                                 
-                                
-                                //index += 1
                             }
                             
+                            
+                            
+                           
                             
                         })
                         
                     }
                     
                 }
-//                .background(GeometryReader {
-//                    // detect Pull-to-refresh
-//                    Color.clear.preference(key: ViewOffsetKey.self, value: -$0.frame(in: .global).origin.y)
-//                })
-//                .onPreferenceChange(ViewOffsetKey.self) {
-//                    print($0)
-//                    if $0 < -124 && !viewModel.isLoading {
-//                        viewModel.isLoading = true
-//                        viewModel.stories = [Story]()
-//                        viewModel.loadStories(userId: userId)
-//                    }
-//                }
                 .padding()
                 
                 
                 
             }
         }
-//        .overlay(
-//            VStack {
-//                Spacer()
-//
-//                CustomActionSheet(isShowingActionSheet: $isShowingActionSheet)
-//                    .offset(y: self.isShowingActionSheet ? 0 : UIScreen.main.bounds.height)
-//            }
-//                .background(self.isShowingActionSheet ? Color.black.opacity(0.3) : Color.clear)
-//                .edgesIgnoringSafeArea(.bottom)
-//
-//        )
         
         
     }
@@ -149,8 +98,40 @@ struct StoryItemView: View {
 
 struct ImageGridView: View {
     let storyImages: [UIImage]
+    let index: Int
+    @StateObject var viewModel: StoryViewModel
     var body: some View {
         VStack {
+            Button(action: {
+                viewModel.detailSelectedImages = storyImages
+                viewModel.detailSelectedIndex = index
+            }, label: {
+                ZStack {
+                    
+                        if index <= 3 {
+                            Image(uiImage: storyImages[index])
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: (getRect().width - 50) / 2 , height: 140)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                            
+                        }
+                        
+                        if storyImages.count > 4 && index == 3 {
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color.black.opacity(0.3))
+                            
+                            let remainingImages =
+                            storyImages.count - 4
+                            
+                            Text("+\(remainingImages)")
+                                .font(.title)
+                                .fontWeight(.heavy)
+                                .foregroundColor(.white)
+                        }
+                    
+                }
+            })
             
         }
     }
