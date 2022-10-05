@@ -46,7 +46,8 @@ struct StoryView: View {
                                 Image(systemName: "plus")
                                     .imageScale(.large)
                                     .foregroundColor(.ForegroundColor)
-                            })
+                            }
+                        )
                         
                     }
                     .padding()
@@ -79,7 +80,7 @@ struct StoryView: View {
         }
         .overlay(
             ZStack {
-                if !viewModel.detailSelectedImages.isEmpty {
+                if viewModel.detailShowViewer {
                     DetailImagesView(viewModel: viewModel)
                 }
             }

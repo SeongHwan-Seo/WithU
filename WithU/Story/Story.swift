@@ -14,13 +14,15 @@ struct Story: Codable, Identifiable, Equatable {
     var content: String
     var images: [String]
     var url: [URL]?
+    var createDate: String
     
-    init(id: String, date: String, content: String, images: [String], url: [URL]? = nil) {
+    init(id: String, date: String, content: String, images: [String], url: [URL]? = nil, createDate: String) {
         self.id = id
         self.date = date
         self.content = content
         self.images = images
         self.url = url
+        self.createDate = createDate
     }
     
     public static func ==(lhs: Story, rhs: Story) -> Bool{

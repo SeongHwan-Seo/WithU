@@ -222,7 +222,8 @@ struct FirebaseService {
                     "id": story.id,
                     "date": story.date,
                     "content": story.content,
-                    "images": story.images
+                    "images": story.images,
+                    "createDate": story.createDate,
                 ]) {
                     error in
                     if let error = error {

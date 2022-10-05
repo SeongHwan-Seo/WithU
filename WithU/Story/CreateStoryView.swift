@@ -46,7 +46,7 @@ struct CreateStoryView: View {
                     
                     Button(action: {
                         
-                        viewModel.createStory(story: Story(id: storyID, date: Date().toString()!, content: text, images: selectedImageStrings), userId: UserDefaults.standard.string(forKey: "id")!)
+                        viewModel.createStory(story: Story(id: storyID, date: Date().toString()!, content: text, images: selectedImageStrings, createDate: Date().formatted()), userId: UserDefaults.standard.string(forKey: "id")!)
                         viewModel.uploadStoryImage(img: selectedImages, imgName: selectedImageStrings, userId: UserDefaults.standard.string(forKey: "id")!, storyId: storyID)
                         
                         
@@ -116,7 +116,7 @@ struct StoryBodyView: View {
     var body: some View {
         VStack {
             TextField("내용을 입력하세요.", text: $text)
-                .font(.system(size: 14))
+                .font(.system(size: 15, weight: .medium, design: .rounded))
                 .textFieldStyle(.plain)
                 .foregroundColor(.ForegroundColor)
                 .onChange(of: text) { text in

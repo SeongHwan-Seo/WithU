@@ -18,7 +18,8 @@ class StoryViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var isUploading = false
     @Published var detailSelectedImages: [UIImage] = []
-    @Published var detailSelectedIndex: Int = 0
+    @Published var detailSelectedImage: UIImage = UIImage()
+    @Published var detailShowViewer = false
      
     var didSendRequest: AnyPublisher<Void, Never> {
         subject.eraseToAnyPublisher()
@@ -89,7 +90,7 @@ class StoryViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] (stories) in
                 self?.isLoading = true
-                self?.stories = stories.sorted(by: {$0.date < $1.date})
+                self?.stories = stories.sorted(by: {$0.createDate > $1.createDate})
                 
                 
             }

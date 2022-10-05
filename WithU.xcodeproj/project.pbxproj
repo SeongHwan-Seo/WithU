@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		381D4F0D78FDAAD9FFBDAAD4 /* Pods_WithU.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8D06DD24848BB6204B80C1 /* Pods_WithU.framework */; };
+		580721E328EDAF2100B3335B /* ModifyStoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580721E228EDAF2100B3335B /* ModifyStoryView.swift */; };
 		580FAFA428D6F85E00B91C2E /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580FAFA328D6F85E00B91C2E /* ViewExtension.swift */; };
 		581EB4A628D57DF10092107D /* StoryItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581EB4A528D57DF10092107D /* StoryItemView.swift */; };
 		5826E7D028BE38FE00E4678F /* CreateStoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5826E7CF28BE38FE00E4678F /* CreateStoryView.swift */; };
@@ -58,6 +59,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		580721E228EDAF2100B3335B /* ModifyStoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyStoryView.swift; sourceTree = "<group>"; };
 		580FAFA328D6F85E00B91C2E /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		581EB4A528D57DF10092107D /* StoryItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryItemView.swift; sourceTree = "<group>"; };
 		5826E7CF28BE38FE00E4678F /* CreateStoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStoryView.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 				5826E7CF28BE38FE00E4678F /* CreateStoryView.swift */,
 				5849069828D0A7C20015C2F6 /* Story.swift */,
 				58F5FD2228EC613D002DB680 /* DetailImagesView.swift */,
+				580721E228EDAF2100B3335B /* ModifyStoryView.swift */,
 			);
 			path = Story;
 			sourceTree = "<group>";
@@ -468,6 +471,7 @@
 				CF0483E12860913F00455F78 /* FirebaseService.swift in Sources */,
 				CF5C79E42888224D00D89E22 /* CreateAnniversaryView.swift in Sources */,
 				5849069B28D0A98F0015C2F6 /* StoryViewModel.swift in Sources */,
+				580721E328EDAF2100B3335B /* ModifyStoryView.swift in Sources */,
 				CFD52E1B2844E0EB00CEC320 /* CoupleImageView.swift in Sources */,
 				5826E7D028BE38FE00E4678F /* CreateStoryView.swift in Sources */,
 				CF4D51502806E37700146D9F /* WithUApp.swift in Sources */,

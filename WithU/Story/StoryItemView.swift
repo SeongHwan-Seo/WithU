@@ -11,25 +11,26 @@ import Kingfisher
 struct StoryItemView: View {
     @StateObject var viewModel: StoryViewModel
     @State var isShowingActionSheet = false
+    @State var isShowingSheet = false
     let userId: String
     
     
     
-    @State var param: Story = Story(id: "", date: "", content: "", images: [""])
+    @State var param: Story = Story(id: "", date: "", content: "", images: [""], createDate: "")
     
     var body: some View {
         ScrollView {
             ForEach(viewModel.stories, id: \.id) { story in
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("\(story.date) 토요일")
-                            .font(.system(size: 16, weight: .semibold, design: .default))
+                        Text("\(story.date)")
+                            .font(.system(size: 16, weight: .semibold, design: .rounded))
                         Spacer()
                         Button(action: {
                             
                             isShowingActionSheet.toggle()
-                            param = Story(id: story.id, date: story.date, content: story.content, images: story.images)
-                            print(story.content)
+                            param = Story(id: story.id, date: story.date, content: story.content, images: story.images, createDate: story.createDate)
+                            
                         }, label: {
                             Image(systemName: "ellipsis")
                                 .frame(width: 44, height: 44)
@@ -40,21 +41,23 @@ struct StoryItemView: View {
                             isPresented: $isShowingActionSheet, presenting:
                                 param
                         ) { story in
-                            Button {
-                                // Handle import action.
-                            } label: {
-                                Text("수정")
+//                            Button {
+//
+//                            } label: {
+//                                Text("수정")
+//                            }
+                            Button("수정") {
+                                isShowingSheet.toggle()
                             }
                             
-                            Button {
-                                viewModel.deleteStory(story: story, userId: userId)
-                                viewModel.deleteStoryImage(story: story, userId: userId)
-                                
-                            } label: {
-                                Text("삭제")
-                                    .foregroundColor(Color.red)
-                            }
                             
+                            
+                            Button("삭제", role: .destructive) {
+                                withAnimation(.spring()) {
+                                    viewModel.deleteStory(story: story, userId: userId)
+                                    viewModel.deleteStoryImage(story: story, userId: userId)
+                                }
+                            }
                             
                             Button("취소", role: .cancel) {
                                 isShowingActionSheet.toggle()
@@ -65,6 +68,7 @@ struct StoryItemView: View {
                     
                     
                     Text("\(story.content)")
+                        .font(.system(size: 15, weight: .medium, design: .rounded))
                     
                     let columns = Array(repeating: GridItem(.flexible(), spacing: 10), count: 2)
                     //var _ index = 0
@@ -75,10 +79,6 @@ struct StoryItemView: View {
                                 ImageGridView(storyImages: viewModel.images[story.id] ?? [UIImage()], index: index, viewModel: viewModel)
                                 
                             }
-                            
-                            
-                            
-                           
                             
                         })
                         
@@ -92,6 +92,9 @@ struct StoryItemView: View {
             }
         }
         
+        .sheet(isPresented: $isShowingSheet, content: {
+            ModifyStoryView(story: param, text: param.content)
+        })
         
     }
 }
@@ -103,8 +106,12 @@ struct ImageGridView: View {
     var body: some View {
         VStack {
             Button(action: {
-                viewModel.detailSelectedImages = storyImages
-                viewModel.detailSelectedIndex = index
+                withAnimation(.default) {
+                    viewModel.detailShowViewer.toggle()
+                    viewModel.detailSelectedImages = storyImages
+                    viewModel.detailSelectedImage = storyImages[index]
+                }
+                
             }, label: {
                 ZStack {
                     
@@ -138,55 +145,4 @@ struct ImageGridView: View {
 }
 
 
-struct CustomActionSheet: View {
-    @Binding var isShowingActionSheet: Bool
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 15) {
-            HStack {
-                Button(action: {
-                } ) {
-                    Image(systemName: "person.crop.rectangle")
-                    Text("수정하기")
-                    
-                }
-                .foregroundColor(Color.ForegroundColor)
-                
-                Spacer()
-            }
-            
-            HStack {
-                Button(action: {} ) {
-                    Image(systemName: "camera")
-                    Text("삭제")
-                    
-                }
-                .foregroundColor(Color.ForegroundColor)
-                Spacer()
-            }
-            HStack {
-                Button(action: {
-                    isShowingActionSheet.toggle()
-                }) {
-                    Image(systemName: "clear")
-                    Text("취소")
-                    
-                }
-                .foregroundColor(Color.ForegroundColor)
-                Spacer()
-            }
-        }.padding(.bottom, (UIApplication.shared.windows.last?.safeAreaInsets.bottom)! + 10)
-            .padding(.horizontal)
-            .padding(.top, 20)
-            .background(Color.popBackgroundColor)
-            .cornerRadius(20)
-        
-    }
-    
-}
 
-//struct StoryItemView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        StoryItemView(viewModel: StoryViewModel())
-//    }
-//}
