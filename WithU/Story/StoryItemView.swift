@@ -92,8 +92,8 @@ struct StoryItemView: View {
             }
         }
         
-        .sheet(isPresented: $isShowingSheet, content: {
-            ModifyStoryView(story: param, text: param.content)
+        .fullScreenCover(isPresented: $isShowingSheet, content: {
+            ModifyStoryView(story: param, text: param.content, images: viewModel.images[param.id]!)
         })
         
     }
