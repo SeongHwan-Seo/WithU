@@ -15,6 +15,7 @@ struct ModifyStoryView: View {
     @State var images: [UIImage]
     @State var isShowingCancelAlert = false // 화면에서 나갈 때
     @State var isTextEmpty = false
+    @StateObject var viewModel: StoryViewModel
     
     var body: some View {
         VStack {
@@ -35,7 +36,16 @@ struct ModifyStoryView: View {
                     
                     Spacer()
                     
+                    Text("글 수정")
+                        .font(.headline)
+                        .foregroundColor(.ForegroundColor)
+                    
+                    Spacer()
+                    
                     Button(action: {
+                        
+                        viewModel.modifyStory(story: Story(id: story.id, date: story.date, content: text, images: story.images, createDate: story.createDate), userId: UserDefaults.standard.string(forKey: "id")!)
+                        
                         
                     }, label: {
                         Text("완료")
@@ -73,26 +83,26 @@ struct ModifyStoryView: View {
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 170, height: 170)
                                 .clipShape(RoundedRectangle(cornerRadius: 12))
-                                .overlay(
-                                    Button(action: {
-                                        withAnimation(.default) {
-                                            removeImage(index: index)
-                                        }
-                                        
-                                    }, label: {
-                                        if(images.count > 1) {
-                                            Image(systemName: "trash")
-                                                .resizable()
-                                                .frame(width: 20, height: 20)
-                                                .foregroundColor(.white)
-                                                .padding()
-                                                .background(Color.white.opacity(0.35))
-                                                .clipShape(Circle())
-                                        }
-                                    })
-                                    .padding(5)
-                                    ,alignment: .topLeading
-                                )
+//                                .overlay(
+//                                    Button(action: {
+//                                        withAnimation(.default) {
+//                                            removeImage(index: index)
+//                                        }
+//
+//                                    }, label: {
+//                                        if(images.count > 1) {
+//                                            Image(systemName: "trash")
+//                                                .resizable()
+//                                                .frame(width: 20, height: 20)
+//                                                .foregroundColor(.white)
+//                                                .padding()
+//                                                .background(Color.white.opacity(0.35))
+//                                                .clipShape(Circle())
+//                                        }
+//                                    })
+//                                    .padding(5)
+//                                    ,alignment: .topLeading
+//                                )
                             
                         }
                     }
@@ -101,6 +111,10 @@ struct ModifyStoryView: View {
             .padding()
             
             Spacer()
+        }
+        .onReceive(viewModel.didSendRequest) { _ in
+            viewModel.loadStories(userId: UserDefaults.standard.string(forKey: "id")!)
+            presentationMode.wrappedValue.dismiss()
         }
         
     }

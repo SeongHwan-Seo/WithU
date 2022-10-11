@@ -355,6 +355,7 @@ struct FirebaseService {
                     values.items.forEach{ item in
                         item.delete()
                     }
+                    
                     promise(.success(()))
                 }
             }
@@ -364,39 +365,7 @@ struct FirebaseService {
     }
     
     
-        /// 스토리 이미지 URL 가져오기
-        /// - Parameters:
-        ///   - id: 유저아이디
-        ///   - story: 스토리
-        /// - Returns: URL 배열
-        static func getImageURL(imageName: String, id: String, storyId: String) -> AnyPublisher<String, Error> {
-            // Create a reference to the file you want to download
-            Future<String, Error> { promise in
-    
-                    let ref = storage.reference().child("images/\(id)/story/\(storyId)/" + "\(imageName)")
-    
-                    ref.downloadURL { url, error in
-                      if let error = error {
-                        // Handle any errors
-                          print("Error getImageURL : ", error.localizedDescription)
-    
-                          promise(.failure(error))
-                          return
-                      } else {
-                        // Get the download URL for 'images/stars.jpg'
-                          if let url = url {
-                              promise(.success(url.path))
-                          }
-                          
-                      }
-                    }
-                
-    
-    
-            }
-            .eraseToAnyPublisher()
-    
-        }
+   
     
     
 }

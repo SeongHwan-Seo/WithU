@@ -46,6 +46,29 @@ class StoryViewModel: ObservableObject {
         
     }
     
+    /// 스토리 글 수정
+    /// - Parameters:
+    ///   - story: story
+    ///   - userId: userid
+    func modifyStory(story: Story, userId: String) {
+        
+        FirebaseService.createStory(story: story, userId: userId)
+            .sink{ (completion) in
+                switch completion {
+                case .failure(let error):
+                    print(error)
+                    return
+                case .finished:
+                    self.subject.send()
+                    return
+                }
+            } receiveValue: { _ in
+                
+            }
+            .store(in: &cancellables)
+        
+    }
+    
     /// 스토리이미지 업로드
     /// - Parameters:
     ///   - img: 스토리이미지 배열
