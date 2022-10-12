@@ -19,6 +19,7 @@ struct ChangePartnerProfileView: View {
                 let image = viewModel.uselectedImage == nil ? Image(systemName: "lessthan") : Image(uiImage: viewModel.uselectedImage ?? UIImage())
                     image
                     .resizable()
+                    .aspectRatio(contentMode: .fill)
                     .frame(width: 90, height: 90)
                     .clipShape(Circle())
                     .overlay(

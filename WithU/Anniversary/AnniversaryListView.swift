@@ -25,7 +25,9 @@ struct AnniversaryListView: View {
                         VStack(alignment: .leading) {
                             Text("\(anniversary.title)")
                                 .font(.title2)
+                                .padding(.bottom, 3)
                             Text("\(anniversary.date)")
+                                .font(.system(size: 14, weight: .thin))
                         }
                         
                         

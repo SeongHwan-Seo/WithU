@@ -21,6 +21,7 @@ struct ChangeUserProfileView: View {
                 let image = viewModel.selectedImage == nil ? Image(systemName: "greaterthan") : Image(uiImage: viewModel.selectedImage ?? UIImage())
                     image
                     .resizable()
+                    .aspectRatio(contentMode: .fill)
                     .frame(width: 90, height: 90)
                     .clipShape(Circle())
                     .overlay(

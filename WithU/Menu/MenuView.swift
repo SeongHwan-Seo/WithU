@@ -24,7 +24,7 @@ struct MenuView: View {
             
             VStack {
                 MenuHeadView(isShowingMenuView: $isShowingMenuView)
-                    .frame(height: 200)
+                    .frame(height: 100)
                 
                 ForEach(MenuViewModel.allCases, id: \.self) { option in
                     NavigationLink(
