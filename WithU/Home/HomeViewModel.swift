@@ -87,7 +87,7 @@ class HomeViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] (user) in
                 self?.user = user
-
+                print(user)
             }
             .store(in: &cancellables)
     }

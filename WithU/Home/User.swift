@@ -23,6 +23,7 @@ struct User: Codable, Identifiable {
     var date: Date? = Date()
     // backgroundImage
     var bgImageString: String = ""
+    var anniversaries: [Anniversary]?
     
     
 

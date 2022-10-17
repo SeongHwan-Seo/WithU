@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingView: View {
     @Environment(\.presentationMode) var presentationMode
+    @StateObject var viewModel = SettingViewModel()
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -52,7 +53,7 @@ struct SettingView: View {
                     Section(header: Text("앱 설정").foregroundColor(.buttonBackground)){
                         
                         Button(action: {
-                            
+                            viewModel.deleteAll(userId: UserDefaults.standard.string(forKey: "id")!)
                         }, label: {
                             Text("데이터 삭제하기")
                         })
