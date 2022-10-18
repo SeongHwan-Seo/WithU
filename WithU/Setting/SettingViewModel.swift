@@ -17,9 +17,15 @@ class SettingViewModel: ObservableObject {
             .sink{ (completion) in
                 switch completion {
                 case .failure(let error):
-                    print(error)
+                    print("Failed deleteAll : \(error)")
                     return
                 case .finished:
+                    print("Success deleteAll")
+                    UserDefaults.standard.set(nil, forKey: "id")
+                    UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        exit(0)
+                    }
                     return
                 }
             } receiveValue: { _ in

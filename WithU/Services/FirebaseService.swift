@@ -144,30 +144,30 @@ struct FirebaseService {
     static func createAnniversary(_ anniversary: Anniversary, _ userId: String) -> AnyPublisher<Void, Error> {
         Future<Void, Error> { promise in
             
-            //            self.db.collection("users").document(userId).collection("anniversary")
-            //                .document(anniversary.id).setData([
-            //                    "id": anniversary.id,
-            //                    "title": anniversary.title,
-            //                    "date": anniversary.date
-            //                ]) {
-            //                    error in
-            //                    if let error = error {
-            //                        promise(.failure(error))
-            //                    } else {
-            //                        promise(.success(()))
-            //                    }
-            //                }
-            self.db.collection("users").document(userId)
-                .updateData(["anniversaries" : FieldValue.arrayUnion([["id": anniversary.id,
-                                                                      "title": anniversary.title,
-                                                                      "date": anniversary.date]])
-                ]) { error in
+            self.db.collection("users").document(userId).collection("anniversary")
+                .document(anniversary.id).setData([
+                    "id": anniversary.id,
+                    "title": anniversary.title,
+                    "date": anniversary.date
+                ]) {
+                    error in
                     if let error = error {
                         promise(.failure(error))
                     } else {
                         promise(.success(()))
                     }
                 }
+            //            self.db.collection("users").document(userId)
+            //                .updateData(["anniversaries" : FieldValue.arrayUnion([["id": anniversary.id,
+            //                                                                      "title": anniversary.title,
+            //                                                                      "date": anniversary.date]])
+            //                ]) { error in
+            //                    if let error = error {
+            //                        promise(.failure(error))
+            //                    } else {
+            //                        promise(.success(()))
+            //                    }
+            //                }
             
         }
         .eraseToAnyPublisher()
@@ -203,33 +203,7 @@ struct FirebaseService {
                     promise(.success(anniversaries))
                 }
             
-            self.db.collection("users").document(userId)
-                .getDocument{ (snapshot, error) in
-                    if let error = error {
-                        promise(.failure(error))
-                        return
-                    }
-                    
-                    guard let snapshot = snapshot else {
-                        print("fetAnniversary() Error : snapshot error")
-                        promise(.failure(FirebaseError.badSnapshot))
-                        return
-                    }
-                    
-                    var anniversaries = [Anniversary]()
-                    
-                    print(snapshot.data())
-//                    snapshot.documents.forEach { document in
-//                        if let anniversary = try? document.data(as: Anniversary.self) {
-//                            if anniversaries.contains(where: { $0.id == anniversary.id}) { return }
-//                            anniversaries.append(anniversary)
-//
-//
-//                        }
-//                    }
-                    
-                    promise(.success(anniversaries))
-                }
+            
         }
         .eraseToAnyPublisher()
     }
@@ -256,36 +230,36 @@ struct FirebaseService {
     static func createStory(story: Story, userId: String) -> AnyPublisher<Void, Error> {
         Future<Void, Error> { promise in
             
-            //            self.db.collection("users").document(userId).collection("story")
-            //                .document(story.id).setData([
-            //                    "id": story.id,
-            //                    "date": story.date,
-            //                    "content": story.content,
-            //                    "images": story.images,
-            //                    "createDate": story.createDate,
-            //                ]) {
-            //                    error in
-            //                    if let error = error {
-            //                        promise(.failure(error))
-            //                    } else {
-            //                        promise(.success(()))
-            //                    }
-            //                }
-            
-            self.db.collection("users").document(userId)
-                .updateData([
-                    "story" : ["id" : story.id
-                               , "date" : story.date
-                               , "content" : story.content
-                               , "images": story.images
-                               , "createDate": story.createDate,]
-                ]) { error in
+            self.db.collection("users").document(userId).collection("story")
+                .document(story.id).setData([
+                    "id": story.id,
+                    "date": story.date,
+                    "content": story.content,
+                    "images": story.images,
+                    "createDate": story.createDate,
+                ]) {
+                    error in
                     if let error = error {
                         promise(.failure(error))
                     } else {
                         promise(.success(()))
                     }
                 }
+            
+            //            self.db.collection("users").document(userId)
+            //                .updateData([
+            //                    "story" : ["id" : story.id
+            //                               , "date" : story.date
+            //                               , "content" : story.content
+            //                               , "images": story.images
+            //                               , "createDate": story.createDate,]
+            //                ]) { error in
+            //                    if let error = error {
+            //                        promise(.failure(error))
+            //                    } else {
+            //                        promise(.success(()))
+            //                    }
+            //                }
             
         }
         .eraseToAnyPublisher()
@@ -422,23 +396,70 @@ struct FirebaseService {
     static func deleteAllInfo(userId: String) -> AnyPublisher<Void, Error> {
         Future<Void, Error> { promise in
             
+            self.db.collection("users").document(userId).collection("story").getDocuments { snapshot, error in
+                snapshot?.documents.forEach { document in
+                    let docId = document.documentID
+                    self.db.collection("users").document(userId).collection("story").document(docId).delete() { err in
+                        if let error = err {
+                            promise(.failure(error))
+                        }
+                    }
+                }
+            }
+            
+            self.db.collection("users").document(userId).collection("anniversary").getDocuments { snapshot, error in
+                snapshot?.documents.forEach { document in
+                    let docId = document.documentID
+                    self.db.collection("users").document(userId).collection("anniversary").document(docId).delete() { err in
+                        if let error = err {
+                            promise(.failure(error))
+                        }
+                    }
+                }
+            }
+            
             self.db.collection("users").document(userId).delete() { err in
                 if let error = err {
-                    print("deleteAllInfo(Firestore) Error: \(error.localizedDescription)")
                     promise(.failure(error))
                 } else {
-                    print("deleteAllInfo(Firestore) Success!!")
                 }
                 
             }
             
-            let ref = storage.reference().child("images/\(userId)/")
-            ref.delete() { err in
+            var ref = storage.reference().child("images/\(userId)/")
+            ref.listAll { values, err in
                 if let error = err {
-                    print("deleteAllInfo(Storage) Error: \(error.localizedDescription)")
+                    
                     promise(.failure(error))
                 } else {
-                    print("deleteAllInfo(Firestore) Success!!")
+                    print(values)
+                    values.items.forEach { item in
+                        item.delete()
+                    }
+                    
+                }
+            }
+            
+            ref = storage.reference().child("images/\(userId)/story/")
+            ref.listAll { values, err in
+                if let error = err {
+                    
+                    promise(.failure(error))
+                } else {
+                    print(values)
+                    values.prefixes.forEach { pre in
+                        pre.listAll { values, err in
+                            if let error = err {
+                                print(error.localizedDescription)
+                            } else {
+                                values.items.forEach { item in
+                                    item.delete()
+                                }
+                            }
+                        }
+                    }
+                    
+                    
                     promise(.success(()))
                 }
             }
