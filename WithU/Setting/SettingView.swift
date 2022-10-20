@@ -10,6 +10,7 @@ import SwiftUI
 struct SettingView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel = SettingViewModel()
+    @State var isShowingPopup = false
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -53,7 +54,8 @@ struct SettingView: View {
                     Section(header: Text("앱 설정").foregroundColor(.buttonBackground)){
                         
                         Button(action: {
-                            viewModel.deleteAll(userId: UserDefaults.standard.string(forKey: "id")!)
+                            isShowingPopup.toggle()
+                            
                         }, label: {
                             Text("데이터 삭제하기")
                         })
@@ -80,6 +82,21 @@ struct SettingView: View {
             .offset(y: 61)
             .padding(.bottom, 20)
         }
+        .overlay(
+            ZStack{
+                if isShowingPopup {
+                    GeometryReader { geometry in
+                        DeletePopupView(viewModel: viewModel, isShowingPopup: $isShowingPopup)
+                            .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
+                    }
+                    .background(
+                        Color.black.opacity(0.65)
+                            .edgesIgnoringSafeArea(.all)
+                    )
+                    
+                }
+            }
+        )
     }
 }
 

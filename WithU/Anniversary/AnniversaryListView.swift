@@ -24,7 +24,7 @@ struct AnniversaryListView: View {
                         
                         VStack(alignment: .leading) {
                             Text("\(anniversary.title)")
-                                .font(.title2)
+                                .font(.system(size: 17, weight: .medium, design: .rounded))
                                 .padding(.bottom, 3)
                             Text("\(anniversary.date)")
                                 .font(.system(size: 14, weight: .thin))
@@ -35,13 +35,13 @@ struct AnniversaryListView: View {
                         
                         if dDay == 0 {
                             Text("D-Day")
-                                .font(.title2)
+                                .font(.system(.title2, design: .rounded))
                         } else if dDay > 0 {
                             Text("D-\(dDay)")
-                                .font(.title2)
+                                .font(.system(.title2, design: .rounded))
                         } else if dDay < 0 {
                             Text("D+\(abs(dDay))")
-                                .font(.title2)
+                                .font(.system(.title2, design: .rounded))
                         }
                         
                             
