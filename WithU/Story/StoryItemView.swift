@@ -36,33 +36,44 @@ struct StoryItemView: View {
                                 .frame(width: 44, height: 44)
                                 .foregroundColor(.ForegroundColor)
                         })
-                        .confirmationDialog(
-                            "",
-                            isPresented: $isShowingActionSheet, presenting:
-                                param
-                        ) { story in
-//                            Button {
-//
-//                            } label: {
-//                                Text("수정")
-//                            }
-                            Button("수정") {
-                                isShowingSheet.toggle()
-                            }
-                            
-                            
-                            
-                            Button("삭제", role: .destructive) {
-                                withAnimation(.spring()) {
-                                    viewModel.deleteStory(story: story, userId: userId)
-                                    viewModel.deleteStoryImage(story: story, userId: userId)
-                                }
-                            }
-                            
-                            Button("취소", role: .cancel) {
-                                isShowingActionSheet.toggle()
-                            }
+                        .actionSheet(isPresented: $isShowingActionSheet) {
+                            ActionSheet(title: Text("스토리"),
+                                        buttons:[.default(Text("글 수정"),
+                                                            action: {
+                                                                        isShowingSheet.toggle()
+                                                                    }),
+                                                .destructive(Text("삭제하기"),
+                                                               action: {
+                                                                    withAnimation(.spring()) {
+                                                                                viewModel.deleteStory(story: param, userId: userId)
+                                                                                viewModel.deleteStoryImage(story: param, userId: userId)
+                                                                                }
+                                                                        }),
+                                                 .cancel(Text("취소"))] )
                         }
+                        //                        .confirmationDialog(
+                        //                            "",
+                        //                            isPresented: $isShowingActionSheet, presenting:
+                        //                                param
+                        //                        ) { story in
+                        //
+                        //                            Button("수정") {
+                        //                                isShowingSheet.toggle()
+                        //                            }
+                        //
+                        //
+                        //
+                        //                            Button("삭제", role: .destructive) {
+                        //                                withAnimation(.spring()) {
+                        //                                    viewModel.deleteStory(story: story, userId: userId)
+                        //                                    viewModel.deleteStoryImage(story: story, userId: userId)
+                        //                                }
+                        //                            }
+                        //
+                        //                            Button("취소", role: .cancel) {
+                        //                                isShowingActionSheet.toggle()
+                        //                            }
+                        //                        }
                         
                     }
                     
@@ -115,27 +126,27 @@ struct ImageGridView: View {
             }, label: {
                 ZStack {
                     
-                        if index <= 3 {
-                            Image(uiImage: storyImages[index])
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: (getRect().width - 50) / 2 , height: 140)
-                                .clipShape(RoundedRectangle(cornerRadius: 12))
-                            
-                        }
+                    if index <= 3 {
+                        Image(uiImage: storyImages[index])
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: (getRect().width - 50) / 2 , height: 140)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
                         
-                        if storyImages.count > 4 && index == 3 {
-                            RoundedRectangle(cornerRadius: 12)
-                                .fill(Color.black.opacity(0.3))
-                            
-                            let remainingImages =
-                            storyImages.count - 4
-                            
-                            Text("+\(remainingImages)")
-                                .font(.title)
-                                .fontWeight(.heavy)
-                                .foregroundColor(.white)
-                        }
+                    }
+                    
+                    if storyImages.count > 4 && index == 3 {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.black.opacity(0.3))
+                        
+                        let remainingImages =
+                        storyImages.count - 4
+                        
+                        Text("+\(remainingImages)")
+                            .font(.title)
+                            .fontWeight(.heavy)
+                            .foregroundColor(.white)
+                    }
                     
                 }
             })

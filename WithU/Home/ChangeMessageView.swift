@@ -28,11 +28,13 @@ struct ChangeMessageView: View {
     @State private var isToggle: Bool = UserDefaults.standard.bool(forKey: "check")
     var formatter: DateFormatter = {
         let formatter = DateFormatter()
+        formatter.locale = Locale(identifier:"ko_KR")
         formatter.dateFormat = "YYYY년 M월 d일"
         return formatter
     }() //사용자에게 보이는 formatter
     var onlyDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
+        formatter.locale = Locale(identifier:"ko_KR")
         formatter.dateFormat = "YYYY-MM-dd"
         return formatter
     }() //파이어베이스 저장 formatter
@@ -121,7 +123,7 @@ struct DatePickerWithButtons: View {
             VStack {
                 DatePicker("Test", selection: $selectedDate, in: ...Date(), displayedComponents: [.date])
                     .datePickerStyle(GraphicalDatePickerStyle())
-                    
+                    .environment(\.locale, Locale.init(identifier: "ko_KR"))
                     .accentColor(Color.buttonBackground)
                     
                 

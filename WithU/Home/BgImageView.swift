@@ -28,7 +28,7 @@ struct BgImageView: View {
                 
             }
             .frame(maxWidth: .infinity, maxHeight: 400)
-            .background(.gray)
+            .background(Color.gray)
             .opacity(0.3)
             .aspectRatio(contentMode: .fit)
             

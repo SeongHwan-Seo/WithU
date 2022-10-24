@@ -11,7 +11,7 @@ struct SettingView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel = SettingViewModel()
     @State var isShowingPopup = false
-    
+    let url = URL(string: "https://glass-meteorite-16f.notion.site/669a3fa6661a4e3b9bd92173acb8ab37")!
     var body: some View {
         ZStack(alignment: .top) {
             ZStack(alignment: .top) {
@@ -70,11 +70,9 @@ struct SettingView: View {
                             Text("앱 평가")
                         })
                         NavigationLink(destination: Text("dd"), label: {
-                            Text("개인 정보 처리 방침")
-                        })
-                        NavigationLink(destination: Text("dd"), label: {
                             Text("오픈소스 라이선스")
                         })
+                        Link("개인정보처리방침", destination: url)
                     }
                 }
                 .listStyle(.plain)

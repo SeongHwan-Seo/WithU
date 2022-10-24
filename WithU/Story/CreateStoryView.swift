@@ -46,7 +46,7 @@ struct CreateStoryView: View {
                     
                     Button(action: {
                         
-                        viewModel.createStory(story: Story(id: storyID, date: Date().toString()!, content: text, images: selectedImageStrings, createDate: Date().formatted()), userId: UserDefaults.standard.string(forKey: "id")!)
+                        viewModel.createStory(story: Story(id: storyID, date: Date().toString()!, content: text, images: selectedImageStrings, createDate: Date().toStringHHmm()!), userId: UserDefaults.standard.string(forKey: "id")!)
                         viewModel.uploadStoryImage(img: selectedImages, imgName: selectedImageStrings, userId: UserDefaults.standard.string(forKey: "id")!, storyId: storyID)
                         
                         
