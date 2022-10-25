@@ -51,7 +51,7 @@ struct SettingView: View {
             
             VStack {
                 List{
-                    Section(header: Text("앱 설정").foregroundColor(.buttonBackground)){
+                    Section(header: Text("앱").foregroundColor(.buttonBackground)){
                         
                         Button(action: {
                             isShowingPopup.toggle()
@@ -59,6 +59,8 @@ struct SettingView: View {
                         }, label: {
                             Text("데이터 삭제하기")
                         })
+                        
+                        NavigationLink(destination: Text("버전 정보"), label: {Text("버전 정보")})
                         
                     }
                     

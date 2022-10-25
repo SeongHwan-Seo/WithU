@@ -41,8 +41,12 @@ struct HomeView: View {
                     Spacer()
                     
                     CustomActionSheetView(viewModel: viewModel, isShowingPopupview: $isShowingPopupview, selectedImage: $viewModel.bgSelectedImage, choice: $choice).offset(y: self.isShowingPopupview ? 0 : UIScreen.main.bounds.height)
-                }.background(self.isShowingPopupview ? Color.black.opacity(0.3) : Color.clear)
-                    .edgesIgnoringSafeArea(.bottom)
+                }
+                .background(self.isShowingPopupview ? Color.black.opacity(0.3)
+                            : Color.clear
+                )
+                .edgesIgnoringSafeArea(.bottom)
+                
             }
             
             if self.isShowingChangeUserPopup{
@@ -53,6 +57,9 @@ struct HomeView: View {
                 }.background(
                     Color.black.opacity(0.65)
                         .edgesIgnoringSafeArea(.all)
+                        .onTapGesture {
+                            isShowingChangeUserPopup.toggle()
+                        }
                 )
                 
             }
@@ -64,6 +71,9 @@ struct HomeView: View {
                 }.background(
                     Color.black.opacity(0.65)
                         .edgesIgnoringSafeArea(.all)
+                        .onTapGesture {
+                            isShowingChangePartnerPopup.toggle()
+                        }
                 )
                 
             }
@@ -75,7 +85,11 @@ struct HomeView: View {
                 }.background(
                     Color.black.opacity(0.65)
                         .edgesIgnoringSafeArea(.all)
+                        .onTapGesture {
+                            isShowingChangeMessagePopup.toggle()
+                        }
                 )
+                
                 
             }
             
