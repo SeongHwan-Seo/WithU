@@ -12,6 +12,8 @@ struct SettingView: View {
     @StateObject var viewModel = SettingViewModel()
     @State var isShowingPopup = false
     let url = URL(string: "https://glass-meteorite-16f.notion.site/669a3fa6661a4e3b9bd92173acb8ab37")!
+    let storeURL = URL(string: "itms-apps://itunes.apple.com/app/id6444006977")!
+    
     var body: some View {
         ZStack(alignment: .top) {
             ZStack(alignment: .top) {
@@ -60,7 +62,7 @@ struct SettingView: View {
                             Text("데이터 삭제하기")
                         })
                         
-                        NavigationLink(destination: Text("버전 정보"), label: {Text("버전 정보")})
+                        NavigationLink(destination: VersionInfoView(), label: {Text("버전 정보")})
                         
                     }
                     
@@ -68,10 +70,12 @@ struct SettingView: View {
                         NavigationLink(destination: Text("dd"), label: {
                             Text("공지사항")
                         })
-                        NavigationLink(destination: Text("dd"), label: {
+                        Button(action: {
+                            UIApplication.shared.open(storeURL)
+                        }, label: {
                             Text("앱 평가")
                         })
-                        NavigationLink(destination: Text("dd"), label: {
+                        NavigationLink(destination: OpenSourceView(), label: {
                             Text("오픈소스 라이선스")
                         })
                         Link("개인정보처리방침", destination: url)
