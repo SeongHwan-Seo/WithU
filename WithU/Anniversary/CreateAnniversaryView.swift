@@ -68,6 +68,7 @@ struct CreateAnniversaryView: View {
                     .labelsHidden()
                     .datePickerStyle(.graphical)
                     .accentColor(.buttonBackground)
+                    .environment(\.locale, Locale.init(identifier: "ko_KR"))
                 
                 
             }

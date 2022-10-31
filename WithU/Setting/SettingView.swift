@@ -67,9 +67,9 @@ struct SettingView: View {
                     }
                     
                     Section(header: Text("일반").foregroundColor(.buttonBackground)){
-                        NavigationLink(destination: Text("dd"), label: {
-                            Text("공지사항")
-                        })
+//                        NavigationLink(destination: Text("dd"), label: {
+//                            Text("공지사항")
+//                        })
                         Button(action: {
                             UIApplication.shared.open(storeURL)
                         }, label: {

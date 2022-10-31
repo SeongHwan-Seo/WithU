@@ -18,10 +18,10 @@ struct ChangeUserProfileView: View {
         ZStack {
             VStack( spacing: 15) {
 //                Image(systemName: "greaterthan")
-                let image = viewModel.selectedImage == nil ? Image(systemName: "greaterthan") : Image(uiImage: viewModel.selectedImage ?? UIImage())
+                let image = viewModel.selectedImage == nil ? Image(systemName: "person.fill") : Image(uiImage: viewModel.selectedImage ?? UIImage())
                     image
                     .resizable()
-                    .aspectRatio(contentMode: .fill)
+                    .aspectRatio(contentMode: viewModel.selectedImage == nil ? .fit : .fill)
                     .frame(width: 90, height: 90)
                     .clipShape(Circle())
                     .overlay(

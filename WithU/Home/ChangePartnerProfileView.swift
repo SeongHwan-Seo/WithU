@@ -16,10 +16,10 @@ struct ChangePartnerProfileView: View {
         ZStack {
             VStack( spacing: 15) {
                 //Image(systemName: "lessthan")
-                let image = viewModel.uselectedImage == nil ? Image(systemName: "lessthan") : Image(uiImage: viewModel.uselectedImage ?? UIImage())
+                let image = viewModel.uselectedImage == nil ? Image(systemName: "person.fill") : Image(uiImage: viewModel.uselectedImage ?? UIImage())
                     image
                     .resizable()
-                    .aspectRatio(contentMode: .fill)
+                    .aspectRatio(contentMode: viewModel.uselectedImage == nil ? .fit : .fill)
                     .frame(width: 90, height: 90)
                     .clipShape(Circle())
                     .overlay(
