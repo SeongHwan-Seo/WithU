@@ -12,7 +12,7 @@ struct SettingView: View {
     @StateObject var viewModel = SettingViewModel()
     @State var isShowingPopup = false
     let url = URL(string: "https://glass-meteorite-16f.notion.site/669a3fa6661a4e3b9bd92173acb8ab37")!
-    let storeURL = URL(string: "itms-apps://itunes.apple.com/app/id6444006977")!
+    
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -67,11 +67,8 @@ struct SettingView: View {
                     }
                     
                     Section(header: Text("일반").foregroundColor(.buttonBackground)){
-//                        NavigationLink(destination: Text("dd"), label: {
-//                            Text("공지사항")
-//                        })
                         Button(action: {
-                            UIApplication.shared.open(storeURL)
+                            viewModel.goToStore()
                         }, label: {
                             Text("앱 평가")
                         })

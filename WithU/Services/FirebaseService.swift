@@ -73,10 +73,12 @@ struct FirebaseService {
                 storageRef.putData(data, metadata: metaData) { (metaData, err) in
                     if let err = err {
                         print("err when uploading jpg\n\(err)")
+                        promise(.failure(err))
                     }
                     
                     if let metaData = metaData {
                         print("metaData: \(metaData)")
+                        promise(.success(()))
                     }
                 }
             }

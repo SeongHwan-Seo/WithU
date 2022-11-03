@@ -12,6 +12,7 @@ struct ChangePartnerProfileView: View {
     @Binding var isShowingChangePartnerPopup: Bool
     @State var isShowingPopupview = false
     @State var choice = 2
+    @State var name: String
     var body: some View {
         ZStack {
             VStack( spacing: 15) {
@@ -31,13 +32,14 @@ struct ChangePartnerProfileView: View {
                         isShowingPopupview.toggle()
                     }
                 VStack {
-                    TextField("애칭을 입력하세요.", text: $viewModel.user.unickName )
+                    TextField("애칭을 입력하세요.", text: $name )
                         .frame(width: 250)
                         .foregroundColor(.ForegroundColor)
                     Divider()
                         .frame(width: 250, height: 1)
                         .background(Color.gray)
                     Button(action: {
+                        viewModel.user.unickName = name
                         viewModel.updateUser()
                         isShowingChangePartnerPopup.toggle()
                     }, label: {

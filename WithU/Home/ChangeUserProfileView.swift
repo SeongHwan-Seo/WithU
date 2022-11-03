@@ -12,12 +12,12 @@ struct ChangeUserProfileView: View {
     @Binding var isShowingChangeUserPopup: Bool
     @State var isShowingPopupview = false
     @State var choice = 1
+    @State var name: String
     
     
     var body: some View {
         ZStack {
             VStack( spacing: 15) {
-//                Image(systemName: "greaterthan")
                 let image = viewModel.selectedImage == nil ? Image(systemName: "person.fill") : Image(uiImage: viewModel.selectedImage ?? UIImage())
                     image
                     .resizable()
@@ -33,13 +33,14 @@ struct ChangeUserProfileView: View {
                         isShowingPopupview.toggle()
                     }
                 VStack {
-                    TextField("애칭을 입력하세요.", text: $viewModel.user.nickName)
+                    TextField("애칭을 입력하세요.", text: $name)
                         .frame(width: 250)
                         .foregroundColor(.ForegroundColor)
                     Divider()
                         .frame(width: 250, height: 1)
                         .background(Color.gray)
                     Button(action: {
+                        viewModel.user.nickName = name
                         viewModel.updateUser()
                         isShowingChangeUserPopup.toggle()
                     }, label: {

@@ -51,7 +51,7 @@ struct HomeView: View {
             
             if self.isShowingChangeUserPopup{
                 GeometryReader { geometry in
-                    ChangeUserProfileView(viewModel: viewModel, isShowingChangeUserPopup: $isShowingChangeUserPopup
+                    ChangeUserProfileView(viewModel: viewModel, isShowingChangeUserPopup: $isShowingChangeUserPopup, name: viewModel.user.nickName
                     )
                     .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
                 }.background(
@@ -66,7 +66,7 @@ struct HomeView: View {
             
             if self.isShowingChangePartnerPopup{
                 GeometryReader { geometry in
-                    ChangePartnerProfileView(viewModel: viewModel, isShowingChangePartnerPopup: $isShowingChangePartnerPopup)
+                    ChangePartnerProfileView(viewModel: viewModel, isShowingChangePartnerPopup: $isShowingChangePartnerPopup, name: viewModel.user.unickName)
                         .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
                 }.background(
                     Color.black.opacity(0.65)
