@@ -20,7 +20,13 @@ class HomeViewModel: ObservableObject {
     @Published var uselectedImage: UIImage?
     @Published var bgSelectedImage: UIImage?
     @Published var isLoading: Bool = false
-    let db = Firestore.firestore()
+    
+    let dateFormatter : DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.timeZone = TimeZone(identifier: "KST")
+        return formatter
+    }()
     
     init() {
         if UserDefaults.standard.string(forKey: "id") == nil {
@@ -112,13 +118,28 @@ class HomeViewModel: ObservableObject {
     //사귄날짜 ~ 오늘까지 일 수
     func days(from date: Date) -> Int {
         
-        let dayCount = Calendar.current.dateComponents([.day], from: date, to: Date()).day
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        let startDate = dateFormatter.date(from: date.toString()!)
+        let endDate = dateFormatter.date(from: Date().toString()!)
+        let interval = endDate?.timeIntervalSince(startDate!)
+        let dayCount = Int(interval! / 86400)
         
         if UserDefaults.standard.bool(forKey: "check") {
-            return Int(dayCount ?? 0) + 1
+            return dayCount + 1
         } else {
-            return Int(dayCount ?? 0)
+            return dayCount
         }
+        
+        
+//        let dayCount = Calendar.current.dateComponents([.day], from: date, to: Date().toString()?.toDate() ?? Date()).day
+//
+//        if UserDefaults.standard.bool(forKey: "check") {
+//            return Int(dayCount ?? 0) + 1
+//        } else {
+//            return Int(dayCount ?? 0)
+//        }
         
     }
     

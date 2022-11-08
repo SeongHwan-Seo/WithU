@@ -10,9 +10,12 @@ import Foundation
 extension Date {
     func toString() -> String? {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.timeZone = TimeZone(abbreviation: "KST")
         return dateFormatter.string(from: self)
     }
+    
+   
     
     func toStringHHmm() -> String? {
         let dateFormatter = DateFormatter()

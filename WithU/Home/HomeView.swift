@@ -20,13 +20,14 @@ struct HomeView: View {
         ZStack {
             ZStack {
                 Color.backgroundColor
-                //
+                
                 VStack {
                     BgImageView(viewModel: viewModel)
                         .onTapGesture {
                             if !isShowingMenuView {
                                 isShowingPopupview.toggle()
                             }
+                           
                             
                         }
                     CoupleImageView(viewModel: viewModel, isShowingChangeUserPopup: $isShowingChangeUserPopup, isShowingChangePartnerPopup: $isShowingChangePartnerPopup, isShowingMenuView: $isShowingMenuView)

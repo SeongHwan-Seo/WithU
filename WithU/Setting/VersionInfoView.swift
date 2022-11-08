@@ -17,7 +17,7 @@ struct VersionInfoView: View {
             Color.backgroundColor
                 .edgesIgnoringSafeArea(.top)
                 .gesture(DragGesture().updating($dragOffset, body: { (value, state, transaction) in
-                    print("gesture")
+                    
                     if(value.startLocation.x < 20 && value.translation.width > 100) {
                         self.mode.wrappedValue.dismiss()
                     }
