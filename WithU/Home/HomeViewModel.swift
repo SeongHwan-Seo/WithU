@@ -29,12 +29,27 @@ class HomeViewModel: ObservableObject {
     }()
     
     init() {
-        if UserDefaults.standard.string(forKey: "id") == nil {
-            setInitUser()
-            
-        } else {
-            loadUser()
-        }
+       login()
+    }
+    
+    func login() {
+        FirebaseService.anonymousLogin()
+            .sink{ (completion) in
+                switch completion {
+                case .failure(let error):
+                    print(error)
+                    return
+                case .finished:
+                    if UserDefaults.standard.string(forKey: "id") == nil {
+                        self.setInitUser()
+                        
+                    } else {
+                        self.loadUser()
+                    }
+                    return
+                }
+            } receiveValue: { _ in }
+            .store(in: &cancellables)
     }
     
     //앱 첫 사용자 등록

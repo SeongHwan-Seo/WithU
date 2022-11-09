@@ -10,10 +10,43 @@ import Combine
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseStorage
+import FirebaseAuth
 
 struct FirebaseService {
     static let db = Firestore.firestore()
     static let storage = Storage.storage()
+    
+//    static func anonymousLogin()  {
+//
+//
+//        print("anonymousLogin Start")
+//        Auth.auth().signInAnonymously{ authResult, error in
+//            if let error = error {
+//                print("anonymousLogin ERROR : \(error)")
+//                return
+//            }
+//
+//
+//        }
+//
+//    }
+        static func anonymousLogin() -> AnyPublisher<Void, Error> {
+    
+            Future<Void, Error> { promise in
+                print("anonymousLogin Start")
+                Auth.auth().signInAnonymously{ authResult, error in
+                    if let error = error {
+                        print("anonymousLogin ERROR : \(error)")
+                        promise(.failure(error))
+                        return
+                    }
+    
+                    promise(.success(()))
+    
+                }
+            }
+            .eraseToAnyPublisher()
+        }
     
     static func fetchUser() -> AnyPublisher<User, Error> {
         Future<User, Error> { promise in

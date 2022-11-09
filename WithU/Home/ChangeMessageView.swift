@@ -142,7 +142,6 @@ struct DatePickerWithButtons: View {
                     Button(action: {
                         savedDate = selectedDate
                         showDatePicker = false
-                        //print(formatter.string(from: savedDate ?? Date()))
                     }, label: {
                         Text("선택".uppercased())
                             .bold()
