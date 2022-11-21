@@ -67,7 +67,7 @@ struct VersionInfoView: View {
                     self.mode.wrappedValue.dismiss()
                 }){
                     Image(systemName: "arrow.left")
-                        .foregroundColor(Color.white)
+                        .foregroundColor(Color.ForegroundColor)
                 })
                 
                 

@@ -30,9 +30,9 @@ struct FirebaseService {
 //        }
 //
 //    }
-        static func anonymousLogin() -> AnyPublisher<Void, Error> {
+        static func anonymousLogin() -> AnyPublisher<String, Error> {
     
-            Future<Void, Error> { promise in
+            Future<String, Error> { promise in
                 print("anonymousLogin Start")
                 Auth.auth().signInAnonymously{ authResult, error in
                     if let error = error {
@@ -41,7 +41,7 @@ struct FirebaseService {
                         return
                     }
     
-                    promise(.success(()))
+                    promise(.success(authResult?.user.uid ?? ""))
     
                 }
             }

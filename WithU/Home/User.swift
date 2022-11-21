@@ -10,8 +10,8 @@ import Foundation
 
 struct User: Codable, Identifiable {
     
-    var id = UserDefaults.standard.string(forKey: "id") != nil ? UserDefaults.standard.string(forKey: "id") : UUID().uuidString
-
+    var id = UserDefaults.standard.string(forKey: "id") != nil ? UserDefaults.standard.string(forKey: "id") : ""
+    
     // My profile image and nickName
     var imageString: String = ""
     var nickName: String = "애칭"

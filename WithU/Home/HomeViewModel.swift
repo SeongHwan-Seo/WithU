@@ -20,6 +20,7 @@ class HomeViewModel: ObservableObject {
     @Published var uselectedImage: UIImage?
     @Published var bgSelectedImage: UIImage?
     @Published var isLoading: Bool = false
+    var uid = ""
     
     let dateFormatter : DateFormatter = {
         let formatter = DateFormatter()
@@ -41,20 +42,23 @@ class HomeViewModel: ObservableObject {
                     return
                 case .finished:
                     if UserDefaults.standard.string(forKey: "id") == nil {
-                        self.setInitUser()
+                        self.setInitUser(uid: self.uid)
                         
                     } else {
                         self.loadUser()
                     }
                     return
                 }
-            } receiveValue: { _ in }
+            } receiveValue: { [weak self] uid in
+                self?.uid = uid
+            }
             .store(in: &cancellables)
     }
     
     //앱 첫 사용자 등록
-    func setInitUser() {
-        let user = User()
+    func setInitUser(uid: String) {
+        var user = User()
+        user.id = uid
         UserDefaults.standard.set(user.id, forKey: "id")// user.id 를 UserDeFaults에 저장
         
         FirebaseService.setUser(user)

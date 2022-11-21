@@ -45,8 +45,9 @@ struct CreateAnniversaryView: View {
                         }, label: {
                             Text("저장")
                                 .font(.headline)
-                                .foregroundColor(.buttonBackground)
+                                .foregroundColor(isEmpty() ?  Color.gray : .buttonBackground)
                         })
+                        .disabled(isEmpty())
                     }
                     .padding()
                     
@@ -85,5 +86,18 @@ struct CreateAnniversaryView: View {
         
         
         
+    }
+}
+
+extension CreateAnniversaryView {
+    
+    /// check mepty text && image
+    /// - Returns: bool
+    fileprivate func isEmpty() -> Bool{
+        if self.title.isEmpty || self.title == "" {
+            return true
+        } else {
+            return false
+        }
     }
 }

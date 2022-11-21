@@ -62,6 +62,7 @@ struct UserView: View {
             
             Text(user.nickName)
                 .foregroundColor(.ForegroundColor)
+                .font(.system(size: 16, weight: .semibold, design: .rounded))
             
         }
     }
@@ -86,6 +87,7 @@ struct PartnerView: View {
             
             Text(user.unickName)
                 .foregroundColor(.ForegroundColor)
+                .font(.system(size: 16, weight: .semibold, design: .rounded))
         }
     }
 }
