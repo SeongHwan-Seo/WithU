@@ -60,7 +60,7 @@ class HomeViewModel: ObservableObject {
         var user = User()
         user.id = uid
         UserDefaults.standard.set(user.id, forKey: "id")// user.id 를 UserDeFaults에 저장
-        
+        UserDefaults.standard.set(user.message, forKey: "message")
         FirebaseService.setUser(user)
             .sink{ (completion) in
                 switch completion {
@@ -77,6 +77,7 @@ class HomeViewModel: ObservableObject {
     
     //유저정보 업데이트
     func updateUser() {
+        UserDefaults.standard.set(user.message, forKey: "message")
         FirebaseService.setUser(user)
             .sink{ (completion) in
                 switch completion {
@@ -146,8 +147,10 @@ class HomeViewModel: ObservableObject {
         let dayCount = Int(interval! / 86400)
         
         if UserDefaults.standard.bool(forKey: "check") {
+            UserDefaults.standard.set("\(dayCount + 1)일", forKey: "dayCount")
             return dayCount + 1
         } else {
+            UserDefaults.standard.set("\(dayCount)일", forKey: "dayCount")
             return dayCount
         }
         
