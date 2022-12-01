@@ -54,8 +54,8 @@ struct WithuWidget: Widget {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             WithuWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("커플 위젯")
+        .description("우리의 소중한 추억을 위젯을 통해 확인하세요.")
     }
 }
 
