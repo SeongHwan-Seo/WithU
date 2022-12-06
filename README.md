@@ -12,14 +12,20 @@
 - [Version History](#version-history)
 
 # Skills
-
+- Swift
+- SwiftUI
+- Combine
+- Firebase
 
 # Goals
+
 
 # ScreenShot
 
 # Design
 
 # Contact
+### AppStore
+> <>
 
 # Version History
