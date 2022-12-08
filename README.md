@@ -33,9 +33,9 @@
 > <https://apps.apple.com/kr/app/withu-%EC%BB%A4%ED%94%8C-%EB%8B%A4%EC%9D%B4%EC%96%B4%EB%A6%AC/id6444006977>
 
 # Version History
-#### v1.0
+#### v1.0 (2022. 11. 03)
 > open
-#### v1.1
+#### v1.1 (2022. 11. 22)
 > add anonymous Login
 
 > fix D-Day count bug
