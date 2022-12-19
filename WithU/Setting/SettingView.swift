@@ -11,6 +11,7 @@ struct SettingView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel = SettingViewModel()
     @State var isShowingPopup = false
+//    @State var isAnniversaryToggle = UserDefaults.standard.bool(forKey: "AnniversaryToggle")
     let url = URL(string: "https://glass-meteorite-16f.notion.site/669a3fa6661a4e3b9bd92173acb8ab37")!
     
     
@@ -23,6 +24,8 @@ struct SettingView: View {
                     .navigationBarHidden(true)
                 VStack {
                     HStack {
+                        
+                        
                         Button(action: {
                             presentationMode.wrappedValue.dismiss()
                         }, label: {
@@ -54,6 +57,12 @@ struct SettingView: View {
             VStack {
                 List{
                     Section(header: Text("앱").foregroundColor(.buttonBackground)){
+                        
+                        Toggle("지난 기념일 보기", isOn: $viewModel.isAnniversaryToggle)
+                            .onChange(of: viewModel.isAnniversaryToggle) { value in
+                                UserDefaults.standard.set(value, forKey: "AnniversaryToggle")
+                            }
+                            .toggleStyle(SwitchToggleStyle(tint: Color.buttonBackground))
                         
                         Button(action: {
                             isShowingPopup.toggle()
