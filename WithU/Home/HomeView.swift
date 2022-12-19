@@ -27,7 +27,7 @@ struct HomeView: View {
                             if !isShowingMenuView {
                                 isShowingPopupview.toggle()
                             }
-                           
+                            
                             
                         }
                     CoupleImageView(viewModel: viewModel, isShowingChangeUserPopup: $isShowingChangeUserPopup, isShowingChangePartnerPopup: $isShowingChangePartnerPopup, isShowingMenuView: $isShowingMenuView)
@@ -45,8 +45,12 @@ struct HomeView: View {
                 }
                 .background(self.isShowingPopupview ? Color.black.opacity(0.3)
                             : Color.clear
+                            
                 )
                 .edgesIgnoringSafeArea(.bottom)
+                .onTapGesture {
+                    isShowingPopupview.toggle()
+                }
                 
             }
             
@@ -91,14 +95,9 @@ struct HomeView: View {
                         }
                 )
                 
-                
             }
             
-            
-            
         }
-        
-        
         
     }
 }
