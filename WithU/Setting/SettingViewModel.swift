@@ -12,6 +12,7 @@ import Combine
 class SettingViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     let storeURL = URL(string: "itms-apps://itunes.apple.com/app/id6444006977")!
+    @Published var isAnniversaryToggle = UserDefaults.standard.bool(forKey: "AnniversaryToggle")
     
     func deleteAll(userId: String) {
         FirebaseService.deleteAllInfo(userId: userId)
