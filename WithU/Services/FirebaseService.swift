@@ -16,38 +16,28 @@ struct FirebaseService {
     static let db = Firestore.firestore()
     static let storage = Storage.storage()
     
-//    static func anonymousLogin()  {
-//
-//
-//        print("anonymousLogin Start")
-//        Auth.auth().signInAnonymously{ authResult, error in
-//            if let error = error {
-//                print("anonymousLogin ERROR : \(error)")
-//                return
-//            }
-//
-//
-//        }
-//
-//    }
-        static func anonymousLogin() -> AnyPublisher<String, Error> {
-    
-            Future<String, Error> { promise in
-                print("anonymousLogin Start")
-                Auth.auth().signInAnonymously{ authResult, error in
-                    if let error = error {
-                        print("anonymousLogin ERROR : \(error)")
-                        promise(.failure(error))
-                        return
-                    }
-    
-                    promise(.success(authResult?.user.uid ?? ""))
-    
+    /// 파이어베이스 익명로그인
+    /// - Returns: String
+    static func anonymousLogin() -> AnyPublisher<String, Error> {
+        
+        Future<String, Error> { promise in
+            print("anonymousLogin Start")
+            Auth.auth().signInAnonymously{ authResult, error in
+                if let error = error {
+                    print("anonymousLogin ERROR : \(error)")
+                    promise(.failure(error))
+                    return
                 }
+                
+                promise(.success(authResult?.user.uid ?? ""))
+                
             }
-            .eraseToAnyPublisher()
         }
+        .eraseToAnyPublisher()
+    }
     
+    /// 유저정보 불러오기
+    /// - Returns: User
     static func fetchUser() -> AnyPublisher<User, Error> {
         Future<User, Error> { promise in
             self.db.collection("users").document(UserDefaults.standard.string(forKey: "id")!)
@@ -75,6 +65,9 @@ struct FirebaseService {
         .eraseToAnyPublisher()
     }
     
+    /// 유저정보저장
+    /// - Parameter user: 유저
+    /// - Returns: void
     static func setUser(_ user: User) -> AnyPublisher<Void, Error> {
         Future<Void,  Error> { promise in
             print("setUser : start")
@@ -125,7 +118,7 @@ struct FirebaseService {
     ///   - img: 이미지 배열
     ///   - name: 유저아이디
     ///   - dic: 폴더이름(유저아이디)
-    /// - Returns: <#description#>
+    /// - Returns: void
     static func uploadImage(img: [UIImage],imgName: [String], dic: String, storyId: String) -> AnyPublisher<Void, Error>{
         Future<Void, Error> { promise in
             let metaData = StorageMetadata()
@@ -156,7 +149,12 @@ struct FirebaseService {
         .eraseToAnyPublisher()
     }
     
-    //FireStorage에서 이미지 가져오기
+    
+    /// FireStorage에서 이미지 가져오기
+    /// - Parameters:
+    ///   - imageName: 이미지 명
+    ///   - id: 유저아이디
+    /// - Returns: UIImage
     static func fetchImage(imageName: String, id: String) -> AnyPublisher<UIImage, Error> {
         Future<UIImage, Error> { promise in
             let ref = storage.reference().child("images/\(id)/" + "\(imageName)")
@@ -175,7 +173,11 @@ struct FirebaseService {
         .eraseToAnyPublisher()
     }
     
-    //기념일 생성
+    /// 기념일 생성
+    /// - Parameters:
+    ///   - anniversary: 기념일
+    ///   - userId: 유저아이디
+    /// - Returns: void
     static func createAnniversary(_ anniversary: Anniversary, _ userId: String) -> AnyPublisher<Void, Error> {
         Future<Void, Error> { promise in
             
@@ -192,23 +194,14 @@ struct FirebaseService {
                         promise(.success(()))
                     }
                 }
-            //            self.db.collection("users").document(userId)
-            //                .updateData(["anniversaries" : FieldValue.arrayUnion([["id": anniversary.id,
-            //                                                                      "title": anniversary.title,
-            //                                                                      "date": anniversary.date]])
-            //                ]) { error in
-            //                    if let error = error {
-            //                        promise(.failure(error))
-            //                    } else {
-            //                        promise(.success(()))
-            //                    }
-            //                }
             
         }
         .eraseToAnyPublisher()
     }
     
-    //기념일 가져오기
+    /// 기념일 가져오기
+    /// - Parameter userId: 유저아이디
+    /// - Returns: [Anniversary]
     static func fetchAnniversaries(_ userId: String) -> AnyPublisher<[Anniversary], Error> {
         
         Future<[Anniversary], Error> { promise in
@@ -226,9 +219,29 @@ struct FirebaseService {
                     }
                     
                     var anniversaries = [Anniversary]()
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.timeZone = TimeZone(abbreviation: "KST")
+                    dateFormatter.locale = Locale(identifier:"ko_KR")
+                    dateFormatter.dateFormat = "yyyy-MM-dd"
+                    
+                    let today = Date()
                     snapshot.documents.forEach { document in
                         if let anniversary = try? document.data(as: Anniversary.self) {
                             if anniversaries.contains(where: { $0.id == anniversary.id}) { return }
+                            if !UserDefaults.standard.bool(forKey: "AnniversaryToggle")
+                            {
+                                if let targetDate: Date = dateFormatter.date(from: anniversary.date),
+                                   let todayDate: Date = dateFormatter.date(from: today.toString()!) {
+                                    switch targetDate.compare(todayDate) {
+                                    case .orderedAscending: return
+                                    case .orderedSame:
+                                        print("동일한 날짜 입니다")
+                                    case .orderedDescending:
+                                        print("오늘보다 이후 날짜 입니다.")
+                                    }
+                                }
+                                
+                            }
                             anniversaries.append(anniversary)
                             
                             
@@ -244,6 +257,11 @@ struct FirebaseService {
     }
     
     
+    /// 기념일 삭제
+    /// - Parameters:
+    ///   - anniversaryId: 기념일 아이디
+    ///   - userId: 유저 아이디
+    /// - Returns: void
     static func deleteAnniversary(_ anniversaryId: String, _ userId: String) -> AnyPublisher<Void, Error> {
         Future<Void, Error> { promise in
             self.db.collection("users").document(userId).collection("anniversary")
@@ -262,6 +280,12 @@ struct FirebaseService {
         .eraseToAnyPublisher()
     }
     
+    
+    /// 스토리 생성
+    /// - Parameters:
+    ///   - story: 스토리
+    ///   - userId: 유저 아이디
+    /// - Returns: void
     static func createStory(story: Story, userId: String) -> AnyPublisher<Void, Error> {
         Future<Void, Error> { promise in
             
@@ -281,20 +305,6 @@ struct FirebaseService {
                     }
                 }
             
-            //            self.db.collection("users").document(userId)
-            //                .updateData([
-            //                    "story" : ["id" : story.id
-            //                               , "date" : story.date
-            //                               , "content" : story.content
-            //                               , "images": story.images
-            //                               , "createDate": story.createDate,]
-            //                ]) { error in
-            //                    if let error = error {
-            //                        promise(.failure(error))
-            //                    } else {
-            //                        promise(.success(()))
-            //                    }
-            //                }
             
         }
         .eraseToAnyPublisher()
@@ -428,6 +438,9 @@ struct FirebaseService {
     }
     
     
+    /// 모든정보삭제
+    /// - Parameter userId: 유저아이디
+    /// - Returns: void
     static func deleteAllInfo(userId: String) -> AnyPublisher<Void, Error> {
         Future<Void, Error> { promise in
             
