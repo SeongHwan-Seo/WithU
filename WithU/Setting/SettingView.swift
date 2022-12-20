@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SettingView: View {
+    
     @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel = SettingViewModel()
     @State var isShowingPopup = false
@@ -63,12 +64,15 @@ struct SettingView: View {
                                 UserDefaults.standard.set(value, forKey: "AnniversaryToggle")
                             }
                             .toggleStyle(SwitchToggleStyle(tint: Color.buttonBackground))
+                            
+                            
                         
                         Button(action: {
                             isShowingPopup.toggle()
                             
                         }, label: {
                             Text("데이터 삭제하기")
+                                
                         })
                         
                         NavigationLink(destination: VersionInfoView(), label: {Text("버전 정보")})
@@ -85,12 +89,16 @@ struct SettingView: View {
                             Text("오픈소스 라이선스")
                         })
                         Link("개인정보처리방침", destination: url)
+                            
                     }
                 }
-                .listStyle(.plain)
+                .listStyle(InsetGroupedListStyle())
+                .foregroundColor(Color.ForegroundColor)
+                
             }
             .offset(y: 61)
-            .padding(.bottom, 20)
+            //.padding()
+            
         }
         .overlay(
             ZStack{
@@ -107,7 +115,9 @@ struct SettingView: View {
                 }
             }
         )
+        
     }
+    
 }
 
 struct SettingView_Previews: PreviewProvider {

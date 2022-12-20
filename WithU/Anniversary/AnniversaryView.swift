@@ -14,9 +14,6 @@ struct AnniversaryView: View {
     
     var body: some View {
         
-        
-        
-        
         ZStack(alignment: .top) {
             ZStack(alignment: .top) {
                 Color.backgroundColor
@@ -24,7 +21,9 @@ struct AnniversaryView: View {
                     .navigationBarBackButtonHidden(true)
                     .navigationBarHidden(true)
                 VStack {
+                    
                     HStack {
+                        
                         Button(action: {
                             presentationMode.wrappedValue.dismiss()
                         }, label: {
@@ -54,6 +53,7 @@ struct AnniversaryView: View {
 
                     Divider()
                 }
+            
 
 
             }
@@ -61,8 +61,9 @@ struct AnniversaryView: View {
 
             VStack {
                 AnniversaryListView(viewModel: viewModel)
-
+                    
             }
+            
 
             .offset(y: 61)
             .padding(.bottom, 20)

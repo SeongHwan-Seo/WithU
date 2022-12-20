@@ -14,14 +14,18 @@ struct StoryView: View {
     
     
     var body: some View {
+        
         ZStack(alignment: .top) {
+            
             ZStack(alignment: .top) {
                 Color.backgroundColor
                     .ignoresSafeArea()
                     .navigationBarBackButtonHidden(true)
                     .navigationBarHidden(true)
                 VStack {
+                    
                     HStack {
+                        
                         Button(action: {
                             presentationMode.wrappedValue.dismiss()
                         }, label: {
@@ -46,18 +50,19 @@ struct StoryView: View {
                                 Image(systemName: "plus")
                                     .imageScale(.large)
                                     .foregroundColor(.ForegroundColor)
-                            }
-                        )
+                            })
                         
                     }
                     .padding()
+                    
                     Divider()
                 }
                 
                 
+                
             }
             
-            VStack() {
+            VStack {
                 if viewModel.isLoading {
                     ProgressView()
                         .padding(.top, 10)

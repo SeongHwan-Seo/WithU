@@ -50,7 +50,7 @@ struct AnniversaryListView: View {
                 }
             }
             .onDelete(perform: deleteItems)
-            .listStyle(PlainListStyle())
+            .listStyle(.plain)
             
         }
         
