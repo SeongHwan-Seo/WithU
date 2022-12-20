@@ -64,20 +64,17 @@ struct StoryView: View {
             
             VStack {
                 if viewModel.isLoading {
-                    ProgressView()
-                        .padding(.top, 10)
+                    GeometryReader { geometry in
+                        ProgressView()
+                            .position(x: geometry.size.width / 2, y: geometry.size.height / 2 - 61)
+                    }
                 } else {
                     if viewModel.stories.count > 0 {
-                        
-                            StoryItemView(viewModel: viewModel, userId: userId)
-                            
-                            
+                        StoryItemView(viewModel: viewModel, userId: userId)
                     }
                 }
                 
-                
             }
-            
             .offset(y: 61)
             .padding(.bottom, 20)
             
