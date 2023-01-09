@@ -41,9 +41,10 @@ struct VersionInfoView: View {
                     Text("최신버전")
                         .font(.system(size: 16, weight: .semibold, design: .rounded))
                         .foregroundColor(.ForegroundColor)
-                                    Text("v \(viewModel.getUpdatedVersion())")
-                                        .font(.system(size: 16, weight: .semibold, design: .rounded))
-                                        .foregroundColor(.ForegroundColor)
+                    //Text("v \(viewModel.getUpdatedVersion())")
+                    Text("v \(viewModel.updatedVersion)")
+                        .font(.system(size: 16, weight: .semibold, design: .rounded))
+                        .foregroundColor(.ForegroundColor)
                     
                 }
                 
@@ -74,12 +75,17 @@ struct VersionInfoView: View {
                 
             }
         }
+        .onAppear{
+            viewModel.getUpdatedVersion2()
+        }
         
         
         
         
         
     }
+    
+        
     
 }
 

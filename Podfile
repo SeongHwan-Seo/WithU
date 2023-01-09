@@ -12,4 +12,5 @@ target 'WithU' do
   pod 'FirebaseStorage'
   pod 'FirebaseFirestoreSwift', '> 7.0-beta'
   pod 'Kingfisher', '~> 7.0'
+  pod 'Alamofire'
 end

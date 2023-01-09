@@ -27,6 +27,7 @@
 		5855B63D2934E10F004DAEE7 /* WithuWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5855B63C2934E10F004DAEE7 /* WithuWidget.swift */; };
 		5855B63F2934E110004DAEE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5855B63E2934E110004DAEE7 /* Assets.xcassets */; };
 		5855B6432934E110004DAEE7 /* WithuWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5855B6382934E10F004DAEE7 /* WithuWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		586E6D98296C283B002FD536 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 586E6D97296C283B002FD536 /* Version.swift */; };
 		58EE40BC28FD70A60012E488 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58EE40BB28FD70A60012E488 /* SettingViewModel.swift */; };
 		58F5FD2328EC613D002DB680 /* DetailImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F5FD2228EC613D002DB680 /* DetailImagesView.swift */; };
 		CF0483E12860913F00455F78 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0483E02860913F00455F78 /* FirebaseService.swift */; };
@@ -113,6 +114,7 @@
 		5855B63C2934E10F004DAEE7 /* WithuWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithuWidget.swift; sourceTree = "<group>"; };
 		5855B63E2934E110004DAEE7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5855B6402934E110004DAEE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		586E6D97296C283B002FD536 /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
 		58EE40BB28FD70A60012E488 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		58F5FD2228EC613D002DB680 /* DetailImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailImagesView.swift; sourceTree = "<group>"; };
 		5B8D06DD24848BB6204B80C1 /* Pods_WithU.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WithU.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -354,6 +356,7 @@
 				5844427C290952A50038FAB5 /* OpenSourceView.swift */,
 				5844427E290953A40038FAB5 /* OpenSourceViewModel.swift */,
 				5844428029095CCE0038FAB5 /* VersionInfoView.swift */,
+				586E6D97296C283B002FD536 /* Version.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -565,6 +568,7 @@
 				CFD52E252844F5C000CEC320 /* DdayCountView.swift in Sources */,
 				CF5C79E2288821DB00D89E22 /* AnniversaryViewModel.swift in Sources */,
 				58F5FD2328EC613D002DB680 /* DetailImagesView.swift in Sources */,
+				586E6D98296C283B002FD536 /* Version.swift in Sources */,
 				CFD52E192844DA9500CEC320 /* BgImageView.swift in Sources */,
 				CF8562922856195C0021063D /* CustomActionSheetView.swift in Sources */,
 				5844428129095CCE0038FAB5 /* VersionInfoView.swift in Sources */,

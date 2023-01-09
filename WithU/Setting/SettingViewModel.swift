@@ -8,11 +8,14 @@
 import Foundation
 import SwiftUI
 import Combine
+import Alamofire
 
 class SettingViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     let storeURL = URL(string: "itms-apps://itunes.apple.com/app/id6444006977")!
+    let versionURL = "http://itunes.apple.com/kr/lookup?bundleId=com.seosh.WithU"
     @Published var isAnniversaryToggle = UserDefaults.standard.bool(forKey: "AnniversaryToggle")
+    @Published var updatedVersion = ""
     
     func deleteAll(userId: String) {
         FirebaseService.deleteAllInfo(userId: userId)
@@ -37,22 +40,30 @@ class SettingViewModel: ObservableObject {
     }
     
     /// 현재 버전 가져오기
-        func getCurrentVersion() -> String {
-            guard let dictionary = Bundle.main.infoDictionary,
-                  let version = dictionary["CFBundleShortVersionString"] as? String else { return "" }
-            return version
-        }
-
-        /// 최신 버전 가져오기
-        func getUpdatedVersion() -> String {
-            guard let url = URL(string: "http://itunes.apple.com/kr/lookup?bundleId=com.seosh.WithU"),
-                  let data = try? Data(contentsOf: url),
-                  let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any],
-                  let results = json["results"] as? [[String: Any]],
-                      results.count > 0,
-                let appStoreVersion = results[0]["version"] as? String else { return "" }
-            return appStoreVersion
-        }
+    func getCurrentVersion() -> String {
+        guard let dictionary = Bundle.main.infoDictionary,
+              let version = dictionary["CFBundleShortVersionString"] as? String else { return "" }
+        return version
+    }
+    
+    /// 최신 버전 가져오기
+    func getUpdatedVersion2() {
+        AF.request(versionURL)
+            .publishDecodable(type : Version.self)
+            .compactMap{ $0.value}
+            .map{ $0.results}
+            .sink(receiveCompletion: { completion in
+                print("Success get version info")
+                
+            }, receiveValue: { receivedValue in
+                self.updatedVersion = receivedValue[0].version
+                
+            })
+            .store(in: &cancellables)
+        
+        
+    }
+    
     
     func goToStore() {
         UIApplication.shared.open(storeURL)
