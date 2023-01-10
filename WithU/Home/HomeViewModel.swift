@@ -60,7 +60,9 @@ class HomeViewModel: ObservableObject {
         var user = User()
         user.id = uid
         UserDefaults.standard.set(user.id, forKey: "id")// user.id 를 UserDeFaults에 저장
-        UserDefaults.standard.set(user.message, forKey: "message")
+        UserDefaults.shared.set(user.message, forKey: "message")
+        UserDefaults.shared.set(user.date, forKey: "fromDate")
+        
         FirebaseService.setUser(user)
             .sink{ (completion) in
                 switch completion {
@@ -77,8 +79,11 @@ class HomeViewModel: ObservableObject {
     
     //유저정보 업데이트
     func updateUser() {
-        UserDefaults.standard.set(user.message, forKey: "message")
+        UserDefaults.shared.set(user.message, forKey: "message")
+        UserDefaults.shared.set(user.date, forKey: "fromDate")
+        
         FirebaseService.setUser(user)
+        
             .sink{ (completion) in
                 switch completion {
                 case .failure(let error):
@@ -153,15 +158,6 @@ class HomeViewModel: ObservableObject {
             UserDefaults.standard.set("\(dayCount)일", forKey: "dayCount")
             return dayCount
         }
-        
-        
-//        let dayCount = Calendar.current.dateComponents([.day], from: date, to: Date().toString()?.toDate() ?? Date()).day
-//
-//        if UserDefaults.standard.bool(forKey: "check") {
-//            return Int(dayCount ?? 0) + 1
-//        } else {
-//            return Int(dayCount ?? 0)
-//        }
         
     }
     

@@ -10,11 +10,11 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date())
+        SimpleEntry(date: Date(), message: UserDefaults.shared.string(forKey: "message") ?? "")
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date())
+        let entry = SimpleEntry(date: Date(), message: UserDefaults.shared.string(forKey: "message") ?? "")
         completion(entry)
     }
 
@@ -25,7 +25,7 @@ struct Provider: TimelineProvider {
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate)
+            let entry = SimpleEntry(date: entryDate, message: UserDefaults.shared.string(forKey: "message") ?? "")
             entries.append(entry)
         }
 
@@ -36,6 +36,8 @@ struct Provider: TimelineProvider {
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
+    let message: String
+    
 }
 
 struct WithuWidgetEntryView : View {
@@ -43,6 +45,7 @@ struct WithuWidgetEntryView : View {
 
     var body: some View {
         Text(entry.date, style: .time)
+        Text(entry.message)
     }
 }
 
@@ -61,7 +64,7 @@ struct WithuWidget: Widget {
 
 struct WithuWidget_Previews: PreviewProvider {
     static var previews: some View {
-        WithuWidgetEntryView(entry: SimpleEntry(date: Date()))
+        WithuWidgetEntryView(entry: SimpleEntry(date: Date(), message: UserDefaults.shared.string(forKey: "message") ?? ""))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }

@@ -28,6 +28,8 @@
 		5855B63F2934E110004DAEE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5855B63E2934E110004DAEE7 /* Assets.xcassets */; };
 		5855B6432934E110004DAEE7 /* WithuWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5855B6382934E10F004DAEE7 /* WithuWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		586E6D98296C283B002FD536 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 586E6D97296C283B002FD536 /* Version.swift */; };
+		58CD0EFC296D03CD006AFB4D /* UserDfaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CD0EFB296D03CD006AFB4D /* UserDfaultsExtension.swift */; };
+		58CD0EFD296D0449006AFB4D /* UserDfaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CD0EFB296D03CD006AFB4D /* UserDfaultsExtension.swift */; };
 		58EE40BC28FD70A60012E488 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58EE40BB28FD70A60012E488 /* SettingViewModel.swift */; };
 		58F5FD2328EC613D002DB680 /* DetailImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F5FD2228EC613D002DB680 /* DetailImagesView.swift */; };
 		CF0483E12860913F00455F78 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0483E02860913F00455F78 /* FirebaseService.swift */; };
@@ -115,6 +117,9 @@
 		5855B63E2934E110004DAEE7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5855B6402934E110004DAEE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		586E6D97296C283B002FD536 /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
+		58CD0EF9296D038C006AFB4D /* WithU.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WithU.entitlements; sourceTree = "<group>"; };
+		58CD0EFA296D039F006AFB4D /* WithuWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WithuWidgetExtension.entitlements; sourceTree = "<group>"; };
+		58CD0EFB296D03CD006AFB4D /* UserDfaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDfaultsExtension.swift; sourceTree = "<group>"; };
 		58EE40BB28FD70A60012E488 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		58F5FD2228EC613D002DB680 /* DetailImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailImagesView.swift; sourceTree = "<group>"; };
 		5B8D06DD24848BB6204B80C1 /* Pods_WithU.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WithU.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -239,6 +244,7 @@
 				5849069C28D0B0A90015C2F6 /* StringExtension.swift */,
 				5849069E28D0B0B70015C2F6 /* DateExtension.swift */,
 				580FAFA328D6F85E00B91C2E /* ViewExtension.swift */,
+				58CD0EFB296D03CD006AFB4D /* UserDfaultsExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -246,6 +252,7 @@
 		CF4D51432806E37700146D9F = {
 			isa = PBXGroup;
 			children = (
+				58CD0EFA296D039F006AFB4D /* WithuWidgetExtension.entitlements */,
 				CF4D514E2806E37700146D9F /* WithU */,
 				5855B63B2934E10F004DAEE7 /* WithuWidget */,
 				CF4D514D2806E37700146D9F /* Products */,
@@ -266,6 +273,7 @@
 		CF4D514E2806E37700146D9F /* WithU */ = {
 			isa = PBXGroup;
 			children = (
+				58CD0EF9296D038C006AFB4D /* WithU.entitlements */,
 				CF0483DF2860912800455F78 /* Services */,
 				CFC4ACBE2857563400B2B97C /* Utilities */,
 				CF216694284E293000A08735 /* Extension */,
@@ -549,6 +557,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58CD0EFD296D0449006AFB4D /* UserDfaultsExtension.swift in Sources */,
 				5855B63D2934E10F004DAEE7 /* WithuWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -557,6 +566,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58CD0EFC296D03CD006AFB4D /* UserDfaultsExtension.swift in Sources */,
 				CF5C79DE2888204500D89E22 /* Anniversary.swift in Sources */,
 				CFBE36FA286094F9005C73C3 /* FirebaseError.swift in Sources */,
 				CF216696284E294300A08735 /* ColorExtension.swift in Sources */,
@@ -626,6 +636,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = WithuWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 55R62292CP;
@@ -655,6 +666,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = WithuWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 55R62292CP;
@@ -801,6 +813,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = WithU/WithU.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WithU/Preview Content\"";
@@ -838,6 +851,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = WithU/WithU.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WithU/Preview Content\"";
