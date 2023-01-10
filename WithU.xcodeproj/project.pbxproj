@@ -30,6 +30,8 @@
 		586E6D98296C283B002FD536 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 586E6D97296C283B002FD536 /* Version.swift */; };
 		58CD0EFC296D03CD006AFB4D /* UserDfaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CD0EFB296D03CD006AFB4D /* UserDfaultsExtension.swift */; };
 		58CD0EFD296D0449006AFB4D /* UserDfaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CD0EFB296D03CD006AFB4D /* UserDfaultsExtension.swift */; };
+		58CD0EFE296D16B9006AFB4D /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5849069E28D0B0B70015C2F6 /* DateExtension.swift */; };
+		58CD0EFF296D16BD006AFB4D /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5849069C28D0B0A90015C2F6 /* StringExtension.swift */; };
 		58EE40BC28FD70A60012E488 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58EE40BB28FD70A60012E488 /* SettingViewModel.swift */; };
 		58F5FD2328EC613D002DB680 /* DetailImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F5FD2228EC613D002DB680 /* DetailImagesView.swift */; };
 		CF0483E12860913F00455F78 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0483E02860913F00455F78 /* FirebaseService.swift */; };
@@ -557,7 +559,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58CD0EFF296D16BD006AFB4D /* StringExtension.swift in Sources */,
 				58CD0EFD296D0449006AFB4D /* UserDfaultsExtension.swift in Sources */,
+				58CD0EFE296D16B9006AFB4D /* DateExtension.swift in Sources */,
 				5855B63D2934E10F004DAEE7 /* WithuWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

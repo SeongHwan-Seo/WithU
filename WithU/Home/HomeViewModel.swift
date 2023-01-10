@@ -152,10 +152,10 @@ class HomeViewModel: ObservableObject {
         let dayCount = Int(interval! / 86400)
         
         if UserDefaults.standard.bool(forKey: "check") {
-            UserDefaults.standard.set("\(dayCount + 1)일", forKey: "dayCount")
+            UserDefaults.shared.set("\(dayCount + 1)일", forKey: "count")
             return dayCount + 1
         } else {
-            UserDefaults.standard.set("\(dayCount)일", forKey: "dayCount")
+            UserDefaults.shared.set("\(dayCount)일", forKey: "count")
             return dayCount
         }
         

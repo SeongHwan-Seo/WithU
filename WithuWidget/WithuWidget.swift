@@ -10,61 +10,73 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), message: UserDefaults.shared.string(forKey: "message") ?? "")
+        SimpleEntry(date: Date(), count: "")
     }
-
+    
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), message: UserDefaults.shared.string(forKey: "message") ?? "")
+        let count = UserDefaults.shared.string(forKey: "count") ?? ""
+        let entry = SimpleEntry(date: Date(), count : count)
         completion(entry)
     }
-
+    
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, message: UserDefaults.shared.string(forKey: "message") ?? "")
-            entries.append(entry)
-        }
-
-        let timeline = Timeline(entries: entries, policy: .atEnd)
+        let count = UserDefaults.shared.string(forKey: "count") ?? ""
+        
+        let entry = SimpleEntry(date: currentDate, count: count)
+        //10분마다 업데이트
+        let nextRefresh = Calendar.current.date(byAdding: .minute, value: 10, to: currentDate)!
+        let timeline = Timeline(entries: [entry], policy: .after(nextRefresh))
         completion(timeline)
     }
+    
 }
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let message: String
+    let count: String
     
 }
 
 struct WithuWidgetEntryView : View {
     var entry: Provider.Entry
-
+    
     var body: some View {
-        Text(entry.date, style: .time)
-        Text(entry.message)
+        ZStack {
+            LinearGradient(gradient: Gradient(colors: [Color(red: 225/255, green: 218/255, blue: 244/255), Color(red: 196/255, green: 203/255, blue: 242/255)]), startPoint: .top, endPoint: .bottom)
+            
+            VStack(spacing: 10) {
+                Text("♥︎")
+                    .font(.system(size: 16))
+                    .foregroundColor(Color.white)
+                Text("\(entry.count)")
+                    .font(.system(size: 23, weight: .bold, design: .rounded))
+                    .foregroundColor(Color.white)
+            }
+        }
+        
+        
+        
     }
 }
 
 @main
 struct WithuWidget: Widget {
     let kind: String = "WithuWidget"
-
+    
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             WithuWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("커플 위젯")
         .description("우리의 소중한 추억을 위젯을 통해 확인하세요.")
+        .supportedFamilies([.systemSmall])
     }
 }
 
 struct WithuWidget_Previews: PreviewProvider {
     static var previews: some View {
-        WithuWidgetEntryView(entry: SimpleEntry(date: Date(), message: UserDefaults.shared.string(forKey: "message") ?? ""))
+        WithuWidgetEntryView(entry: SimpleEntry(date: Date(), count: "1"))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }
