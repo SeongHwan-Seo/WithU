@@ -26,7 +26,10 @@ class SettingViewModel: ObservableObject {
                     return
                 case .finished:
                     print("Success deleteAll")
-                    UserDefaults.standard.set(nil, forKey: "id")
+                    //UserDefaults.standard.set(nil, forKey: "id")
+                    for key in UserDefaults.standard.dictionaryRepresentation().keys {
+                        UserDefaults.standard.removeObject(forKey: key.description)
+                    }
                     UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         exit(0)

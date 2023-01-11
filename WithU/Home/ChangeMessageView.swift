@@ -25,7 +25,7 @@ struct ChangeMessageView: View {
     @Binding var isShowingChangeMessagePopup: Bool
     //@State var dDay: Date? = Date()
     @State var showDatePicker: Bool = false
-    @State private var isToggle: Bool = UserDefaults.standard.bool(forKey: "check")
+    @State private var isToggle: Bool = UserDefaults.shared.bool(forKey: "check")
     var formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier:"ko_KR")
@@ -78,8 +78,7 @@ struct ChangeMessageView: View {
                 Button(action: {
                     viewModel.updateUser()
                     isShowingChangeMessagePopup.toggle()
-                    UserDefaults.standard.set(self.isToggle, forKey: "check")
-                    
+                    UserDefaults.shared.set(self.isToggle, forKey: "check")
                 }, label: {
                     Text("저장")
                         .fontWeight(.bold)

@@ -60,7 +60,6 @@ class HomeViewModel: ObservableObject {
         var user = User()
         user.id = uid
         UserDefaults.standard.set(user.id, forKey: "id")// user.id 를 UserDeFaults에 저장
-        UserDefaults.shared.set(user.message, forKey: "message")
         UserDefaults.shared.set(user.date, forKey: "fromDate")
         
         FirebaseService.setUser(user)
@@ -79,7 +78,6 @@ class HomeViewModel: ObservableObject {
     
     //유저정보 업데이트
     func updateUser() {
-        UserDefaults.shared.set(user.message, forKey: "message")
         UserDefaults.shared.set(user.date, forKey: "fromDate")
         
         FirebaseService.setUser(user)
@@ -151,11 +149,9 @@ class HomeViewModel: ObservableObject {
         let interval = endDate?.timeIntervalSince(startDate!)
         let dayCount = Int(interval! / 86400)
         
-        if UserDefaults.standard.bool(forKey: "check") {
-            UserDefaults.shared.set("\(dayCount + 1)일", forKey: "count")
+        if UserDefaults.shared.bool(forKey: "check") {
             return dayCount + 1
         } else {
-            UserDefaults.shared.set("\(dayCount)일", forKey: "count")
             return dayCount
         }
         

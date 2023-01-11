@@ -14,20 +14,37 @@ struct Provider: TimelineProvider {
     }
     
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let count = UserDefaults.shared.string(forKey: "count") ?? ""
-        let entry = SimpleEntry(date: Date(), count : count)
+        let count = days(from: UserDefaults.shared.object(forKey: "fromDate") as! Date)
+        let entry = SimpleEntry(date: Date(), count : "\(count)일")
         completion(entry)
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         let currentDate = Date()
-        let count = UserDefaults.shared.string(forKey: "count") ?? ""
-        
-        let entry = SimpleEntry(date: currentDate, count: count)
+        let count = days(from: UserDefaults.shared.object(forKey: "fromDate") as! Date)
+        let entry = SimpleEntry(date: Date(), count : "\(count)일")
         //10분마다 업데이트
         let nextRefresh = Calendar.current.date(byAdding: .minute, value: 10, to: currentDate)!
         let timeline = Timeline(entries: [entry], policy: .after(nextRefresh))
         completion(timeline)
+    }
+    
+    private func days(from date: Date) -> Int {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        let startDate = dateFormatter.date(from: date.toString()!)
+        let endDate = dateFormatter.date(from: Date().toString()!)
+        let interval = endDate?.timeIntervalSince(startDate!)
+        let dayCount = Int(interval! / 86400)
+        
+        if UserDefaults.shared.bool(forKey: "check") {
+            return dayCount + 1
+        } else {
+            return dayCount
+        }
+        
     }
     
 }
