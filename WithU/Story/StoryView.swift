@@ -30,7 +30,6 @@ struct StoryView: View {
                             presentationMode.wrappedValue.dismiss()
                         }, label: {
                             Image(systemName: "xmark")
-                                .imageScale(.large)
                                 .foregroundColor(.ForegroundColor)
                         })
                         
@@ -48,7 +47,6 @@ struct StoryView: View {
                             },
                             label: {
                                 Image(systemName: "plus")
-                                    .imageScale(.large)
                                     .foregroundColor(.ForegroundColor)
                             })
                         
