@@ -56,8 +56,9 @@ struct SimpleEntry: TimelineEntry {
 }
 
 struct WithuWidgetEntryView : View {
+    @Environment(\.widgetFamily) var family: WidgetFamily
     var entry: Provider.Entry
-    
+    @ViewBuilder
     var body: some View {
         ZStack {
             LinearGradient(gradient: Gradient(colors: [Color(red: 225/255, green: 218/255, blue: 244/255), Color(red: 196/255, green: 203/255, blue: 242/255)]), startPoint: .top, endPoint: .bottom)
@@ -71,9 +72,45 @@ struct WithuWidgetEntryView : View {
                     .foregroundColor(Color.white)
             }
         }
+                
         
         
-        
+    }
+}
+
+struct SystemSmallView: View {
+    let entry: Provider.Entry
+    var body: some View {
+        ZStack {
+            LinearGradient(gradient: Gradient(colors: [Color(red: 225/255, green: 218/255, blue: 244/255), Color(red: 196/255, green: 203/255, blue: 242/255)]), startPoint: .top, endPoint: .bottom)
+            
+            VStack(spacing: 10) {
+                Text("♥︎")
+                    .font(.system(size: 16))
+                    .foregroundColor(Color.white)
+                Text("\(entry.count)")
+                    .font(.system(size: 23, weight: .bold, design: .rounded))
+                    .foregroundColor(Color.white)
+            }
+        }
+    }
+}
+
+struct SystemMediumView: View {
+    let entry: Provider.Entry
+    var body: some View {
+        ZStack {
+            LinearGradient(gradient: Gradient(colors: [Color(red: 225/255, green: 218/255, blue: 244/255), Color(red: 196/255, green: 203/255, blue: 242/255)]), startPoint: .top, endPoint: .bottom)
+            
+            VStack(spacing: 10) {
+                Text("♥︎")
+                    .font(.system(size: 16))
+                    .foregroundColor(Color.white)
+                Text("\(entry.count)")
+                    .font(.system(size: 23, weight: .bold, design: .rounded))
+                    .foregroundColor(Color.white)
+            }
+        }
     }
 }
 
@@ -87,7 +124,7 @@ struct WithuWidget: Widget {
         }
         .configurationDisplayName("커플 위젯")
         .description("우리의 소중한 추억을 위젯을 통해 확인하세요.")
-        .supportedFamilies([.systemSmall])
+        .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
 
