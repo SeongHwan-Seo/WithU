@@ -18,20 +18,32 @@ struct ChangeUserProfileView: View {
     var body: some View {
         ZStack {
             VStack( spacing: 15) {
-                let image = viewModel.selectedImage == nil ? Image(systemName: "person.fill") : Image(uiImage: viewModel.selectedImage ?? UIImage())
-                    image
-                    .resizable()
-                    .aspectRatio(contentMode: viewModel.selectedImage == nil ? .fit : .fill)
-                    .frame(width: 90, height: 90)
-                    .clipShape(Circle())
-                    .overlay(
-                        Circle().stroke(Color.white, lineWidth: 2)
-                    )
-                    .shadow(radius: 7)
-                    .foregroundColor(.ForegroundColor)
-                    .onTapGesture {
-                        isShowingPopupview.toggle()
-                    }
+                if viewModel.selectedImage == nil {
+                    Image(uiImage: UIImage(named: "face_icon")!)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 90, height: 90)
+                        .onTapGesture {
+                            isShowingPopupview.toggle()
+                        }
+                }else {
+                    Image(uiImage: viewModel.selectedImage ?? UIImage())
+                        .resizable()
+                        .aspectRatio(contentMode: viewModel.selectedImage == nil ? .fit : .fill)
+                        .frame(width: 90, height: 90)
+                        .clipShape(Circle())
+                        .overlay(
+                            Circle().stroke(Color.white, lineWidth: 2)
+                        )
+                        .shadow(radius: 7)
+                        .foregroundColor(.ForegroundColor)
+                        .onTapGesture {
+                            isShowingPopupview.toggle()
+                        }
+                }
+                    
+               
+                    
                 VStack {
                     TextField("애칭을 입력하세요.", text: $name)
                         .frame(width: 250)

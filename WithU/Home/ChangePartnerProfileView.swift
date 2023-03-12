@@ -16,21 +16,30 @@ struct ChangePartnerProfileView: View {
     var body: some View {
         ZStack {
             VStack( spacing: 15) {
-                //Image(systemName: "lessthan")
-                let image = viewModel.uselectedImage == nil ? Image(systemName: "person.fill") : Image(uiImage: viewModel.uselectedImage ?? UIImage())
-                    image
+                if viewModel.uselectedImage == nil {
+                    Image(uiImage: UIImage(named: "face_icon")!)
                     .resizable()
-                    .aspectRatio(contentMode: viewModel.uselectedImage == nil ? .fit : .fill)
+                    .aspectRatio(contentMode: .fit)
                     .frame(width: 90, height: 90)
-                    .clipShape(Circle())
-                    .overlay(
-                        Circle().stroke(Color.white, lineWidth: 2)
-                    )
-                    .shadow(radius: 7)
-                    .foregroundColor(.ForegroundColor)
                     .onTapGesture {
                         isShowingPopupview.toggle()
                     }
+                } else {
+                    Image(uiImage: viewModel.uselectedImage ?? UIImage())
+                        .resizable()
+                        .aspectRatio(contentMode: viewModel.uselectedImage == nil ? .fit : .fill)
+                        .frame(width: 90, height: 90)
+                        .clipShape(Circle())
+                        .overlay(
+                            Circle().stroke(Color.white, lineWidth: 2)
+                        )
+                        .shadow(radius: 7)
+                        .foregroundColor(.ForegroundColor)
+                        .onTapGesture {
+                            isShowingPopupview.toggle()
+                        }
+                }
+                
                 VStack {
                     TextField("애칭을 입력하세요.", text: $name )
                         .frame(width: 250)

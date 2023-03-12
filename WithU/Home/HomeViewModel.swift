@@ -149,6 +149,7 @@ class HomeViewModel: ObservableObject {
         let interval = endDate?.timeIntervalSince(startDate!)
         let dayCount = Int(interval! / 86400)
         
+        // 0일 or 1일 부터 시작
         if UserDefaults.shared.bool(forKey: "check") {
             return dayCount + 1
         } else {

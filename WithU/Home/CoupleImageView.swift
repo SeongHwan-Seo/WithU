@@ -47,18 +47,26 @@ struct UserView: View {
     let user: User
     @StateObject var viewModel: HomeViewModel
     var body: some View {
+        
         VStack {
-            let image = viewModel.selectedImage == nil ? Image(systemName: "person.fill") : Image(uiImage: viewModel.selectedImage ?? UIImage())
-            image
-                .resizable()
-                .aspectRatio(contentMode: viewModel.selectedImage == nil ? .fit : .fill)
-                .frame(width: 90, height: 90)
-                .clipShape(Circle())
-                .overlay(
-                    Circle().stroke(Color.white, lineWidth: 2)
-                )
-                .shadow(radius: 7)
-                .foregroundColor(.ForegroundColor)
+            if viewModel.selectedImage == nil {
+                Image(uiImage: UIImage(named: "face_icon")!)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 90, height: 90)
+            } else {
+                Image(uiImage: viewModel.selectedImage ?? UIImage())
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 90, height: 90)
+                    .clipShape(Circle())
+                    .overlay(
+                        Circle().stroke(Color.white, lineWidth: 2)
+                    )
+                    .shadow(radius: 7)
+                    .foregroundColor(.ForegroundColor)
+            }
+             
             
             Text(user.nickName)
                 .foregroundColor(.ForegroundColor)
@@ -73,17 +81,25 @@ struct PartnerView: View {
     @StateObject var viewModel: HomeViewModel
     var body: some View {
         VStack {
-            let image = viewModel.uselectedImage == nil ? Image(systemName: "person.fill") : Image(uiImage: viewModel.uselectedImage ?? UIImage())
-            image
-                .resizable()
-                .aspectRatio(contentMode: viewModel.selectedImage == nil ? .fit : .fill)
-                .frame(width: 90, height: 90)
-                .clipShape(Circle())
-                .overlay(
-                    Circle().stroke(Color.white, lineWidth: 2)
-                )
-                .shadow(radius: 7)
-                .foregroundColor(.ForegroundColor)
+            if viewModel.uselectedImage == nil {
+                Image(uiImage: UIImage(named: "face_icon")!)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 90, height: 90)
+            }
+            else {
+                Image(uiImage: viewModel.uselectedImage ?? UIImage())
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 90, height: 90)
+                    .clipShape(Circle())
+                    .overlay(
+                        Circle().stroke(Color.white, lineWidth: 2)
+                    )
+                    .shadow(radius: 7)
+                    .foregroundColor(.ForegroundColor)
+            }
+          
             
             Text(user.unickName)
                 .foregroundColor(.ForegroundColor)
