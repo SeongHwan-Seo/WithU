@@ -39,4 +39,8 @@
 > add anonymous Login
 
 > fix D-Day count bug
+#### v1.2 (2023. 01. 11)
+> add Widget
+#### v1.2.1 (2023. 03. 12)
+> add MediumSize Widget && Home - default user image view
  
