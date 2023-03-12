@@ -17,10 +17,11 @@ struct ChangePartnerProfileView: View {
         ZStack {
             VStack( spacing: 15) {
                 if viewModel.uselectedImage == nil {
-                    Image(uiImage: UIImage(named: "face_icon")!)
+                    Image(uiImage: UIImage(named: "face_icon")!.withRenderingMode(.alwaysTemplate))
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 90, height: 90)
+                    .foregroundColor(.ForegroundColor)
                     .onTapGesture {
                         isShowingPopupview.toggle()
                     }

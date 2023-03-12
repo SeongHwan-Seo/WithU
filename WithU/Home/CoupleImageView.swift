@@ -50,10 +50,11 @@ struct UserView: View {
         
         VStack {
             if viewModel.selectedImage == nil {
-                Image(uiImage: UIImage(named: "face_icon")!)
+                Image(uiImage: UIImage(named: "face_icon")!.withRenderingMode(.alwaysTemplate))
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 90, height: 90)
+                    .foregroundColor(.ForegroundColor)
             } else {
                 Image(uiImage: viewModel.selectedImage ?? UIImage())
                     .resizable()
@@ -82,10 +83,11 @@ struct PartnerView: View {
     var body: some View {
         VStack {
             if viewModel.uselectedImage == nil {
-                Image(uiImage: UIImage(named: "face_icon")!)
+                Image(uiImage: UIImage(named: "face_icon")!.withRenderingMode(.alwaysTemplate))
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 90, height: 90)
+                    .foregroundColor(.ForegroundColor)
             }
             else {
                 Image(uiImage: viewModel.uselectedImage ?? UIImage())
