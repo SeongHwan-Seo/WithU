@@ -39,7 +39,8 @@ struct BgImageView: View {
                 Image(uiImage: viewModel.bgSelectedImage ?? UIImage())
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: UIScreen.main.bounds.width , height: 400, alignment: .center)
+                    .frame(width: UIScreen.main.bounds.width , height: UIScreen.main.bounds.height / 2, alignment: .center)
+                    
                     .clipped()
                     
                     

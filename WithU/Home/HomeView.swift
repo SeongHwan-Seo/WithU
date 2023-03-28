@@ -27,17 +27,12 @@ struct HomeView: View {
                             if !isShowingMenuView {
                                 isShowingPopupview.toggle()
                             }
-                            
-                            
                         }
                     CoupleImageView(viewModel: viewModel, isShowingChangeUserPopup: $isShowingChangeUserPopup, isShowingChangePartnerPopup: $isShowingChangePartnerPopup, isShowingMenuView: $isShowingMenuView)
                     DdayCountView(viewModel: viewModel, isShowingChangeMessagePopup: $isShowingChangeMessagePopup, isShowingMenuView: $isShowingMenuView)
                     
                     Spacer()
                 }
-                //.edgesIgnoringSafeArea(.all)
-                
-                //
                 VStack {
                     Spacer()
                     

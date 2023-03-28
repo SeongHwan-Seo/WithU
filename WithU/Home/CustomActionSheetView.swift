@@ -61,15 +61,6 @@ struct CustomActionSheetView: View {
                 Spacer()
             }
             
-//            HStack {
-//                Button(action: {} ) {
-//                    Image(systemName: "camera")
-//                    Text("카메라로 찍기")
-//                    
-//                }
-//                .foregroundColor(Color.ForegroundColor)
-//                Spacer()
-//            }
             HStack {
                 Button(action: {
                     isShowingPopupview.toggle()
@@ -85,7 +76,7 @@ struct CustomActionSheetView: View {
             .padding(.horizontal)
             .padding(.top, 20)
             .background(Color.popBackgroundColor)
-            .cornerRadius(20)
+            .cornerRadius(20, corners: [.topLeft, .topRight])
         
     }
 }
