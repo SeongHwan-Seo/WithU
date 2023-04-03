@@ -58,21 +58,54 @@ struct SimpleEntry: TimelineEntry {
 struct WithuWidgetEntryView : View {
     @Environment(\.widgetFamily) var family: WidgetFamily
     var entry: Provider.Entry
-    @ViewBuilder
     var body: some View {
-        ZStack {
-            LinearGradient(gradient: Gradient(colors: [Color(red: 225/255, green: 218/255, blue: 244/255), Color(red: 196/255, green: 203/255, blue: 242/255)]), startPoint: .top, endPoint: .bottom)
-            
-            VStack(spacing: 10) {
-                Text("♥︎")
-                    .font(.system(size: 16))
-                    .foregroundColor(Color.white)
-                Text("\(entry.count)")
-                    .font(.system(size: 23, weight: .bold, design: .rounded))
-                    .foregroundColor(Color.white)
+        if #available(iOSApplicationExtension 16.0, *) {
+            switch family {
+            case .accessoryCircular:
+                VStack {
+                    Text("♥︎")
+                    Text("\(entry.count)")
+                        .font(.system(size: 14, weight: .bold, design: .rounded))
+                }
+            case .accessoryRectangular:
+                VStack(alignment: .leading) {
+                    Text("With U")
+                        .font(.system(size: 14, weight: .semibold, design: .rounded))
+                    Text("\(entry.count)")
+                        .font(.system(size: 15, weight: .bold, design: .rounded))
+                    
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            default:
+                ZStack {
+                    LinearGradient(gradient: Gradient(colors: [Color(red: 225/255, green: 218/255, blue: 244/255), Color(red: 196/255, green: 203/255, blue: 242/255)]), startPoint: .top, endPoint: .bottom)
+                    
+                    VStack(spacing: 10) {
+                        Text("♥︎")
+                            .font(.system(size: 16))
+                            .foregroundColor(Color.white)
+                        Text("\(entry.count)")
+                            .font(.system(size: 23, weight: .bold, design: .rounded))
+                            .foregroundColor(Color.white)
+                    }
+                }
+            }
+        } else {
+            ZStack {
+                LinearGradient(gradient: Gradient(colors: [Color(red: 225/255, green: 218/255, blue: 244/255), Color(red: 196/255, green: 203/255, blue: 242/255)]), startPoint: .top, endPoint: .bottom)
+                
+                VStack(spacing: 10) {
+                    Text("♥︎")
+                        .font(.system(size: 16))
+                        .foregroundColor(Color.white)
+                    Text("\(entry.count)")
+                        .font(.system(size: 23, weight: .bold, design: .rounded))
+                        .foregroundColor(Color.white)
+                }
             }
         }
-                
+        
+        
         
         
     }
@@ -118,13 +151,20 @@ struct SystemMediumView: View {
 struct WithuWidget: Widget {
     let kind: String = "WithuWidget"
     
+    private let supportedFamilies:[WidgetFamily] = {
+        if #available(iOSApplicationExtension 16.0, *) {
+            return [.systemSmall, .systemMedium, .accessoryCircular, .accessoryRectangular]
+        } else {
+            return [.systemSmall, .systemMedium]
+        }
+    }()
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             WithuWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("커플 위젯")
         .description("우리의 소중한 추억을 위젯을 통해 확인하세요.")
-        .supportedFamilies([.systemSmall, .systemMedium])
+        .supportedFamilies(supportedFamilies)
     }
 }
 
