@@ -8,6 +8,7 @@
 import SwiftUI
 import FirebaseFirestore
 import FirebaseStorage
+import Network
 import Combine
 
 class HomeViewModel: ObservableObject {
@@ -22,6 +23,11 @@ class HomeViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     var uid = ""
     
+    var monitor = NWPathMonitor()
+    let queue = DispatchQueue.global()
+    @Published var isConnected = false
+    
+    
     let dateFormatter : DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko_KR")
@@ -30,7 +36,29 @@ class HomeViewModel: ObservableObject {
     }()
     
     init() {
-       login()
+        startMonitoring()
+        login()
+    }
+    
+    deinit {
+        stopMonitoring()
+    }
+    
+    // method working when you touch 'Check Status' button.
+    func startMonitoring() {
+        monitor = NWPathMonitor()
+        monitor.start(queue: queue)
+        monitor.pathUpdateHandler = { [weak self] path in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.isConnected = path.status == .satisfied
+            }
+        }
+    }
+    
+    // method stop checking.
+    func stopMonitoring() {
+        monitor.cancel()
     }
     
     func login() {
@@ -116,7 +144,6 @@ class HomeViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] (user) in
                 self?.user = user
-                print(user)
             }
             .store(in: &cancellables)
     }
@@ -221,6 +248,14 @@ class HomeViewModel: ObservableObject {
         }
         
         
+    }
+    
+    /// 앱 종료하기
+    func exitApplication() {
+        UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            exit(0)
+        }
     }
     
     

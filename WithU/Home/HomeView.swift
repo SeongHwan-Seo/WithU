@@ -93,8 +93,8 @@ struct HomeView: View {
             }
             
         }
-        
     }
+
 }
 
 
