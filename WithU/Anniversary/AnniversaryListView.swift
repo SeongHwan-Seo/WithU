@@ -15,7 +15,7 @@ struct AnniversaryListView: View {
         List {
             ForEach(viewModel.anniversaries, id: \.id) { anniversary in
                 
-                let dDay = viewModel.calCulDay(from: anniversary.date.toDate() ?? Date())
+                let dDay = viewModel.calCulDay(from: anniversary.date?.toDate() ?? Date())
                 
                 ZStack {
                     
@@ -23,10 +23,10 @@ struct AnniversaryListView: View {
                     HStack {
                         
                         VStack(alignment: .leading) {
-                            Text("\(anniversary.title)")
+                            Text("\(anniversary.title!)")
                                 .font(.system(size: 17, weight: .medium, design: .rounded))
                                 .padding(.bottom, 3)
-                            Text("\(anniversary.date)")
+                            Text("\(anniversary.date!)")
                                 .font(.system(size: 14, weight: .thin))
                         }
                         
@@ -35,13 +35,13 @@ struct AnniversaryListView: View {
                         
                         if dDay == 0 {
                             Text("D-Day")
-                                .font(.system(.title2, design: .rounded))
+                                .font(.system(.caption, design: .rounded))
                         } else if dDay > 0 {
                             Text("D-\(dDay)")
-                                .font(.system(.title2, design: .rounded))
+                                .font(.system(.caption, design: .rounded))
                         } else if dDay < 0 {
                             Text("D+\(abs(dDay))")
-                                .font(.system(.title2, design: .rounded))
+                                .font(.system(.caption, design: .rounded))
                         }
                         
                             
@@ -55,7 +55,6 @@ struct AnniversaryListView: View {
         }
         
         .onAppear{
-            //UITableView.appearance().backgroundColor = UIColor(.backgroundColor)
         }
         
         
@@ -71,7 +70,8 @@ extension AnniversaryListView {
     /// - Parameter offsets: 기념일 배열 인덱스
     func deleteItems(at offsets: IndexSet) {
         offsets.map{ viewModel.anniversaries[$0] }.forEach { anniversary in
-            viewModel.deleteAnniversary(anniversaryId: anniversary.id
+            guard let id = anniversary.id else { return }
+            viewModel.deleteAnniversary(anniversaryId: id
                                         , userId: UserDefaults.standard.string(forKey: "id") ?? "")
             
             

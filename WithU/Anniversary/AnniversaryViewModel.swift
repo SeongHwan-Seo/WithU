@@ -14,9 +14,41 @@ class AnniversaryViewModel: ObservableObject {
     
     @Published var anniversaries = [Anniversary]()
     
+    init() {
+        //loadStandardAnniversaries()
+    }
+    func loadStandardAnniversaries() -> [Anniversary] {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+
+        let startDateString = "2017-07-12"
+        let startDate = dateFormatter.date(from: startDateString)!
+
+        let currentDate = Date()
+
+        let calendar = Calendar.current
+        let dateComponents = calendar.dateComponents([.day], from: startDate, to: currentDate)
+        let daysSinceStart = dateComponents.day! + 1 // 시작일을 1일로 계산하기 위해 1을 더해줍니다.
+
+        print("17년 7월 12일부터 오늘까지 \(daysSinceStart)일이 지났습니다.")
+        var anniversaries = [Anniversary]()
+        for i in stride(from: 100, through: 10000, by: 100) {
+            if let futureDate = calendar.date(byAdding: .day, value: i-1, to: startDate) { // 시작일을 1일로 계산하기 위해 1을 빼줍니다.
+                let dateComponents = calendar.dateComponents([.day], from: startDate, to: futureDate)
+                let daysSinceStart = dateComponents.day! + 1 // 시작일을 1일로 계산하기 위해 1을 더해줍니다.
+                //print("\(i)일 후 날짜: \(dateFormatter.string(from: futureDate)), 17년 7월 12일부터 \(daysSinceStart)일이 지났습니다.")
+                
+                let anniversary = Anniversary(id: UUID().uuidString, title: "\(i)일", date: "\(dateFormatter.string(from: futureDate))")
+                //print(anniversary)
+                anniversaries.append(anniversary)
+            }
+        }
+        return anniversaries
+    }
     
     //기념일 가져오기
     func loadAnniversaries(userId: String) {
+        print("loadAnniversaries")
         FirebaseService.fetchAnniversaries(userId)
             .sink{ (complition) in
                 switch complition {
@@ -24,10 +56,15 @@ class AnniversaryViewModel: ObservableObject {
                     print(error)
                     return
                 case .finished:
+                    print(self.anniversaries)
                     return
                 }
             } receiveValue: { [weak self] (anniversaries) in
-                self?.anniversaries = anniversaries.sorted(by: {$0.date < $1.date})
+                var standardArr = self?.loadStandardAnniversaries()
+                standardArr?.append(contentsOf: anniversaries)
+                
+                self?.anniversaries = standardArr ?? []
+                self?.anniversaries.sort(by: { ($0.date ?? Date().toString())! < $1.date ?? Date().toString()! })
             }
             .store(in: &cancellables)
     }
@@ -63,7 +100,6 @@ class AnniversaryViewModel: ObservableObject {
                     print(error)
                     return
                 case .finished:
-                    //self.loadAnniversaries(userId: userId)
                     return
                 }
                 

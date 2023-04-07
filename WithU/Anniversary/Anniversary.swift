@@ -10,9 +10,9 @@ import SwiftUI
 
 
 struct Anniversary: Codable, Identifiable {
-    var id: String
-    var title: String
-    var date: String
+    var id: String?
+    var title: String?
+    var date: String?
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: AnniversaryKeys.self)
@@ -22,7 +22,7 @@ struct Anniversary: Codable, Identifiable {
         self.date = try values.decode(String.self, forKey: .date)
     }
     
-    init(id: String, title: String, date: String) {
+    init(id: String?, title: String?, date: String?) {
         self.id = id
         self.title = title
         self.date = date
