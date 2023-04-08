@@ -66,7 +66,7 @@ struct AnniversaryView: View {
             
 
             .offset(y: 61)
-            .padding(.bottom, 20)
+            .frame(height: UIScreen.main.bounds.height - (81 + (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0) ))
 
 
         }

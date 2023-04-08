@@ -20,30 +20,29 @@ class AnniversaryViewModel: ObservableObject {
     func loadStandardAnniversaries() -> [Anniversary] {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-
-        let startDateString = "2017-07-12"
-        let startDate = dateFormatter.date(from: startDateString)!
-
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
+        
+        guard let userDate = UserDefaults.shared.object(forKey: "fromDate") as? Date,
+              let startDate = dateFormatter.date(from: userDate.toString() ?? "") else {
+                  return []
+              }
+        
         let currentDate = Date()
-
         let calendar = Calendar.current
-        let dateComponents = calendar.dateComponents([.day], from: startDate, to: currentDate)
-        let daysSinceStart = dateComponents.day! + 1 // 시작일을 1일로 계산하기 위해 1을 더해줍니다.
-
-        print("17년 7월 12일부터 오늘까지 \(daysSinceStart)일이 지났습니다.")
+        
+        let check = UserDefaults.shared.bool(forKey: "check")
+        
         var anniversaries = [Anniversary]()
         for i in stride(from: 100, through: 10000, by: 100) {
-            if let futureDate = calendar.date(byAdding: .day, value: i-1, to: startDate) { // 시작일을 1일로 계산하기 위해 1을 빼줍니다.
-                let dateComponents = calendar.dateComponents([.day], from: startDate, to: futureDate)
-                let daysSinceStart = dateComponents.day! + 1 // 시작일을 1일로 계산하기 위해 1을 더해줍니다.
-                //print("\(i)일 후 날짜: \(dateFormatter.string(from: futureDate)), 17년 7월 12일부터 \(daysSinceStart)일이 지났습니다.")
-                
-                let anniversary = Anniversary(id: UUID().uuidString, title: "\(i)일", date: "\(dateFormatter.string(from: futureDate))")
-                //print(anniversary)
+            let value = check ? i - 1 : i
+            if let futureDate = calendar.date(byAdding: .day, value: value, to: startDate) {
+                let anniversary = Anniversary(id: UUID().uuidString, title: "\(i)일", date: dateFormatter.string(from: futureDate))
                 anniversaries.append(anniversary)
             }
         }
-        return anniversaries
+        
+        let today = dateFormatter.string(from: currentDate)
+        return !UserDefaults.standard.bool(forKey: "AnniversaryToggle") ? anniversaries.filter { $0.date ?? "" >= today } : anniversaries
     }
     
     //기념일 가져오기
@@ -56,7 +55,6 @@ class AnniversaryViewModel: ObservableObject {
                     print(error)
                     return
                 case .finished:
-                    print(self.anniversaries)
                     return
                 }
             } receiveValue: { [weak self] (anniversaries) in
