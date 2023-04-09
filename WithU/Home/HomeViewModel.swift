@@ -27,6 +27,9 @@ class HomeViewModel: ObservableObject {
     let queue = DispatchQueue.global()
     @Published var isConnected = false
     
+    let appId = "id6444006977"
+    let storeURL = URL(string: "itms-apps://itunes.apple.com/app/id6444006977")!
+    @Published var isShowingUpdateAlert = false
     
     let dateFormatter : DateFormatter = {
         let formatter = DateFormatter()
@@ -43,6 +46,48 @@ class HomeViewModel: ObservableObject {
     deinit {
         stopMonitoring()
     }
+    
+    
+    /// 앱스토어 이동
+    func goToStore() {
+        UIApplication.shared.open(storeURL)
+    }
+    
+    /// 버전체크 후 업데이트
+    func checkForUpdate() {
+            guard let currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String else {
+                // 현재 앱 버전을 가져올 수 없는 경우 처리 로직
+                return
+            }
+            print(currentVersion)
+            guard let url = URL(string: "http://itunes.apple.com/kr/lookup?bundleId=com.seosh.WithU") else {
+                // URL 형식이 잘못된 경우 처리 로직
+                return
+            }
+            
+            let request = URLRequest(url: url)
+            
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data, error == nil else {
+                    // 데이터를 가져올 수 없는 경우 처리 로직
+                    return
+                }
+                
+                guard let result = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                    let results = result["results"] as? [[String: Any]],
+                    let latestVersion = results.first?["version"] as? String else {
+                        // 최신 버전을 가져올 수 없는 경우 처리 로직
+                        return
+                }
+                print(latestVersion)
+                // 최신 버전이 현재 버전보다 높은 경우 업데이트 알림을 띄움
+                if latestVersion > currentVersion {
+                    DispatchQueue.main.async {
+                        self.isShowingUpdateAlert = true
+                    }
+                }
+            }.resume()
+        }
     
     // method working when you touch 'Check Status' button.
     func startMonitoring() {

@@ -54,7 +54,27 @@ struct ContentView: View {
                     )
                 }
             }
+            
+            
         }
+        .alert(isPresented: $viewModel.isShowingUpdateAlert) {
+            Alert(
+                title: Text("새로운 버전이 출시되었습니다."),
+                message: Text("업데이트 하시겠습니까?"),
+                primaryButton: .cancel(Text("취소")),
+                secondaryButton: .default(
+                    Text("업데이트")
+                        .fontWeight(.bold),
+                    action: {
+                        viewModel.goToStore()
+                    }
+                )
+            )
+        }
+        .onAppear {
+            self.viewModel.checkForUpdate()
+        }
+        
     }
 }
 
