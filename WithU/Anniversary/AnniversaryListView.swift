@@ -14,14 +14,9 @@ struct AnniversaryListView: View {
         
         List {
             ForEach(viewModel.anniversaries, id: \.id) { anniversary in
-                
                 let dDay = viewModel.calCulDay(from: anniversary.date?.toDate() ?? Date())
-                
                 ZStack {
-                    
-                    
                     HStack {
-                        
                         VStack(alignment: .leading) {
                             Text("\(anniversary.title!)")
                                 .font(.system(size: 17, weight: .medium, design: .rounded))
@@ -30,34 +25,25 @@ struct AnniversaryListView: View {
                                 .font(.system(size: 14, weight: .thin))
                         }
                         
-                        
                         Spacer()
                         
                         if dDay == 0 {
                             Text("D-Day")
-                                .font(.system(.caption, design: .rounded))
+                                .font(.system(.subheadline, design: .rounded))
                         } else if dDay > 0 {
                             Text("D-\(dDay)")
-                                .font(.system(.caption, design: .rounded))
+                                .font(.system(.subheadline, design: .rounded))
                         } else if dDay < 0 {
                             Text("D+\(abs(dDay))")
-                                .font(.system(.caption, design: .rounded))
+                                .font(.system(.subheadline, design: .rounded))
                         }
-                        
-                            
                     }
                     
                 }
             }
             .onDelete(perform: deleteItems)
             .listStyle(.plain)
-            
         }
-        
-        .onAppear{
-        }
-        
-        
     }
     
     
@@ -74,8 +60,6 @@ extension AnniversaryListView {
             viewModel.deleteAnniversary(anniversaryId: id
                                         , userId: UserDefaults.standard.string(forKey: "id") ?? "")
             
-            
-        
             if let index:Int = viewModel.anniversaries.firstIndex(where: {$0.id == anniversary.id}) {
                 viewModel.anniversaries.remove(at: index)
             }
@@ -83,20 +67,4 @@ extension AnniversaryListView {
         
     }
 }
-
-
-struct CardModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .background(
-                RoundedRectangle(cornerRadius: 20)
-                    .foregroundColor(.popBackgroundColor)
-                    .shadow(color: .gray, radius: 1, x: 1, y: 1)
-                    .opacity(1)
-                
-            )
-        
-    }
-}
-
 

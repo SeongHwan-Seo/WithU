@@ -54,26 +54,18 @@ struct AnniversaryView: View {
                     Divider()
                 }
             
-
-
             }
-
-
             VStack {
                 AnniversaryListView(viewModel: viewModel)
                     
             }
-            
-
             .offset(y: 61)
             .frame(height: UIScreen.main.bounds.height - (81 + (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0) ))
-
 
         }
         .onAppear {
             viewModel.loadAnniversaries(userId: UserDefaults.standard.string(forKey: "id") ?? "")
         }
-        
         
     }
 }

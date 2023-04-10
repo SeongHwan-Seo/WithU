@@ -13,6 +13,7 @@ class AnniversaryViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     @Published var anniversaries = [Anniversary]()
+    @Published var standardFromDay = 100
     
     init() {
         //loadStandardAnniversaries()
@@ -47,7 +48,6 @@ class AnniversaryViewModel: ObservableObject {
     
     //기념일 가져오기
     func loadAnniversaries(userId: String) {
-        print("loadAnniversaries")
         FirebaseService.fetchAnniversaries(userId)
             .sink{ (complition) in
                 switch complition {
@@ -69,7 +69,6 @@ class AnniversaryViewModel: ObservableObject {
     
     //기념일 생성
     func createAnniversary(anniversary: Anniversary, userId: String) {
-        
         FirebaseService.createAnniversary(anniversary, userId)
             .sink{ (completion) in
                 switch completion {
@@ -115,29 +114,22 @@ class AnniversaryViewModel: ObservableObject {
         return current_date_string
     }
     
-    
-    
     /// 기념일 D-day 계산
     /// - Parameter date: 기념일 날짜
     /// - Returns: 지난 기념일 + day /지나지 않은 기념일 - day
     func calCulDay(from date: Date) -> Int {
         
         if Date().toString() == date.toString() {
-          
             return 0
         }
         
         let dayCount = Calendar.current.dateComponents([.day], from: Date(), to: date).day
-        
         if Int(dayCount ?? 0) + 1 > 0 {
             return Int(dayCount ?? 0) + 1
         } else  {
             return Int(dayCount ?? 0)
         }
-        
-        
     }
-    
     
 }
 

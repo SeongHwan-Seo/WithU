@@ -70,21 +70,10 @@ struct CreateAnniversaryView: View {
                     .datePickerStyle(.graphical)
                     .accentColor(.buttonBackground)
                     .environment(\.locale, Locale.init(identifier: "ko_KR"))
-                
-                
             }
             .padding()
             .offset(y: 60)
-            
         }
-        
-        
-        
-        
-        
-        
-        
-        
         
     }
 }
