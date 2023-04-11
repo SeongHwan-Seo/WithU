@@ -3,6 +3,9 @@
 
 <div align=center><h2>우리의 소중한 추억, With U</h2></div>
 
+![WithU_ScreenShot](https://user-images.githubusercontent.com/67613690/231146538-9ce823da-5017-42ac-9aaa-7185e578f152.png)
+
+
 # Navigation
 - [Skills](#skills)
 - [Goals](#goals)
@@ -24,6 +27,9 @@
 
 # ScreenShot
 
+![WithU_2](https://user-images.githubusercontent.com/67613690/231146910-d7bb4578-ea45-4bd8-b887-3daacb4e9c80.gif)
+![Simulator Screen Recording - iPhone 13 mini - 2023-04-11 at 12 31 39-min](https://user-images.githubusercontent.com/67613690/231147166-33bae856-7f8a-4762-9ac4-c0b5c77b9fa9.gif)
+
 # Design
 #### AppIcon
 ![WithU](https://user-images.githubusercontent.com/67613690/206439713-b3249772-b327-4f63-879f-dcd9cf6bfeb4.png)
@@ -40,7 +46,13 @@
 
 > fix D-Day count bug
 #### v1.2 (2023. 01. 11)
-> add Widget
+> add HomeScreen Widget
 #### v1.2.1 (2023. 03. 12)
 > add MediumSize Widget && Home - default user image view
+#### v1.2.2 (2023. 04. 11)
+> fix bug
+
+> add check network state
+
+> add lockscreen widget
  
