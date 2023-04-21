@@ -12,13 +12,14 @@ import FirebaseFirestoreSwift
 import FirebaseStorage
 import FirebaseAuth
 
-struct FirebaseService {
-    static let db = Firestore.firestore()
-    static let storage = Storage.storage()
+class FirebaseService {
+    static let shared = FirebaseService()
+    let db = Firestore.firestore()
+    let storage = Storage.storage()
     
     /// 파이어베이스 익명로그인
     /// - Returns: String
-    static func anonymousLogin() -> AnyPublisher<String, Error> {
+    func anonymousLogin() -> AnyPublisher<String, Error> {
         
         Future<String, Error> { promise in
             print("anonymousLogin Start")
@@ -38,8 +39,9 @@ struct FirebaseService {
     
     /// 유저정보 불러오기
     /// - Returns: User
-    static func fetchUser() -> AnyPublisher<User, Error> {
-        Future<User, Error> { promise in
+    func fetchUser() -> AnyPublisher<User, Error> {
+        Future<User, Error> { [weak self] promise in
+            guard let self = self else { return }
             self.db.collection("users").document(UserDefaults.standard.string(forKey: "id")!)
                 .getDocument { (snapshot, error) in
                     if let error = error {
@@ -68,9 +70,9 @@ struct FirebaseService {
     /// 유저정보저장
     /// - Parameter user: 유저
     /// - Returns: void
-    static func setUser(_ user: User) -> AnyPublisher<Void, Error> {
-        Future<Void,  Error> { promise in
-            print("setUser : start")
+    func setUser(_ user: User) -> AnyPublisher<Void, Error> {
+        Future<Void,  Error> { [weak self] promise in
+            guard let self = self else { return }
             try? self.db.collection("users").document(user.id!).setData(from: user) { error in
                 if let error = error {
                     print("setUser : failure")
@@ -87,9 +89,10 @@ struct FirebaseService {
     }
     
     //FireStorage image저장
-    static func uploadImage(img: UIImage, name: String, dic: String) -> AnyPublisher<Void, Error>{
-        Future<Void, Error> { promise in
-            let storageRef = storage.reference().child("images/\(dic)/\(name)")
+    func uploadImage(img: UIImage, name: String, dic: String) -> AnyPublisher<Void, Error>{
+        Future<Void, Error> { [weak self] promise in
+            guard let self = self else { return }
+            let storageRef = self.storage.reference().child("images/\(dic)/\(name)")
             let data = img.jpegData(compressionQuality: 0.1)
             let metaData = StorageMetadata()
             metaData.contentType = "Image/png"
@@ -119,12 +122,13 @@ struct FirebaseService {
     ///   - name: 유저아이디
     ///   - dic: 폴더이름(유저아이디)
     /// - Returns: void
-    static func uploadImage(img: [UIImage],imgName: [String], dic: String, storyId: String) -> AnyPublisher<Void, Error>{
-        Future<Void, Error> { promise in
+    func uploadImage(img: [UIImage],imgName: [String], dic: String, storyId: String) -> AnyPublisher<Void, Error>{
+        Future<Void, Error> { [weak self] promise in
+            guard let self = self else { return }
             let metaData = StorageMetadata()
             metaData.contentType = "Image/png"
             for idx in 0..<img.count{
-                let storageRef = storage.reference().child("images/\(dic)/story/\(storyId)/\(imgName[idx])")
+                let storageRef = self.storage.reference().child("images/\(dic)/story/\(storyId)/\(imgName[idx])")
                 let data = img[idx].jpegData(compressionQuality: 0.1)
                 
                 //upload data
@@ -155,9 +159,10 @@ struct FirebaseService {
     ///   - imageName: 이미지 명
     ///   - id: 유저아이디
     /// - Returns: UIImage
-    static func fetchImage(imageName: String, id: String) -> AnyPublisher<UIImage, Error> {
-        Future<UIImage, Error> { promise in
-            let ref = storage.reference().child("images/\(id)/" + "\(imageName)")
+    func fetchImage(imageName: String, id: String) -> AnyPublisher<UIImage, Error> {
+        Future<UIImage, Error> { [weak self] promise in
+            guard let self = self else { return }
+            let ref = self.storage.reference().child("images/\(id)/" + "\(imageName)")
             
             ref.getData(maxSize: 1 * 1024 * 1024) { data, error in
                 if let error = error {
@@ -178,14 +183,19 @@ struct FirebaseService {
     ///   - anniversary: 기념일
     ///   - userId: 유저아이디
     /// - Returns: void
-    static func createAnniversary(_ anniversary: Anniversary, _ userId: String) -> AnyPublisher<Void, Error> {
-        Future<Void, Error> { promise in
-            
+    func createAnniversary(_ anniversary: Anniversary, _ userId: String) -> AnyPublisher<Void, Error> {
+        Future<Void, Error> { [weak self] promise in
+            guard let self = self else { return }
+            guard let id = anniversary.id,
+                  let title = anniversary.title,
+                  let date = anniversary.date else {
+                return
+            }
             self.db.collection("users").document(userId).collection("anniversary")
-                .document(anniversary.id).setData([
-                    "id": anniversary.id,
-                    "title": anniversary.title,
-                    "date": anniversary.date
+                .document(id).setData([
+                    "id": id,
+                    "title": title,
+                    "date": date
                 ]) {
                     error in
                     if let error = error {
@@ -202,9 +212,10 @@ struct FirebaseService {
     /// 기념일 가져오기
     /// - Parameter userId: 유저아이디
     /// - Returns: [Anniversary]
-    static func fetchAnniversaries(_ userId: String) -> AnyPublisher<[Anniversary], Error> {
+    func fetchAnniversaries(_ userId: String) -> AnyPublisher<[Anniversary], Error> {
         
-        Future<[Anniversary], Error> { promise in
+        Future<[Anniversary], Error> { [weak self] promise in
+            guard let self = self else { return }
             self.db.collection("users").document(userId).collection("anniversary")
                 .getDocuments{ (snapshot, error) in
                     if let error = error {
@@ -228,16 +239,17 @@ struct FirebaseService {
                     snapshot.documents.forEach { document in
                         if let anniversary = try? document.data(as: Anniversary.self) {
                             if anniversaries.contains(where: { $0.id == anniversary.id}) { return }
+                            guard let date = anniversary.date else { return }
                             if !UserDefaults.standard.bool(forKey: "AnniversaryToggle")
                             {
-                                if let targetDate: Date = dateFormatter.date(from: anniversary.date),
+                                if let targetDate: Date = dateFormatter.date(from: date),
                                    let todayDate: Date = dateFormatter.date(from: today.toString()!) {
                                     switch targetDate.compare(todayDate) {
                                     case .orderedAscending: return
                                     case .orderedSame:
-                                        print("동일한 날짜 입니다")
+                                        break
                                     case .orderedDescending:
-                                        print("오늘보다 이후 날짜 입니다.")
+                                        break
                                     }
                                 }
                                 
@@ -262,8 +274,9 @@ struct FirebaseService {
     ///   - anniversaryId: 기념일 아이디
     ///   - userId: 유저 아이디
     /// - Returns: void
-    static func deleteAnniversary(_ anniversaryId: String, _ userId: String) -> AnyPublisher<Void, Error> {
-        Future<Void, Error> { promise in
+    func deleteAnniversary(_ anniversaryId: String, _ userId: String) -> AnyPublisher<Void, Error> {
+        Future<Void, Error> { [weak self] promise in
+            guard let self = self else { return }
             self.db.collection("users").document(userId).collection("anniversary")
                 .document(anniversaryId).delete() { error in
                     if let error = error {
@@ -286,9 +299,9 @@ struct FirebaseService {
     ///   - story: 스토리
     ///   - userId: 유저 아이디
     /// - Returns: void
-    static func createStory(story: Story, userId: String) -> AnyPublisher<Void, Error> {
-        Future<Void, Error> { promise in
-            
+     func createStory(story: Story, userId: String) -> AnyPublisher<Void, Error> {
+        Future<Void, Error> { [weak self] promise in
+            guard let self = self else { return }
             self.db.collection("users").document(userId).collection("story")
                 .document(story.id).setData([
                     "id": story.id,
@@ -316,8 +329,9 @@ struct FirebaseService {
     ///   - storyId: 스토리아이디
     ///   - userId: 유저아디디
     /// - Returns: void
-    static func deleteStory(storyId: String, userId: String) -> AnyPublisher<Void, Error> {
-        Future<Void, Error> { promise in
+    func deleteStory(storyId: String, userId: String) -> AnyPublisher<Void, Error> {
+        Future<Void, Error> { [weak self] promise in
+            guard let self = self else { return }
             self.db.collection("users").document(userId).collection("story")
                 .document(storyId).delete() { error in
                     if let error = error {
@@ -339,10 +353,9 @@ struct FirebaseService {
     /// 스토리 가져오기
     /// - Parameter userId: 유저 아이디
     /// - Returns: 스토리 배열
-    static func fetchStories(_ userId: String) -> AnyPublisher<[Story], Error> {
-        
-        Future<[Story], Error> { promise in
-            
+    func fetchStories(_ userId: String) -> AnyPublisher<[Story], Error> {
+        return Future<[Story], Error> { [weak self] promise in
+            guard let self = self else { return }
             self.db.collection("users").document(userId).collection("story")
                 .getDocuments{ (snapshot, error) in
                     if let error = error {
@@ -351,7 +364,7 @@ struct FirebaseService {
                     }
                     
                     guard let snapshot = snapshot else {
-                        print("fetAnniversary() Error : snapshot error")
+                        
                         promise(.failure(FirebaseError.badSnapshot))
                         return
                     }
@@ -369,6 +382,49 @@ struct FirebaseService {
                     promise(.success(stories))
                 }
         }
+        .flatMap { stories in
+            return Future<[Story], Error> { [weak self] promise in
+                guard let self = self else { return }
+                if stories.count == 0 { promise(.success([]))} //스토리가 존재하지 않는다면 리턴
+                var results = [Story]()
+                let dispatchGroup = DispatchGroup()
+                
+                for story in stories {
+                    var newStory = story
+                    var urls = [URL]()
+                    
+                    for image in story.images {
+                        dispatchGroup.enter()
+                        
+                        let ref = self.storage.reference().child("images/\(userId)/story/\(story.id)/" + "\(image)")
+                        
+                        ref.downloadURL(completion: { url, err in
+                            if let err = err {
+                                print("FirebaseService - fetchStories() : downloadURL Error - \(err.localizedDescription)")
+                                promise(.failure(err))
+                                return
+                            }
+                            
+                            if let url = url {
+                                urls.append(url)
+                            }
+                            
+                            dispatchGroup.leave()
+                        })
+                    }
+                    
+                    dispatchGroup.notify(queue: .main) {
+                        newStory.url = urls
+                        results.append(newStory)
+                        
+                        if results.count == stories.count {
+                            promise(.success(results))
+                        }
+                    }
+                }
+            }
+            .eraseToAnyPublisher()
+        }
         .eraseToAnyPublisher()
     }
     
@@ -378,12 +434,11 @@ struct FirebaseService {
     ///   - imageName: 이미지 이름 배열
     ///   - id: 유저 아이디
     /// - Returns: 이미지
-    static func fetchImages(imageName: String, id: String, storyId: String) -> AnyPublisher<UIImage, Error> {
-        Future<UIImage, Error> { promise in
+    func fetchImages(imageName: String, id: String, storyId: String) -> AnyPublisher<UIImage, Error> {
+        Future<UIImage, Error> { [weak self] promise in
+            guard let self = self else { return }
             
-            
-            
-            let ref = storage.reference().child("images/\(id)/story/\(storyId)/" + "\(imageName)")
+            let ref = self.storage.reference().child("images/\(id)/story/\(storyId)/" + "\(imageName)")
             
             ref.getData(maxSize: 1 * 1024 * 1024) { data, error in
                 if let error = error {
@@ -395,14 +450,8 @@ struct FirebaseService {
                     return
                 } else {
                     promise(.success(UIImage(data: data!) ?? UIImage()))
-                    
-                    
                 }
             }
-            
-            
-            
-            
             
         }
         .eraseToAnyPublisher()
@@ -414,9 +463,10 @@ struct FirebaseService {
     ///   - storyId: 스토리 아이디
     ///   - userId: 유저 아이디
     /// - Returns: void
-    static func deleteStoryImage(storyId: String, userId: String) -> AnyPublisher<Void, Error> {
-        Future<Void, Error> { promise in
-            let ref = storage.reference().child("images/\(userId)/story/\(storyId)")
+    func deleteStoryImage(storyId: String, userId: String) -> AnyPublisher<Void, Error> {
+        Future<Void, Error> { [weak self] promise in
+            guard let self = self else { return }
+            let ref = self.storage.reference().child("images/\(userId)/story/\(storyId)")
             
             ref.listAll { values, error in
                 if let error = error {
@@ -441,9 +491,9 @@ struct FirebaseService {
     /// 모든정보삭제
     /// - Parameter userId: 유저아이디
     /// - Returns: void
-    static func deleteAllInfo(userId: String) -> AnyPublisher<Void, Error> {
-        Future<Void, Error> { promise in
-            
+    func deleteAllInfo(userId: String) -> AnyPublisher<Void, Error> {
+        Future<Void, Error> { [weak self] promise in
+            guard let self = self else { return }
             self.db.collection("users").document(userId).collection("story").getDocuments { snapshot, error in
                 snapshot?.documents.forEach { document in
                     let docId = document.documentID
@@ -474,10 +524,9 @@ struct FirebaseService {
                 
             }
             
-            var ref = storage.reference().child("images/\(userId)/")
+            var ref = self.storage.reference().child("images/\(userId)/")
             ref.listAll { values, err in
                 if let error = err {
-                    
                     promise(.failure(error))
                 } else {
                     print(values)
@@ -488,7 +537,7 @@ struct FirebaseService {
                 }
             }
             
-            ref = storage.reference().child("images/\(userId)/story/")
+            ref = self.storage.reference().child("images/\(userId)/story/")
             ref.listAll { values, err in
                 if let error = err {
                     
