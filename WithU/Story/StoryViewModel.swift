@@ -17,9 +17,11 @@ class StoryViewModel: ObservableObject {
     @Published var images: [String : [UIImage]] = [:]
     @Published var isLoading = false
     @Published var isUploading = false
-    @Published var detailSelectedImages: [UIImage] = []
-    @Published var detailSelectedImage: UIImage = UIImage()
+    @Published var detailSelectedImages: [URL] = []
+    @Published var detailSelectedImage: URL? = nil
     @Published var detailShowViewer = false
+    
+    let firebaseService = FirebaseService.shared
      
     var didSendRequest: AnyPublisher<Void, Never> {
         subject.eraseToAnyPublisher()
@@ -29,14 +31,13 @@ class StoryViewModel: ObservableObject {
     
     func createStory(story: Story, userId: String) {
         
-        FirebaseService.createStory(story: story, userId: userId)
+        firebaseService.createStory(story: story, userId: userId)
             .sink{ (completion) in
                 switch completion {
                 case .failure(let error):
                     print(error)
                     return
                 case .finished:
-                    
                     return
                 }
             } receiveValue: { _ in
@@ -52,8 +53,9 @@ class StoryViewModel: ObservableObject {
     ///   - userId: userid
     func modifyStory(story: Story, userId: String) {
         
-        FirebaseService.createStory(story: story, userId: userId)
-            .sink{ (completion) in
+        firebaseService.createStory(story: story, userId: userId)
+            .sink{ [weak self] (completion) in
+                guard let self = self else { return }
                 switch completion {
                 case .failure(let error):
                     print(error)
@@ -76,8 +78,9 @@ class StoryViewModel: ObservableObject {
     func uploadStoryImage(img: [UIImage],imgName: [String], userId: String, storyId: String) {
         self.isUploading = true
         
-        FirebaseService.uploadImage(img: img, imgName: imgName ,dic: userId, storyId: storyId)
-            .sink{ (completion) in
+        firebaseService.uploadImage(img: img, imgName: imgName ,dic: userId, storyId: storyId)
+            .sink{ [weak self] (completion) in
+                guard let self = self else { return }
                 switch completion {
                 case .failure(let error):
                     print(error)
@@ -97,25 +100,24 @@ class StoryViewModel: ObservableObject {
     /// 스토리 가져오기
     /// - Parameter userId: 유저 아이디
     func loadStories(userId: String) {
-        print(#function)
-        FirebaseService.fetchStories(userId)
-            .sink{ (complition) in
+        isLoading = true
+        firebaseService.fetchStories(userId)
+            .sink{ [weak self] (complition) in
+                guard let self = self else { return }
                 switch complition {
                 case .failure(let error):
+                    print("loadStories failure")
                     print(error)
                     return
                 case .finished:
-                    
-                    self.getStoryImages(userId: userId)
-                    //self.isLoading = false
-                    
+                    print("loadStories finished")
+                    //self.getStoryImages(userId: userId)
+                    self.isLoading = false
                     return
                 }
             } receiveValue: { [weak self] (stories) in
-                self?.isLoading = true
+                print("loadStories receiveValue")
                 self?.stories = stories.sorted(by: {$0.createDate > $1.createDate})
-                
-                
             }
             .store(in: &cancellables)
     }
@@ -126,15 +128,15 @@ class StoryViewModel: ObservableObject {
         } else {
             for story in self.stories{
                 for idx in 0..<story.images.count {
-                    FirebaseService.fetchImages(imageName: story.images[idx], id: userId, storyId: story.id)
-                        .sink{ (completion) in
+                    firebaseService.fetchImages(imageName: story.images[idx], id: userId, storyId: story.id)
+                        .sink{ [weak self] (completion) in
+                            guard let self = self else { return }
                             switch completion {
                             case .failure(let error):
                                 print(error)
                                 return
                             case .finished:
                                 self.isLoading = false
-                                print(self.isLoading)
                                 return
                             }
                         } receiveValue: { [weak self] (image) in
@@ -148,17 +150,20 @@ class StoryViewModel: ObservableObject {
                         }
                         .store(in: &cancellables)
                 }
-                
+
             }
         }
-        
-        
     }
     
     
+    /// 스토리 삭제
+    /// - Parameters:
+    ///   - story: 스토리
+    ///   - userId: 유저 아이디
     func deleteStory(story: Story, userId: String) {
-        FirebaseService.deleteStory(storyId: story.id, userId: userId)
-            .sink{ (completion) in
+        firebaseService.deleteStory(storyId: story.id, userId: userId)
+            .sink{ [weak self] (completion) in
+                guard let self = self else { return }
                 switch completion {
                 case .failure(let error):
                     print(error.localizedDescription)
@@ -167,29 +172,30 @@ class StoryViewModel: ObservableObject {
                     if let index = self.stories.firstIndex(of: story) {
                         self.stories.remove(at: index)
                     }
-                    print("Finish deleteStory")
                     return
                 }
             } receiveValue: { _ in }
             .store(in: &cancellables)
     }
     
+    
+    /// 스토리 이미지 삭제
+    /// - Parameters:
+    ///   - story: 스토리
+    ///   - userId: 유저 아이디
     func deleteStoryImage(story: Story, userId: String) {
-        FirebaseService.deleteStoryImage(storyId: story.id, userId: userId)
+        firebaseService.deleteStoryImage(storyId: story.id, userId: userId)
             .sink{ (completion) in
                 switch completion {
                 case .failure(let error):
                     print(error.localizedDescription)
                     return
                 case .finished:
-                    print("Finish deleteStoryImage")
                     return
                 }
             } receiveValue: { _ in }
             .store(in: &cancellables)
     }
-    
-    
     
 }
 

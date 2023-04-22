@@ -83,26 +83,6 @@ struct ModifyStoryView: View {
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 170, height: 170)
                                 .clipShape(RoundedRectangle(cornerRadius: 12))
-//                                .overlay(
-//                                    Button(action: {
-//                                        withAnimation(.default) {
-//                                            removeImage(index: index)
-//                                        }
-//
-//                                    }, label: {
-//                                        if(images.count > 1) {
-//                                            Image(systemName: "trash")
-//                                                .resizable()
-//                                                .frame(width: 20, height: 20)
-//                                                .foregroundColor(.white)
-//                                                .padding()
-//                                                .background(Color.white.opacity(0.35))
-//                                                .clipShape(Circle())
-//                                        }
-//                                    })
-//                                    .padding(5)
-//                                    ,alignment: .topLeading
-//                                )
                             
                         }
                     }

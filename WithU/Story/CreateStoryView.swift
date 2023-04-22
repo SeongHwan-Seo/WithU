@@ -45,14 +45,9 @@ struct CreateStoryView: View {
                     Spacer()
                     
                     Button(action: {
-                        
                         viewModel.createStory(story: Story(id: storyID, date: Date().toString()!, content: text, images: selectedImageStrings, createDate: Date().toStringHHmm()!), userId: UserDefaults.standard.string(forKey: "id")!)
                         viewModel.uploadStoryImage(img: selectedImages, imgName: selectedImageStrings, userId: UserDefaults.standard.string(forKey: "id")!, storyId: storyID)
-                        
-                        
-                        
                     }, label: {
-                        
                         if !viewModel.isUploading {
                             Text("저장")
                                 .font(.headline)
@@ -61,8 +56,6 @@ struct CreateStoryView: View {
                             ProgressView()
                                 .font(.headline)
                         }
-                        
-                        
                     })
                     .disabled(isEmpty())
                 }

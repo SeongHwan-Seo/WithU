@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct DetailImagesView: View {
     @StateObject var viewModel: StoryViewModel
@@ -16,8 +17,8 @@ struct DetailImagesView: View {
                 .ignoresSafeArea()
             
             TabView(selection: $viewModel.detailSelectedImage) {
-                ForEach(viewModel.detailSelectedImages, id: \.self) { image in
-                    Image(uiImage: image)
+                ForEach(viewModel.detailSelectedImages, id: \.self) { imageURL in
+                    KFImage(imageURL)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                     
@@ -40,9 +41,6 @@ struct DetailImagesView: View {
                 .padding()
                 ,alignment: .topLeading
             )
-            
-            
-            
         }
     }
 }
