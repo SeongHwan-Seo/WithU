@@ -89,7 +89,7 @@ struct ImageGridView: View {
     @StateObject var  viewModel: StoryViewModel
     var body: some View {
         TabView {
-            ForEach(imagesURL, id:\.self) { url in
+            ForEach(Array(imagesURL.enumerated()), id:\.offset) { index, url in
                 ZStack {
                     KFImage(url)
                         .placeholder({
@@ -100,6 +100,11 @@ struct ImageGridView: View {
                         .frame(width: UIScreen.main.bounds.width-20, height: 300)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         .onTapGesture {
+                            viewModel.detailSelectedImages = imagesURL
+                            viewModel.detailSelectedImage = imagesURL[index].absoluteString
+                            withAnimation(.default) {
+                                viewModel.detailShowViewer.toggle()
+                            }
                             
                         }
                 }
@@ -112,121 +117,3 @@ struct ImageGridView: View {
         
     }
 }
-
-
-//struct ImageGridView: View {
-//    let imagesURL: [URL]
-//    @StateObject var  viewModel: StoryViewModel
-//    var body: some View {
-//        let columns = Array(repeating: GridItem(.flexible(), spacing: 10), count: 2)
-//        LazyVGrid(columns: columns, alignment: .center, spacing: 10, content: {
-//            ForEach(imagesURL.indices, id: \.self) { index in
-//                ZStack {
-//                    if index <= 3 {
-//                        KFImage(imagesURL[index])
-//                            .placeholder({
-//                                ProgressView()
-//                            })
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fill)
-//                            .frame(width: (getRect().width - 50) / 2 , height: 140)
-//                            .clipShape(RoundedRectangle(cornerRadius: 12))
-//
-//
-//                    }
-//                    if imagesURL.count > 4 && index == 3 {
-//                        RoundedRectangle(cornerRadius: 12)
-//                            .fill(Color.black.opacity(0.3))
-//
-//                        let remainingImages =
-//                        imagesURL.count - 4
-//
-//                        Text("+\(remainingImages)")
-//                            .font(.title)
-//                            .fontWeight(.heavy)
-//                            .foregroundColor(.white)
-//                    }
-//
-//                }
-//
-//            }
-//        })
-//        .background(Color.red)
-//
-//    }
-//}
-
-//struct ItemView: View {
-//    let imagesURL: [URL]
-//    @StateObject var  viewModel: StoryViewModel
-//
-//    var body: some View{
-//
-//
-//
-//        ScrollView(.horizontal, showsIndicators: false){
-//            HStack(spacing: 0) {
-//                ForEach(imagesURL.indices, id: \.self) { index in
-//                    KFImage(imagesURL[index])
-//                        .cancelOnDisappear(true)
-//                        .placeholder({
-//                            ProgressView()
-//                        })
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fill)
-//                        .frame(width: getRect().width , height: getRect().height / 2)
-//                }
-//            }
-//        }
-//        .onAppear {
-//            //UIScrollView.appearance().isPagingEnabled = true
-//        }
-//    }
-//}
-
-
-
-//
-//struct ImageGridView: View {
-//    let storyImages: [UIImage]
-//    let index: Int
-//    @StateObject var viewModel: StoryViewModel
-//    var body: some View {
-//        VStack {
-//            Button(action: {
-//                withAnimation(.default) {
-////                    viewModel.detailShowViewer.toggle()
-////                    viewModel.detailSelectedImages = storyImages
-////                    viewModel.detailSelectedImage = storyImages[index]
-//                }
-//
-//            }, label: {
-//                ZStack {
-//                    if index <= 3 {
-//                        Image(uiImage: storyImages[index])
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fill)
-//                            .frame(width: (getRect().width - 50) / 2 , height: 140)
-//                            .clipShape(RoundedRectangle(cornerRadius: 12))
-//
-//                    }
-//
-//                    if storyImages.count > 4 && index == 3 {
-//                        RoundedRectangle(cornerRadius: 12)
-//                            .fill(Color.black.opacity(0.3))
-//
-//                        let remainingImages =
-//                        storyImages.count - 4
-//
-//                        Text("+\(remainingImages)")
-//                            .font(.title)
-//                            .fontWeight(.heavy)
-//                            .foregroundColor(.white)
-//                    }
-//
-//                }
-//            })
-//
-//        }
-//    }
-//}

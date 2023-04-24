@@ -17,12 +17,15 @@ class StoryViewModel: ObservableObject {
     @Published var images: [String : [UIImage]] = [:]
     @Published var isLoading = false
     @Published var isUploading = false
+    
     @Published var detailSelectedImages: [URL] = []
-    @Published var detailSelectedImage: URL? = nil
+    @Published var detailSelectedImage: String = ""
     @Published var detailShowViewer = false
+    @Published var detailViewerOffset: CGSize = .zero
+    @Published var detailBgOpacity: Double = 1
     
     let firebaseService = FirebaseService.shared
-     
+    
     var didSendRequest: AnyPublisher<Void, Never> {
         subject.eraseToAnyPublisher()
     }
@@ -150,7 +153,7 @@ class StoryViewModel: ObservableObject {
                         }
                         .store(in: &cancellables)
                 }
-
+                
             }
         }
     }
@@ -197,6 +200,40 @@ class StoryViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
+    func onChange(value: CGSize) {
+        
+        let halgHeight = UIScreen.main.bounds.height / 2
+        let progress = value.height / halgHeight
+        DispatchQueue.main.async { [self] in
+            withAnimation(.default) {
+                detailBgOpacity = Double(1 - (progress < 0 ? -progress : progress))
+            }
+        }
+        
+    }
+    
+    func onEnd(value: DragGesture.Value) {
+        withAnimation(.default) {
+            var translation = value.translation.height
+            
+            if translation < 0 {
+                translation = -translation
+            }
+            
+            if translation < 200 {
+                self.detailViewerOffset = .zero
+                self.detailBgOpacity = 1
+            }
+            else {
+                self.detailShowViewer.toggle()
+                self.detailViewerOffset = .zero
+                self.detailBgOpacity = 1
+                
+            }
+            
+        }
+        
+    }
 }
 
 

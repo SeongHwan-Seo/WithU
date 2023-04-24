@@ -10,38 +10,41 @@ import Kingfisher
 
 struct DetailImagesView: View {
     @StateObject var viewModel: StoryViewModel
+    @GestureState var draggingOffset: CGSize = .zero
     
     var body: some View {
         ZStack {
             Color.black
+                .opacity(viewModel.detailBgOpacity)
                 .ignoresSafeArea()
             
-            TabView(selection: $viewModel.detailSelectedImage) {
-                ForEach(viewModel.detailSelectedImages, id: \.self) { imageURL in
-                    KFImage(imageURL)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                    
-                }
-            }
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
-            .overlay(
-                Button(action: {
-                    withAnimation(.default) {
-                        viewModel.detailShowViewer.toggle()
+            ScrollView(.init()) {
+                TabView(selection: $viewModel.detailSelectedImage) {
+                    ForEach(viewModel.detailSelectedImages.map{ $0.absoluteString }, id: \.self) { imageURL in
+                        
+                        KFImage(URL(string: imageURL))
+                            .placeholder({
+                                ProgressView()
+                            })
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .offset(y: draggingOffset.height)
+                        
                     }
-                    
-                }, label: {
-                    Image(systemName: "xmark")
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.white.opacity(0.35))
-                        .clipShape(Circle())
-                })
-                .padding()
-                ,alignment: .topLeading
-            )
+                }
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
+            }
+            .ignoresSafeArea()
+            
+            
+
+            
         }
+        .gesture(DragGesture().updating($draggingOffset, body: { (value, outValue, _) in
+            outValue = value.translation
+            viewModel.onChange(value: draggingOffset)
+            
+        }).onEnded(viewModel.onEnd(value:)))
     }
 }
 

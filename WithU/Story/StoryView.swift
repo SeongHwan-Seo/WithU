@@ -35,9 +35,10 @@ struct StoryView: View {
             if viewModel.detailShowViewer {
                 ZStack {
                     DetailImagesView(viewModel: viewModel)
-                }
-                
+                }.zIndex(1)
+                    
             }
+            
         }
         .onAppear{
             if !viewModel.isUploading {
