@@ -55,7 +55,10 @@ struct ChangeUserProfileView: View {
                     Button(action: {
                         viewModel.user.nickName = name
                         viewModel.updateUser()
-                        isShowingChangeUserPopup.toggle()
+                        withAnimation(.default, {
+                            isShowingChangeUserPopup.toggle()
+                        })
+                        
                     }, label: {
                         Text("확인")
                             .fontWeight(.bold)

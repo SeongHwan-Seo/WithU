@@ -10,6 +10,4 @@ import SwiftUI
 struct Dday {
     var message: String
     var count: String
-    
-    
 }

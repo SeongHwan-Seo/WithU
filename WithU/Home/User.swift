@@ -23,10 +23,6 @@ struct User: Codable, Identifiable {
     var date: Date? = Date()
     // backgroundImage
     var bgImageString: String = ""
-    
-    
-
-    
 }
 
 
@@ -39,5 +35,4 @@ enum CodingKeys: String, CodingKey {
     case uimageString
     case message
     case count
-    
 }

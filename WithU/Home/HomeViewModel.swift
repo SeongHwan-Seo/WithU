@@ -12,6 +12,7 @@ import Network
 import Combine
 
 class HomeViewModel: ObservableObject {
+    let firebaseService = FirebaseService.shared
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -59,7 +60,7 @@ class HomeViewModel: ObservableObject {
                 // 현재 앱 버전을 가져올 수 없는 경우 처리 로직
                 return
             }
-            print(currentVersion)
+        
             guard let url = URL(string: "http://itunes.apple.com/kr/lookup?bundleId=com.seosh.WithU") else {
                 // URL 형식이 잘못된 경우 처리 로직
                 return
@@ -79,7 +80,7 @@ class HomeViewModel: ObservableObject {
                         // 최신 버전을 가져올 수 없는 경우 처리 로직
                         return
                 }
-                print(latestVersion)
+                
                 // 최신 버전이 현재 버전보다 높은 경우 업데이트 알림을 띄움
                 if latestVersion > currentVersion {
                     DispatchQueue.main.async {
@@ -107,7 +108,7 @@ class HomeViewModel: ObservableObject {
     }
     
     func login() {
-        FirebaseService.anonymousLogin()
+        firebaseService.anonymousLogin()
             .sink{ (completion) in
                 switch completion {
                 case .failure(let error):
@@ -135,7 +136,7 @@ class HomeViewModel: ObservableObject {
         UserDefaults.standard.set(user.id, forKey: "id")// user.id 를 UserDeFaults에 저장
         UserDefaults.shared.set(user.date, forKey: "fromDate")
         
-        FirebaseService.setUser(user)
+        firebaseService.setUser(user)
             .sink{ (completion) in
                 switch completion {
                 case .failure(let error):
@@ -153,7 +154,7 @@ class HomeViewModel: ObservableObject {
     func updateUser() {
         UserDefaults.shared.set(user.date, forKey: "fromDate")
         
-        FirebaseService.setUser(user)
+        firebaseService.setUser(user)
         
             .sink{ (completion) in
                 switch completion {
@@ -171,7 +172,7 @@ class HomeViewModel: ObservableObject {
     //사용자 정보 불러오기
     func loadUser() {
         
-        FirebaseService.fetchUser()
+        firebaseService.fetchUser()
             .sink{ (completion) in
                 switch completion {
                 case .failure(let error):
@@ -195,7 +196,7 @@ class HomeViewModel: ObservableObject {
     
     //FireStore 프로필 사진 저장
     func uploadImage(img: UIImage, name: String) {
-        FirebaseService.uploadImage(img: img, name: name, dic: user.id!)
+        firebaseService.uploadImage(img: img, name: name, dic: user.id!)
             .sink{ (completion) in
                 switch completion {
                 case .failure(let error):
@@ -233,7 +234,7 @@ class HomeViewModel: ObservableObject {
     func setImage() {
         var chk = true
         if self.user.imageString != "" {
-            FirebaseService.fetchImage(imageName: user.imageString, id: user.id!)
+            firebaseService.fetchImage(imageName: user.imageString, id: user.id!)
                 .sink{ (completion) in
                     switch completion {
                     case .failure(let error):
@@ -254,7 +255,7 @@ class HomeViewModel: ObservableObject {
         }
         
         if self.user.uimageString != "" {
-            FirebaseService.fetchImage(imageName: user.uimageString, id: user.id!)
+            firebaseService.fetchImage(imageName: user.uimageString, id: user.id!)
                 .sink{ (completion) in
                     switch completion {
                     case .failure(let error):
@@ -275,7 +276,7 @@ class HomeViewModel: ObservableObject {
         }
         
         if self.user.bgImageString != "" {
-            FirebaseService.fetchImage(imageName: user.bgImageString, id: user.id!)
+            firebaseService.fetchImage(imageName: user.bgImageString, id: user.id!)
                 .sink{ (completion) in
                     switch completion {
                     case .failure(let error):

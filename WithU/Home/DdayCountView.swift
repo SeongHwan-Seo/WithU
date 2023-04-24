@@ -23,9 +23,12 @@ struct DdayCountView: View {
         }
         .padding(.top, 30)
         .onTapGesture {
-            if !isShowingMenuView {
-                isShowingChangeMessagePopup.toggle()
-            }
+            withAnimation(.linear(duration: 0.25), {
+                if !isShowingMenuView {
+                    isShowingChangeMessagePopup.toggle()
+                }
+            })
+
             
         }
     }

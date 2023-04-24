@@ -53,7 +53,6 @@ struct ChangeMessageView: View {
                     
                 }
                 
-                
                 HStack {
                     Image(systemName: "calendar")
                         .foregroundColor(.ForegroundColor)
@@ -71,9 +70,6 @@ struct ChangeMessageView: View {
                     }
                     .toggleStyle(CheckboxToggleStyle())
                 }
-                
-                
-                
                 
                 Button(action: {
                     viewModel.updateUser()
@@ -96,7 +92,6 @@ struct ChangeMessageView: View {
             .background(Color.popBackgroundColor)
             .cornerRadius(12)
             
-            
             if showDatePicker {
                 DatePickerWithButtons(showDatePicker: $showDatePicker, savedDate: $viewModel.user.date, selectedDate: viewModel.user.date ?? Date())
             }
@@ -110,25 +105,17 @@ struct DatePickerWithButtons: View {
     @Binding var showDatePicker: Bool
     @Binding var savedDate: Date?
     @State var selectedDate: Date = Date()
-//    var formatter: DateFormatter = {
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "YYYY-MM-dd"
-//        return formatter
-//    }()
     var body: some View {
         
-            
-            
             VStack {
                 DatePicker("Test", selection: $selectedDate, in: ...Date(), displayedComponents: [.date])
                     .datePickerStyle(GraphicalDatePickerStyle())
                     .environment(\.locale, Locale.init(identifier: "ko_KR"))
                     .accentColor(Color.buttonBackground)
                     
-                
                 Divider()
+                
                 HStack {
-                    
                     Button(action: {
                         showDatePicker = false
                     }, label: {

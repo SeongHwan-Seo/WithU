@@ -17,13 +17,13 @@ struct CoupleImageView: View {
         HStack {
             UserView(user: viewModel.user, viewModel: viewModel)
                 .onTapGesture{
-                    
-                    if !isShowingMenuView {
-                        isShowingChangeUserPopup.toggle()
-                    }
+                    withAnimation(.linear(duration: 0.25), {
+                        if !isShowingMenuView {
+                            isShowingChangeUserPopup.toggle()
+                        }
+                    })
                     
                 }
-            
             
             LottieHeartView(filename: "heart")
                 .frame(width: 100, height: 100)
@@ -31,13 +31,12 @@ struct CoupleImageView: View {
             
             PartnerView(user: viewModel.user, viewModel: viewModel)
                 .onTapGesture{
-                    
-                    if !isShowingMenuView {
-                        isShowingChangePartnerPopup.toggle()
-                    }
-                    
+                    withAnimation(.linear(duration: 0.25), {
+                        if !isShowingMenuView {
+                            isShowingChangePartnerPopup.toggle()
+                        }
+                    })
                 }
-            
         }
         .padding(.top, 10)
     }
@@ -67,7 +66,7 @@ struct UserView: View {
                     .shadow(radius: 7)
                     .foregroundColor(.ForegroundColor)
             }
-             
+            
             
             Text(user.nickName)
                 .foregroundColor(.ForegroundColor)
@@ -101,7 +100,7 @@ struct PartnerView: View {
                     .shadow(radius: 7)
                     .foregroundColor(.ForegroundColor)
             }
-          
+            
             
             Text(user.unickName)
                 .foregroundColor(.ForegroundColor)
