@@ -30,3 +30,8 @@ struct Story: Codable, Identifiable, Equatable {
         
     }
 }
+
+struct StoryModifyParam {
+    var id: String
+    var url: [URL]
+}

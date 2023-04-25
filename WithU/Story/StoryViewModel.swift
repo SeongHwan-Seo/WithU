@@ -50,13 +50,15 @@ class StoryViewModel: ObservableObject {
         
     }
     
-    /// 스토리 글 수정
+    
+    /// 스토리 수정
     /// - Parameters:
-    ///   - story: story
-    ///   - userId: userid
-    func modifyStory(story: Story, userId: String) {
+    ///   - storyId: 스토리 아이디
+    ///   - storyContent: 스토리 컨텐트
+    ///   - userId: 유저 아이디
+    func modifyStory(storyId: String, storyContent: String, userId: String) {
         
-        firebaseService.createStory(story: story, userId: userId)
+        firebaseService.modifyStory(storyId: storyId, storyContent: storyContent, userId: userId)
             .sink{ [weak self] (completion) in
                 guard let self = self else { return }
                 switch completion {
@@ -109,12 +111,9 @@ class StoryViewModel: ObservableObject {
                 guard let self = self else { return }
                 switch complition {
                 case .failure(let error):
-                    print("loadStories failure")
                     print(error)
                     return
                 case .finished:
-                    print("loadStories finished")
-                    //self.getStoryImages(userId: userId)
                     self.isLoading = false
                     return
                 }
@@ -163,8 +162,8 @@ class StoryViewModel: ObservableObject {
     /// - Parameters:
     ///   - story: 스토리
     ///   - userId: 유저 아이디
-    func deleteStory(story: Story, userId: String) {
-        firebaseService.deleteStory(storyId: story.id, userId: userId)
+    func deleteStory(storyId: String, userId: String) {
+        firebaseService.deleteStory(storyId: storyId, userId: userId)
             .sink{ [weak self] (completion) in
                 guard let self = self else { return }
                 switch completion {
@@ -172,7 +171,7 @@ class StoryViewModel: ObservableObject {
                     print(error.localizedDescription)
                     return
                 case .finished:
-                    if let index = self.stories.firstIndex(of: story) {
+                    if let index = self.stories.firstIndex(where: { $0.id == storyId}) {
                         self.stories.remove(at: index)
                     }
                     return
@@ -186,8 +185,8 @@ class StoryViewModel: ObservableObject {
     /// - Parameters:
     ///   - story: 스토리
     ///   - userId: 유저 아이디
-    func deleteStoryImage(story: Story, userId: String) {
-        firebaseService.deleteStoryImage(storyId: story.id, userId: userId)
+    func deleteStoryImage(storyId: String, userId: String) {
+        firebaseService.deleteStoryImage(storyId: storyId, userId: userId)
             .sink{ (completion) in
                 switch completion {
                 case .failure(let error):
@@ -200,6 +199,9 @@ class StoryViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
+    
+    /// DetailImagesView 드래그 변화
+    /// - Parameter value: 드래그 height
     func onChange(value: CGSize) {
         
         let halgHeight = UIScreen.main.bounds.height / 2
@@ -212,6 +214,9 @@ class StoryViewModel: ObservableObject {
         
     }
     
+    
+    ///DetailImagesView 드래그 끝
+    /// - Parameter value: 드래그 heght
     func onEnd(value: DragGesture.Value) {
         withAnimation(.default) {
             var translation = value.translation.height
@@ -226,12 +231,13 @@ class StoryViewModel: ObservableObject {
             }
             else {
                 self.detailShowViewer.toggle()
-                self.detailViewerOffset = .zero
-                self.detailBgOpacity = 1
+                
                 
             }
             
         }
+        self.detailViewerOffset = .zero
+        self.detailBgOpacity = 1
         
     }
 }

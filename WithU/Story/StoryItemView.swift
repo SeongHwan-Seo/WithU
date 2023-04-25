@@ -12,9 +12,9 @@ struct StoryItemView: View {
     @StateObject var viewModel: StoryViewModel
     @State var isShowingActionSheet = false
     @State var isShowingSheet = false
+    @State var modifyParam: StoryModifyParam = StoryModifyParam(id: "", url: [URL]())
+    @State var text = ""
     let userId: String
-    
-    @State var param: Story = Story(id: "", date: "", content: "", images: [""], createDate: "")
     
     var body: some View {
         ScrollView(showsIndicators: true) {
@@ -27,9 +27,9 @@ struct StoryItemView: View {
                                     .font(.system(size: 16, weight: .semibold, design: .rounded))
                                 Spacer()
                                 Button(action: {
-                                    
+                                    modifyParam = StoryModifyParam(id: story.id, url: story.url ?? [URL]())
+                                    text = story.content
                                     isShowingActionSheet.toggle()
-                                    param = Story(id: story.id, date: story.date, content: story.content, images: story.images, createDate: story.createDate)
                                     
                                 }, label: {
                                     Image(systemName: "ellipsis")
@@ -67,14 +67,15 @@ struct StoryItemView: View {
                                  .destructive(Text("삭제하기"),
                                               action: {
                 withAnimation(.spring()) {
-                    viewModel.deleteStory(story: param, userId: userId)
-                    viewModel.deleteStoryImage(story: param, userId: userId)
+                    viewModel.deleteStory(storyId: modifyParam.id, userId: userId)
+                    viewModel.deleteStoryImage(storyId: modifyParam.id, userId: userId)
                 }
             }),
                                  .cancel(Text("취소"))] )
         }
         .fullScreenCover(isPresented: $isShowingSheet, content: {
-            ModifyStoryView(story: param, text: param.content, images: viewModel.images[param.id]!, viewModel: viewModel)
+            
+            ModifyStoryView(story: modifyParam, text: text, viewModel: viewModel)
         })
         
         

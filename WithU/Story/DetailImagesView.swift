@@ -37,8 +37,6 @@ struct DetailImagesView: View {
             .ignoresSafeArea()
             
             
-
-            
         }
         .gesture(DragGesture().updating($draggingOffset, body: { (value, outValue, _) in
             outValue = value.translation
