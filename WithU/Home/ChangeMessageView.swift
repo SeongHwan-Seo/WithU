@@ -23,9 +23,11 @@ struct CheckboxToggleStyle: ToggleStyle {
 struct ChangeMessageView: View {
     @StateObject var viewModel: HomeViewModel
     @Binding var isShowingChangeMessagePopup: Bool
-    //@State var dDay: Date? = Date()
     @State var showDatePicker: Bool = false
     @State private var isToggle: Bool = UserDefaults.shared.bool(forKey: "check")
+    @State var messageText: String
+    @State var selectedDate: Date
+    
     var formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier:"ko_KR")
@@ -46,7 +48,7 @@ struct ChangeMessageView: View {
                     Image(systemName: "highlighter")
                         .foregroundColor(.ForegroundColor)
                     VStack {
-                        TextField("문구를 입력해 주세요.", text: $viewModel.user.message)
+                        TextField("문구를 입력해 주세요.", text: $messageText)
                             .frame(width: 150)
                     }
                     .foregroundColor(.ForegroundColor)
@@ -56,7 +58,7 @@ struct ChangeMessageView: View {
                 HStack {
                     Image(systemName: "calendar")
                         .foregroundColor(.ForegroundColor)
-                    Text("\(viewModel.user.date ?? Date(), formatter: formatter)")
+                    Text("\(selectedDate, formatter: formatter)")
                         .onTapGesture {
                             showDatePicker.toggle()
                         }
@@ -72,6 +74,8 @@ struct ChangeMessageView: View {
                 }
                 
                 Button(action: {
+                    viewModel.user.message = messageText
+                    viewModel.user.date = selectedDate
                     viewModel.updateUser()
                     isShowingChangeMessagePopup.toggle()
                     UserDefaults.shared.set(self.isToggle, forKey: "check")
@@ -93,18 +97,18 @@ struct ChangeMessageView: View {
             .cornerRadius(12)
             
             if showDatePicker {
-                DatePickerWithButtons(showDatePicker: $showDatePicker, savedDate: $viewModel.user.date, selectedDate: viewModel.user.date ?? Date())
+                DatePickerWithButtons(showDatePicker: $showDatePicker, selectedDate: $selectedDate)
             }
         }
         
     }
+    
 }
 
 struct DatePickerWithButtons: View {
     
     @Binding var showDatePicker: Bool
-    @Binding var savedDate: Date?
-    @State var selectedDate: Date = Date()
+    @Binding var selectedDate: Date
     var body: some View {
         
             VStack {
@@ -126,10 +130,10 @@ struct DatePickerWithButtons: View {
                     Spacer()
                     
                     Button(action: {
-                        savedDate = selectedDate
+                        //savedDate = selectedDate
                         showDatePicker = false
                     }, label: {
-                        Text("선택".uppercased())
+                        Text("선택")
                             .bold()
                     })
                     .foregroundColor(Color.ForegroundColor)

@@ -17,7 +17,6 @@ struct HomeView: View {
     @Binding var isShowingMenuView: Bool
     
     var body: some View {
-//        NavigationView {
             ZStack {
                 ZStack {
                     Color.backgroundColor
@@ -89,7 +88,7 @@ struct HomeView: View {
                 
                 if self.isShowingChangeMessagePopup {
                     GeometryReader { geometry in
-                        ChangeMessageView(viewModel: viewModel, isShowingChangeMessagePopup: $isShowingChangeMessagePopup)
+                        ChangeMessageView(viewModel: viewModel, isShowingChangeMessagePopup: $isShowingChangeMessagePopup,messageText: viewModel.user.message, selectedDate: viewModel.user.date ?? Date())
                             .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
                     }.background(
                         Color.black.opacity(0.65)
