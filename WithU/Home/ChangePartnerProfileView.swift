@@ -51,7 +51,10 @@ struct ChangePartnerProfileView: View {
                     Button(action: {
                         viewModel.user.unickName = name
                         viewModel.updateUser()
-                        isShowingChangePartnerPopup.toggle()
+                        withAnimation(.default) {
+                            isShowingChangePartnerPopup.toggle()
+                        }
+                        
                     }, label: {
                         Text("확인")
                         

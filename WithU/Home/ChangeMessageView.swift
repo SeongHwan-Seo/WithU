@@ -77,8 +77,10 @@ struct ChangeMessageView: View {
                     viewModel.user.message = messageText
                     viewModel.user.date = selectedDate
                     viewModel.updateUser()
-                    isShowingChangeMessagePopup.toggle()
                     UserDefaults.shared.set(self.isToggle, forKey: "check")
+                    withAnimation(.default) {
+                        isShowingChangeMessagePopup.toggle()
+                    }
                 }, label: {
                     Text("저장")
                         .fontWeight(.bold)
