@@ -43,7 +43,7 @@
 > open
 #### v1.1 (2022. 11. 22)
 > add anonymous Login
-
+> 
 > fix D-Day count bug
 #### v1.2 (2023. 01. 11)
 > add HomeScreen Widget
@@ -51,8 +51,8 @@
 > add MediumSize Widget && Home - default user image view
 #### v1.2.2 (2023. 04. 11)
 > fix bug
-
+> 
 > add check network state
-
+> 
 > add lockscreen widget
  
